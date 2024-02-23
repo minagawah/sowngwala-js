@@ -1,0 +1,14 @@
+declare const _default: {};
+export default _default;
+export type Year = number;
+export type Month = number;
+export type Day = number;
+export type Degree = number;
+export type Hour = number;
+export type Minute = number;
+export type Second = number;
+export type NanoSecond = number;
+export type DecimalYears = number;
+export type DecimalDays = number;
+export type DecimalDegrees = number;
+export type DecimalHours = number;

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Module: sowngwala/sun/longitude_and_mean_anomaly</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+    <link type="text/css" rel="stylesheet" href="styles/custom.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Module: sowngwala/sun/longitude_and_mean_anomaly</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".longitude_and_mean_anomaly"><span class="type-signature">(static) </span>longitude_and_mean_anomaly<span class="signature">(days)</span><span class="type-signature"> &rarr; {LngMeanAnomalyReturned}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Given a number of days since 1990
+for the target date, it returns
+"Sun's longitude (λ)" and "Mean
+Anomaly (M)" for the date.
+
+Used in
+'pos_ecliptic_from_generic_date'
+which is further used in
+'pos_equatorial_from_generic_date'.
+
+While
+'pos_equatorial_from_generic_date'
+being the starting point for
+calculating the position of the sun,
+it owes majority of its calculations
+in the logic implemented in here.
+
+Original:
+- sowngwala::sun::sun_longitude_and_mean_anomaly
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>days</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>{@link: module:sowngwala/sun.pos_ecliptic_from_generic_date}</li>
+        
+            <li>{@link: module:sowngwala/sun.pos_equatorial_from_generic_date}</li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">LngMeanAnomalyReturned</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id="~LngMeanAnomalyReturned">LngMeanAnomalyReturned</h4>
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>lng</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Sun's longitude (λ)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mean_anom</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Mean anomaly (M) (in radians)</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-chrono.html">chrono</a></li><li><a href="module-chrono_naive_time.html">chrono/naive_time</a></li><li><a href="module-coords_angle.html">coords/angle</a></li><li><a href="module-sowngwala.html">sowngwala</a></li><li><a href="module-sowngwala_constants.html">sowngwala/constants</a></li><li><a href="module-sowngwala_coords.html">sowngwala/coords</a></li><li><a href="module-sowngwala_coords_ecliptic.html">sowngwala/coords/ecliptic</a></li><li><a href="module-sowngwala_coords_equatorial.html">sowngwala/coords/equatorial</a></li><li><a href="module-sowngwala_coords_equatorial_from_ecliptic.html">sowngwala/coords/equatorial_from_ecliptic</a></li><li><a href="module-sowngwala_coords_equatorial_from_ecliptic_with_generic_date.html">sowngwala/coords/equatorial_from_ecliptic_with_generic_date</a></li><li><a href="module-sowngwala_coords_mean_obliquity_of_the_ecliptic.html">sowngwala/coords/mean_obliquity_of_the_ecliptic</a></li><li><a href="module-sowngwala_sun.html">sowngwala/sun</a></li><li><a href="module-sowngwala_sun_eot_decimal_from_utc.html">sowngwala/sun/eot_decimal_from_utc</a></li><li><a href="module-sowngwala_sun_eot_from_gst.html">sowngwala/sun/eot_from_gst</a></li><li><a href="module-sowngwala_sun_eot_from_utc.html">sowngwala/sun/eot_from_utc</a></li><li><a href="module-sowngwala_sun_find_kepler.html">sowngwala/sun/find_kepler</a></li><li><a href="module-sowngwala_sun_longitude_and_mean_anomaly.html">sowngwala/sun/longitude_and_mean_anomaly</a></li><li><a href="module-sowngwala_sun_pos_ecliptic_from_generic_date.html">sowngwala/sun/pos_ecliptic_from_generic_date</a></li><li><a href="module-sowngwala_sun_pos_equatorial_from_generic_date.html">sowngwala/sun/pos_equatorial_from_generic_date</a></li><li><a href="module-sowngwala_time.html">sowngwala/time</a></li><li><a href="module-sowngwala_time_add_date.html">sowngwala/time/add_date</a></li><li><a href="module-sowngwala_time_angle_from_decimal_hours.html">sowngwala/time/angle_from_decimal_hours</a></li><li><a href="module-sowngwala_time_calibrate_hmsn.html">sowngwala/time/calibrate_hmsn</a></li><li><a href="module-sowngwala_time_day_number_from_generic_date.html">sowngwala/time/day_number_from_generic_date</a></li><li><a href="module-sowngwala_time_day_of_the_week.html">sowngwala/time/day_of_the_week</a></li><li><a href="module-sowngwala_time_decimal_days_from_generic_datetime.html">sowngwala/time/decimal_days_from_generic_datetime</a></li><li><a href="module-sowngwala_time_decimal_hours_from_angle.html">sowngwala/time/decimal_hours_from_angle</a></li><li><a href="module-sowngwala_time_decimal_hours_from_generic_time.html">sowngwala/time/decimal_hours_from_generic_time</a></li><li><a href="module-sowngwala_time_decimal_hours_from_hms.html">sowngwala/time/decimal_hours_from_hms</a></li><li><a href="module-sowngwala_time_decimal_hours_from_naive_time.html">sowngwala/time/decimal_hours_from_naive_time</a></li><li><a href="module-sowngwala_time_decimal_year_from_generic_date.html">sowngwala/time/decimal_year_from_generic_date</a></li><li><a href="module-sowngwala_time_gst_from_utc.html">sowngwala/time/gst_from_utc</a></li><li><a href="module-sowngwala_time_hms_from_decimal_hours.html">sowngwala/time/hms_from_decimal_hours</a></li><li><a href="module-sowngwala_time_is_julian_date.html">sowngwala/time/is_julian_date</a></li><li><a href="module-sowngwala_time_is_leap_year.html">sowngwala/time/is_leap_year</a></li><li><a href="module-sowngwala_time_julian_day.html">sowngwala/time/julian_day</a></li><li><a href="module-sowngwala_time_julian_day_from_generic_date.html">sowngwala/time/julian_day_from_generic_date</a></li><li><a href="module-sowngwala_time_julian_day_from_generic_datetime.html">sowngwala/time/julian_day_from_generic_datetime</a></li><li><a href="module-sowngwala_time_naive_from_julian_day.html">sowngwala/time/naive_from_julian_day</a></li><li><a href="module-sowngwala_time_naive_time_from_decimal_days.html">sowngwala/time/naive_time_from_decimal_days</a></li><li><a href="module-sowngwala_time_naive_time_from_decimal_hours.html">sowngwala/time/naive_time_from_decimal_hours</a></li><li><a href="module-sowngwala_time_naive_time_from_generic_datetime.html">sowngwala/time/naive_time_from_generic_datetime</a></li><li><a href="module-sowngwala_time_nano_from_second.html">sowngwala/time/nano_from_second</a></li><li><a href="module-sowngwala_time_utc_from_gst.html">sowngwala/time/utc_from_gst</a></li><li><a href="module-sowngwala_utils.html">sowngwala/utils</a></li></ul><h3>Global</h3><ul><li><a href="global.html#days_since_1990">days_since_1990</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Feb 25 2024 10:41:50 GMT+0900 (Japan Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
