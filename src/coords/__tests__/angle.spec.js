@@ -12,10 +12,12 @@ describe('A test suite for: coords/angle', () => {
     expect(angle.second()).toBe(1);
 
     angle = Angle.from_hms(0, 0, 60);
+    angle.calibrate();
     expect(angle.second()).toBe(0);
     expect(angle.minute()).toBe(1);
 
     angle = Angle.from_hms(0, 0, 62);
+    angle.calibrate();
     expect(angle.second()).toBe(2);
     expect(angle.minute()).toBe(1);
 
@@ -23,10 +25,12 @@ describe('A test suite for: coords/angle', () => {
     expect(angle.minute()).toBe(1);
 
     angle = Angle.from_hms(0, 60, 0);
+    angle.calibrate();
     expect(angle.minute()).toBe(0);
     expect(angle.hour()).toBe(1);
 
     angle = Angle.from_hms(0, 62, 0);
+    angle.calibrate();
     expect(angle.minute()).toBe(2);
     expect(angle.hour()).toBe(1);
 
@@ -34,19 +38,23 @@ describe('A test suite for: coords/angle', () => {
     expect(angle.hour()).toBe(1);
 
     angle = Angle.from_hms(24, 0, 0);
+    angle.calibrate();
     day_excess = angle.day_excess();
     expect(angle.hour()).toBe(0);
     expect(day_excess).toBe(1);
 
     angle = Angle.from_hms(48, 0, 0);
+    angle.calibrate();
     day_excess = angle.day_excess();
     expect(angle.hour()).toBe(0);
     expect(day_excess).toBe(2);
 
     angle = Angle.from_hms(1, 1, -1);
+    angle.calibrate();
     expect(angle.second()).toBe(59);
 
     angle = Angle.from_hms(0, 0, -1);
+    angle.calibrate();
     day_excess = angle.day_excess();
     expect(angle.second()).toBe(59);
     expect(angle.minute()).toBe(59);

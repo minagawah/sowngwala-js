@@ -1,9 +1,9 @@
 /**
- * @module sowngwala/sun/pos_equatorial_from_generic_date
+ * @module sowngwala/sun/sun_pos_equatorial
  */
 
 import { equatorial_from_ecliptic_with_generic_date } from '../coords';
-import { pos_ecliptic_from_generic_date } from './pos_ecliptic_from_generic_date';
+import { sun_pos_ecliptic } from './sun_pos_ecliptic';
 
 /** @typedef {import('moment').Moment} Moment */
 
@@ -20,7 +20,7 @@ import { pos_ecliptic_from_generic_date } from './pos_ecliptic_from_generic_date
  * (Peter Duffett-Smith, p.91)
  *
  * See
- * 'pos_ecliptic_from_generic_date'
+ * 'sun_pos_ecliptic'
  * because the actual calculations are
  * done there.
  *
@@ -35,14 +35,14 @@ import { pos_ecliptic_from_generic_date } from './pos_ecliptic_from_generic_date
  *
  * @public
  * @function
- * @see {@link: sowngwala/sun.pos_ecliptic_from_generic_date}
+ * @see {@link: sowngwala/sun.sun_pos_ecliptic}
  * @see {@link: sowngwala/coords.equatorial_from_ecliptic_with_generic_date}
  * @param {Moment} date
  * @returns {EquaCoordContext}
  */
-export function pos_equatorial_from_generic_date(date) {
+export function sun_pos_equatorial(date) {
   return equatorial_from_ecliptic_with_generic_date(
-    pos_ecliptic_from_generic_date(date),
+    sun_pos_ecliptic(date),
     date
   );
 }

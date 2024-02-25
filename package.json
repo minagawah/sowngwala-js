@@ -1,6 +1,6 @@
 {
   "name": "sowngwala-js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
   "description": "JS library for calculating the position of the sun.",
   "main": "dist/sowngwala.lib.js",

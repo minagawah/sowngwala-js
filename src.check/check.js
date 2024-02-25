@@ -1,9 +1,6 @@
 /**
  * This is for checking the library
- * on the test page. You see
- * the same thing implemented in
- * one of the unit tests:
- * src/coords/__tests__/equatorial_from_ecliptic.spec.js
+ * behaviors.
  *
  * @module sowngwala/check
  */
@@ -15,7 +12,7 @@ export const start = () => {
 
   const { lib } = Sowngwala.lib;
 
-  const { pos_equatorial_from_generic_date } = lib.sun;
+  const { sun_pos_equatorial } = lib.sun;
 
   // You want to know the sun's position
   // for July 1, 1988 in the  Equatorial
@@ -23,7 +20,7 @@ export const start = () => {
   // of "right ascension (α)" and
   // "declination (δ)".
   const utc = moment(Date.UTC(1988, 7 - 1, 27)).utc();
-  const coord = pos_equatorial_from_generic_date(utc);
+  const coord = sun_pos_equatorial(utc);
 
   const asc = coord.asc; // right ascension (α)
   const dec = coord.dec; // declination (δ)

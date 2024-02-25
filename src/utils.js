@@ -7,13 +7,6 @@
 export const noop = () => {};
 
 /**
- * @typedef OverflowReturned
- * @type {Object}
- * @property {number} remainder - Value after the calculation.
- * @property {number} quotient - Value denoting how much did the value exceed.
- */
-
-/**
  * JS has '-0' and '+0' which
  * is called "signed zeros".
  * We can make it unsigned by
@@ -27,6 +20,13 @@ export const unsigned_zero = value =>
   Object.is(value, -0) || Object.is(value, +0)
     ? value | 0
     : value;
+
+/**
+ * @typedef OverflowReturned
+ * @type {Object}
+ * @property {number} remainder - Value after the calculation.
+ * @property {number} quotient - Value denoting how much did the value exceed.
+ */
 
 /**
  * Checks if the given value exceeds

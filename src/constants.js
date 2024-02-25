@@ -10,6 +10,10 @@ export const ISO8601_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ';
 
 export const NUM_OF_DAYS_IN_A_YEAR = 365.25;
 
+// ------------------------------------
+// Sun
+// ------------------------------------
+
 /**
  * Sun's mean ecliptic longitude at
  * Jan. 0.0, 1990 which is represented
@@ -36,6 +40,10 @@ export const ECLIPTIC_LONGITUDE_OF_PERIGEE = 282.768_422; // ω bar g
  * (Peter Duffett-Smith, p.86)
  */
 export const ECCENTRICITY_OF_ORBIT = 0.016_713;
+
+// ------------------------------------
+// Moon
+// ------------------------------------
 
 export const MOON_MEAN_LONGITUDE_AT_THE_EPOCH = 318.351_648; // l o
 export const MEAN_LONGITUDE_OF_PERIGEE_AT_THE_EPOCH = 36.340_410; // P o

@@ -1,5 +1,5 @@
 /**
- * @module sowngwala/sun/pos_ecliptic_from_generic_date
+ * @module sowngwala/sun/sun_pos_ecliptic
  */
 
 import {
@@ -8,7 +8,7 @@ import {
 } from '../time';
 import { EcliCoord } from '../coords';
 
-import { longitude_and_mean_anomaly } from './longitude_and_mean_anomaly';
+import { sun_longitude_and_mean_anomaly } from './sun_longitude_and_mean_anomaly';
 
 /** @typedef {import('moment').Moment} Moment */
 
@@ -38,7 +38,7 @@ import { longitude_and_mean_anomaly } from './longitude_and_mean_anomaly';
  * @param {Moment} date
  * @returns {EcliCoordContext}
  */
-export function pos_ecliptic_from_generic_date(date) {
+export function sun_pos_ecliptic(date) {
   // [Step 1] (in his book, p.91)
   // Find out the day number for
   // the specified date.
@@ -53,7 +53,7 @@ export function pos_ecliptic_from_generic_date(date) {
   // since 1990, find out "sun's
   // longitude (λ)" and "mean
   // anomaly (M)".
-  let { lng } = longitude_and_mean_anomaly(days);
+  let { lng } = sun_longitude_and_mean_anomaly(days);
 
   return EcliCoord({ lat: 0.0, lng });
 }

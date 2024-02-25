@@ -70,7 +70,7 @@ export const NaiveTime = Object.freeze({
  */
 function from_hmsn(h, m, s, n) {
   const self = _from_hmsn(h, m, s, n);
-  self.calibrate();
+  // self.calibrate();
   return self;
 }
 

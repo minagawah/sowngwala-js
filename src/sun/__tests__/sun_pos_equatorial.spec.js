@@ -1,13 +1,11 @@
 const moment = require('moment');
 
-const {
-  pos_equatorial_from_generic_date,
-} = require('../index');
+const { sun_pos_equatorial } = require('../index');
 
-describe('A test suite for: sun/pos_equatorial_from_generic_date', () => {
-  test('pos_equatorial_from_generic_date', () => {
+describe('A test suite for: sun/sun_pos_equatorial', () => {
+  test('sun_pos_equatorial', () => {
     const utc = moment(Date.UTC(1988, 7 - 1, 27)).utc();
-    const coord = pos_equatorial_from_generic_date(utc);
+    const coord = sun_pos_equatorial(utc);
 
     const asc = coord.asc; // right ascension (α)
     const dec = coord.dec; // declination (δ)

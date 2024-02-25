@@ -97,7 +97,7 @@ export const Angle = Object.freeze({
  */
 function from_hms(h, m, s) {
   const self = _from_hms(h, m, s);
-  self.calibrate();
+  // self.calibrate();
   return self;
 }
 

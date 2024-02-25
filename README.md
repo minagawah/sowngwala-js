@@ -2,7 +2,8 @@
 
 ## 1. About
 
-This is a JS library for finding the position of the sun, and was ported from
+This is a JS library for finding the sun & moon's position.
+It was ported from
 [sowngwala](https://github.com/minagawah/sowngwala)
 which is another library that I wrote in Rust.
 
@@ -16,6 +17,8 @@ which is from a sci-fi TV series "The Expanse (2015)".
 
 ## 2. Usage
 
+### 2-1. Position of the Sun
+
 When you are finding the position of the sun,
 the most popular demands would probably be the following 2:
 
@@ -27,11 +30,11 @@ the most popular demands would probably be the following 2:
 Whichever you wish to pursue, the program offers the corresponding 2 methods:
 
 - (Equatorial)  
-[pos_equatorial_from_generic_date](src/sun/pos_equatorial_from_generic_date.js)
+[sun_pos_equatorial](src/sun/sun_pos_equatorial.js)
   - Usually for "Observation"
   - You want the sun's position in [Equatorial](src/coords/equatorial.js) coordinate system, so that you would get "right ascension (α)" and "declination (δ)" for the given time and space.
 - (Ecliptic)  
-[pos_ecliptic_from_generic_date](src/sun/pos_ecliptic_from_generic_date.js)
+[sun_pos_ecliptic](src/sun/sun_pos_ecliptic.js)
   - Usually for "Astrology"
   - You want the sun's position in [Ecliptic](src/coords/ecliptic.js) coordinate system, so that you would get "latitude (β)" and "ongitude (λ)" for the given time and space.
 
@@ -43,6 +46,8 @@ Let's see how you can calculate Equatorial position of the sun.
 ### (a) Runtime Usage
 
 This is how you want to directly use `sowngwala-js` in your page.
+The context is exposed globally as `Sowngwala`,
+and you can use any of the method provided.
 
 ```html
 <html>
@@ -53,7 +58,7 @@ import moment from 'moment';
 
 window.addEventListener('load', () => {
   const { lib } = Sowngwala;
-  const { pos_equatorial_from_generic_date } = lib.sun;
+  const { sun_pos_equatorial } = lib.sun;
 
   // You want to know the sun's position
   // for July 1, 1988 in the  Equatorial
@@ -62,7 +67,7 @@ window.addEventListener('load', () => {
   // "declination (δ)".
 
   const utc = moment(Date.UTC(1988, 7 - 1, 27)).utc();
-  const coord = pos_equatorial_from_generic_date(utc);
+  const coord = sun_pos_equatorial(utc);
 
   const asc = coord.asc; // right ascension (α)
   const dec = coord.dec; // declination (δ)
@@ -78,10 +83,9 @@ window.addEventListener('load', () => {
 </html>
 ```
 
-### (b) NPM Install
+### (b) For NPM Apps
 
-This is when you want to include `sowngwala-js` in your JS app bundle.
-
+If you wish to include `sowngwala-js` in your bunlde, this is how.
 Since `sowngwala-js` has not yet being published as a NPM package,
 you need to directly install from this Github repo.
 In your `package.json`, add the following to "dependencies":
@@ -92,20 +96,30 @@ In your `package.json`, add the following to "dependencies":
 }
 ```
 
-Once installed, do the following:
+Once installed, begin writing codes.
+Implementations are about the same as the one for the runtime.
 
 ```js
 import moment from 'moment';
-import { pos_equatorial_from_generic_date } from 'sowngwala';
+import { sun_pos_equatorial } from 'sowngwala';
 
-// You want to know the sun's position
-// for July 1, 1988 in the  Equatorial
-// coordinate system which is comprised
-// of "right ascension (α)" and
-// "declination (δ)".
+// Rest of the codes are
+// the same as the one
+// for the runtime...
+```
 
-const utc = moment(Date.UTC(1988, 7 - 1, 27)).utc();
-const coord = pos_equatorial_from_generic_date(utc);
+### 2-1. Position of the Moon
+
+You can calculate the position of the moon as well.
+If you wish the Ecliptic position,
+the method is available as well.
+
+```js
+import moment from 'moment';
+import { moon_pos_equatorial } from 'sowngwala';
+
+const utc = moment(Date.UTC(1979, 2 - 1, 26, 16, 0, 0)).utc();
+const coord = moon_pos_equatorial(utc);
 
 const asc = coord.asc; // right ascension (α)
 const dec = coord.dec; // declination (δ)
@@ -113,9 +127,10 @@ const dec = coord.dec; // declination (δ)
 const asc_hms = `${asc.hour()}°${asc.minute()}'${asc.second()}"`;
 const dec_hms = `${dec.hour()}°${dec.minute()}'${dec.second()}"`;
 
-console.log('asc:', asc_hms); // 8°26'4.0
-console.log('dec:', dec_hms); // 19°12'42.5
+console.log('asc:', asc_hms); // 22°33'28.7
+console.log('dec:', dec_hms); // -8°00'57.6
 ```
+
 
 ## 3. Development
 
@@ -168,11 +183,11 @@ So, they have nothing to do with the implementations of the library itself.
 
 When it comes to finding the Equatorial position of the sun,
 it all begins with
-[pos_equatorial_from_generic_date](src/sun/pos_equatorial_from_generic_date.js).
+[sun_pos_equatorial](src/sun/sun_pos_equatorial.js).
 With a given a date, it returns
 [EquaCoord](src/coords/equatorial.js).
 However, majority of the calculations are done in
-[pos_ecliptic_from_generic_date](src/sun/pos_ecliptic_from_generic_date.js).
+[sun_pos_ecliptic](src/sun/sun_pos_ecliptic.js).
 
 Refer to p.91 of
 [Peter Duffett-Smith's "Practical Astronomy With Your Calculator" (1988)](https://books.google.co.jp/books?id=DwJfCtzaVvYC&hl=ja&source=gbs_book_similarbooks)
@@ -280,7 +295,18 @@ npm install --save-dev @babel/cli @babel/core \
   rimraf nodemon concurrently ;
 ```
 
-## 6. License
+## 6. History
+
+- 2024.2.26
+  - Added `moon/moon_pos_equatorial` and `moon/moon_pos_equatorial` for calculating for the moon's position.
+  - For both `src/coords/Angle` and `chrono/NaiveTime` will no longer run `calibrate_hms` upon the instance creation, meaning, it will not check for the overflow on "hour", "min", and "sec", but you must run it manually whenever you need it.
+  - Instead of `sun/longitude_and_mean_anomaly` returning `mean_anom` in "radians", it now returns it in "degrees".
+  - Moved `sun/find_kepler` to `coords/find_kepler`
+  - Renamed `sun/pos_ecliptic_from_generic_date` to `sun/sun_pos_ecliptic`
+  - Renamed `sun/pos_equatorial_from_generic_date` to `sun/sun_pos_equatorial`
+  - Renamed `longitude_and_mean_anomaly` to `sun_longitude_and_mean_anomaly`
+
+## 7. License
 
 Dual-licensed under either of the followings.  
 Choose at your option.

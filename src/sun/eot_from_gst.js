@@ -10,7 +10,7 @@ import {
   angle_from_decimal_hours,
 } from '../time';
 
-import { pos_equatorial_from_generic_date } from './pos_equatorial_from_generic_date';
+import { sun_pos_equatorial } from './sun_pos_equatorial';
 
 /** @typedef {import('moment').Moment} Moment */
 
@@ -71,7 +71,7 @@ export function eot_from_gst(gst) {
   let date = gst;
 
   /** @type {EquaCoordContext} */
-  let coord = pos_equatorial_from_generic_date(date);
+  let coord = sun_pos_equatorial(date);
 
   /**
    * 'asc' in 'EquaCoord' is 'Angle'

@@ -1,5 +1,5 @@
 /**
- * @module sowngwala/sun/find_kepler
+ * @module sowngwala/coords/find_kepler
  */
 
 import { ECCENTRICITY_OF_ORBIT } from '../constants';
@@ -24,17 +24,17 @@ const KEPLER_ACCURACY = 1e-6; // (ε)
  * which recursively calls itself.
  *
  * In the program, it is used in
- * 'longitude_and_mean_anomaly'
+ * 'sun_longitude_and_mean_anomaly'
  * which is further used in
- * 'pos_ecliptic_from_generic_date'
+ * 'sun_pos_ecliptic'
  * and is further used in
- * 'pos_equatorial_from_generic_date'.
+ * 'sun_pos_equatorial'.
  *
  * @public
  * @function
- * @see {@link: sowngwala/sun.longitude_and_mean_anomaly}
- * @see {@link: sowngwala/sun.pos_ecliptic_from_generic_date}
- * @param {number} mean_anom - Mean anomaly (M)
+ * @see {@link: sowngwala/sun.sun_longitude_and_mean_anomaly}
+ * @see {@link: sowngwala/sun.sun_pos_ecliptic}
+ * @param {number} mean_anom - Mean anomaly (M) (in radians)
  * @returns {number} - Eccentric anomaly (E)
  */
 export function find_kepler(mean_anom) {
@@ -48,7 +48,7 @@ export function find_kepler(mean_anom) {
  *
  * @private
  * @function
- * @param {number} mean_anom - Mean anomaly (M)
+ * @param {number} mean_anom - Mean anomaly (M) (in radians)
  * @param {number} ecc
  * @param {number} counter
  * @returns {number} - Eccentric anomaly (E)

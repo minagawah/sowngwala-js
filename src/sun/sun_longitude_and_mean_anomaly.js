@@ -1,5 +1,5 @@
 /**
- * @module sowngwala/sun/longitude_and_mean_anomaly
+ * @module sowngwala/sun/sun_longitude_and_mean_anomaly
  */
 
 import {
@@ -9,13 +9,13 @@ import {
 } from '../constants';
 import { to_radians, to_degrees } from '../utils';
 
-import { find_kepler } from './find_kepler';
+import { find_kepler } from '../coords/find_kepler';
 
 /**
  * @typedef LngMeanAnomalyReturned
  * @type {Object}
  * @property {number} lng - Sun's longitude (λ)
- * @property {number} mean_anom - Mean anomaly (M) (in radians)
+ * @property {number} mean_anom - Mean anomaly (M) (in degrees)
  */
 
 /**
@@ -25,28 +25,28 @@ import { find_kepler } from './find_kepler';
  * Anomaly (M)" for the date.
  *
  * Used in
- * 'pos_ecliptic_from_generic_date'
+ * 'sun_pos_ecliptic'
  * which is further used in
- * 'pos_equatorial_from_generic_date'.
+ * 'sun_pos_equatorial'.
  *
  * While
- * 'pos_equatorial_from_generic_date'
+ * 'sun_pos_equatorial'
  * being the starting point for
  * calculating the position of the sun,
  * it owes majority of its calculations
  * in the logic implemented in here.
  *
  * Original:
- * - sowngwala::sun::sun_longitude_and_mean_anomaly
+ * - sowngwala::sun::sun_sun_longitude_and_mean_anomaly
  *
  * @public
  * @function
- * @see {@link: module:sowngwala/sun.pos_ecliptic_from_generic_date}
- * @see {@link: module:sowngwala/sun.pos_equatorial_from_generic_date}
+ * @see {@link: module:sowngwala/sun.sun_pos_ecliptic}
+ * @see {@link: module:sowngwala/sun.sun_pos_equatorial}
  * @param {number} days
  * @returns {LngMeanAnomalyReturned}
  */
-export function longitude_and_mean_anomaly(days) {
+export function sun_longitude_and_mean_anomaly(days) {
   // [Step 3] (in his book, p.91)
   let n = (360.0 / 365.242_191) * days;
   n -= 360.0 * Math.floor(n / 360.0);
@@ -60,18 +60,17 @@ export function longitude_and_mean_anomaly(days) {
     n +
     ECLIPTIC_LONGITUDE_AT_1990 -
     ECLIPTIC_LONGITUDE_OF_PERIGEE;
+  console.log('[sun] mean_anom[0]:', mean_anom);
 
   if (mean_anom < 0.0) {
     mean_anom += 360.0;
   }
 
-  mean_anom = to_radians(mean_anom);
-
   // =================================
   // Eccentric Anomaly (E)
   // =================================
   // [Step 6] (in his book, p.91)
-  let ecc = find_kepler(mean_anom);
+  let ecc = find_kepler(to_radians(mean_anom));
 
   // =================================
   // True Anomaly (v)

@@ -6,6 +6,7 @@ import { eot_from_utc } from './eot_from_utc';
 import { decimal_hours_from_angle } from '../time';
 
 /** @typedef {import('moment').Moment} Moment */
+
 /** @typedef {import('../types.js').DecimalHours} DecimalHours */
 
 /**
