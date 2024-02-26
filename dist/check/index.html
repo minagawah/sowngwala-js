@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="shortcut icon" href="https://www.sowngwalascience.com/favicon.ico">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <base href="">
+  <link rel="stylesheet" href="main.css" type="text/css" />
+  <title>sowngwala-js</title>
+</head>
+
+<body>
+  <div id="app">
+    <div id="wrapper">
+      <div id="content-wrapper">
+        <!-- BEGIN: content -->
+        <div id="content">
+          <div>
+Specify the date you want to check the Equatorial position of the sun, and the program will calculate <span class="strong">right ascension (α)</span> and <span class="strong">declination (δ)</span> for you.
+          </div>
+
+          <!-- BEGIN: form-wrapper -->
+          <div id="form-wrapper" class="mt-5">
+            <div id="label-year" class="label">
+              Year
+            </div>
+            <input type="text" id="input-year" value="1988" />
+
+            <div id="label-month" class="label">
+              Month
+            </div>
+            <input type="text" id="input-month" value="7" />
+
+            <div id="label-date" class="label">
+              Date
+            </div>
+            <input type="text" id="input-date" value="27" />
+
+            <div id="button-wrapper">
+              <button id="btn-calculate" class="button">Calculate</button>
+            </div>
+
+            <div id="result-wrapper">
+            </div>
+          </div>
+          <!-- END OF: form-wrapper -->
+        </div>
+        <!-- END OF: content -->
+      </div>
+    </div>
+  </div>
+
+<script defer src="../sowngwala-0.3.0.js"></script>
+
+<script type="text/javascript">
+window.addEventListener('load', () => {
+  Check.start();
+});
+</script>
+
+<script defer src="check.js"></script></body>
+</html>
