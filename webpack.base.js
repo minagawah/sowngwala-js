@@ -1,17 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { merge } = require('webpack-merge');
 
-module.exports = {
-  entry: {
-    lib: './src/index.js',
-    check: './src.check/check.js',
-  },
-  output: {
-    path: path.resolve(__dirname, './dist'),
-    library: ['Sowngwala', '[name]'],
-    libraryTarget: 'umd',
-  },
+const { version } = require('./package.json');
+
+const DEFAULT_CONFIG = {
   stats: {
     colors: true,
   },
@@ -27,6 +20,37 @@ module.exports = {
           loader: 'babel-loader',
         },
       },
+    ],
+  },
+  optimization: {
+    minimize: false,
+  },
+};
+
+// For the main library
+
+const DEFAULT_CONFIG_FOR_LIB = merge(DEFAULT_CONFIG, {
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, './dist'),
+    filename: `sowngwala-${version}.js`,
+    library: 'Sowngwala',
+    libraryTarget: 'umd',
+  },
+});
+
+// For the checker app
+
+const DEFAULT_CONFIG_FOR_CHECK = merge(DEFAULT_CONFIG, {
+  entry: './src.check/check.js',
+  output: {
+    path: path.resolve(__dirname, './dist/check'),
+    filename: 'check.js',
+    library: 'Check',
+    libraryTarget: 'umd',
+  },
+  module: {
+    rules: [
       {
         test: /\.(png|jpg|gif)$/,
         use: ['file-loader'],
@@ -37,7 +61,9 @@ module.exports = {
       },
     ],
   },
-  optimization: {
-    minimize: false,
-  },
+});
+
+module.exports = {
+  DEFAULT_CONFIG_FOR_LIB,
+  DEFAULT_CONFIG_FOR_CHECK,
 };

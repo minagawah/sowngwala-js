@@ -52,13 +52,12 @@ and you can use any of the method provided.
 ```html
 <html>
 <body>
-<script src="https://[YOUR_SERVER_PATH]/sowngwala.lib.js"></script>
+<script src="https://{YOUR_SERVER_PATH}/sowngwala-0.3.0.js"></script>
 <script type="text/javascript">
 import moment from 'moment';
 
 window.addEventListener('load', () => {
-  const { lib } = Sowngwala;
-  const { sun_pos_equatorial } = lib.sun;
+  const { sun_pos_equatorial } = Sowngwala.sun;
 
   // You want to know the sun's position
   // for July 1, 1988 in the  Equatorial
@@ -297,7 +296,9 @@ npm install --save-dev @babel/cli @babel/core \
 
 ## 6. History
 
-- 2024.2.26
+- 0.3.0
+  - For runtime use, changed the exposed global from `Sowngwala.lib` to `Sowngwala`.
+- 0.2.0
   - Added `moon/moon_pos_equatorial` and `moon/moon_pos_equatorial` for calculating for the moon's position.
   - For both `src/coords/Angle` and `chrono/NaiveTime` will no longer run `calibrate_hms` upon the instance creation, meaning, it will not check for the overflow on "hour", "min", and "sec", but you must run it manually whenever you need it.
   - Instead of `sun/longitude_and_mean_anomaly` returning `mean_anom` in "radians", it now returns it in "degrees".

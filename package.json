@@ -1,6 +1,6 @@
 {
   "name": "sowngwala-js",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": false,
   "description": "JS library for calculating the position of the sun.",
   "main": "dist/sowngwala.lib.js",
@@ -18,11 +18,11 @@
     "type:generate": "rimraf types && tsc -p tsconfig.generate.json",
     "jsdoc": "rimraf jsdoc && jsdoc -c jsdoc.conf.js -d jsdoc/",
     "test": "jest",
-    "build:css": "postcss src.check/styles --dir dist",
+    "build:css": "postcss src.check/styles --dir dist/check",
     "watch:css": "nodemon -x $npm_execpath run build:css -e css -w src.check/styles",
     "watch:js": "webpack serve --config webpack.dev.js",
     "build:js": "webpack --config webpack.prod.js",
-    "build:commonjs": "NODE_ENV=commonjs babel src --out-file dist/sowngwala.lib.cjs",
+    "build:commonjs": "NODE_ENV=commonjs babel src --out-file dist/sowngwala-$npm_package_version.cjs",
     "clean": "rimraf dist",
     "build": "$npm_execpath run clean && $npm_execpath run build:css && $npm_execpath run build:commonjs && $npm_execpath run build:js",
     "dev": "concurrently \"$npm_execpath run watch:css\" \"$npm_execpath run watch:js\""
