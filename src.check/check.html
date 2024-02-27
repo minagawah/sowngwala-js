@@ -10,11 +10,56 @@
   <title>sowngwala-js</title>
 </head>
 
-<body>
-  <div id="app"></div>
+<body class="flex flex-col justify-start items-center">
 
+  <!-- BEGIN: generic-wrapper -->
+  <div id="generic-wrapper">
 
-<script defer src="../sowngwala-<%= htmlWebpackPlugin.options.version %>.js"></script>
+    <!-- BEGIN: container -->
+    <div id="container">
+      <div id="title" class="font-3xl font-bold">
+        Sun's Position
+      </div>
+
+      <div id="description" class="mt-5">
+Specify the date you want to check the Equatorial position of the sun, and the program will calculate <span class="strong">right ascension (α)</span> and <span class="strong">declination (δ)</span> for you.
+      </div>
+
+      <!-- BEGIN: form -->
+      <div id="form" class="mt-5">
+        <div id="year-label" class="label">
+          Year
+        </div>
+
+        <input type="text" id="year" value="1988" />
+
+        <div id="month-label" class="label">
+          Month
+        </div>
+
+        <input type="text" id="month" value="7" />
+
+        <div id="date-label" class="label">
+          Date
+        </div>
+
+        <input type="text" id="date" value="27" />
+
+        <div id="result-wrapper" class="px-5 py-2 text-3xl font-bold">
+          <div id="lng"></div>
+          <div id="asc"></div>
+          <div id="dec"></div>
+        </div>
+      </div>
+      <!-- END OF: form -->
+
+    </div>
+    <!-- END OF: container -->
+
+  </div>
+  <!-- END OF: generic-wrapper -->
+
+<script defer src="<%= htmlWebpackPlugin.options.SOWNGWALA_PATH %>"></script>
 
 <script type="text/javascript">
 window.addEventListener('load', () => {

@@ -60,7 +60,6 @@ export function sun_longitude_and_mean_anomaly(days) {
     n +
     ECLIPTIC_LONGITUDE_AT_1990 -
     ECLIPTIC_LONGITUDE_OF_PERIGEE;
-  console.log('[sun] mean_anom[0]:', mean_anom);
 
   if (mean_anom < 0.0) {
     mean_anom += 360.0;

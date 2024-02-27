@@ -60,7 +60,8 @@ const config_for_checker = merge(
         template: './src.check/check.html',
         inject: 'body',
         minify: false,
-        version,
+        VERSION: version,
+        SOWNGWALA_PATH: `../sowngwala-${version}.js`,
       }),
     ],
   }

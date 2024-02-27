@@ -45,8 +45,8 @@ pre {
 }
 
 .strong {
-  @apply px-1 font-bold;
-  background-color: #ea2000;
+  @apply px-2 py-1 font-bold;
+  background-color: #e7ff20;
   color: #101010;
 }
 
@@ -108,33 +108,61 @@ a:active {
   @apply px-2 py-2 rounded border border-solid border-gray-300 shadow-inner drop-shadow-2xl;
 }
 
-#app {
-  @apply w-full flex flex-col justify-start items-center;
-}
-
-#wrapper {
+#generic-wrapper {
   @mixin generic-content-wrapper;
   @apply bg-white;
 }
 
-#content-wrapper {
-  @apply w-full;
-}
-
-#content {
-  @apply w-full border border-solid text-gray-100;
+#container {
+  @apply w-full border border-solid px-5 py-5 flex flex-col justify-start items-center text-gray-900 text-xl;
   background-color: #e4ffcc;
   border-color: #b2ff6d;
 }
 
-#stage {
-  @apply w-full h-full relative;
-  padding: 0.25rem;
+#form {
+  @apply gap-3;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  grid-template-rows: repeat(3, 2rem) 1fr;
 }
 
-#footer {
-  @apply w-full px-5 py-5 border border-solid flex flex-col justify-start items-center;
-  color: #ff4b40;
-  border-color: #ff928d;
-  background-color: #ffaaa6;
+.label {
+  @apply flex flex-row justify-end items-center;
+}
+
+#year-label {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+#year {
+  grid-column: 2 / -1;
+  grid-row: 1 / 2;
+}
+
+#month-label {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+}
+
+#month {
+  grid-column: 2 / -1;
+  grid-row: 2 / 3;
+}
+
+#date-label {
+  grid-column: 1 / 2;
+  grid-row: 3 / 4;
+}
+
+#date {
+  grid-column: 2 / -1;
+  grid-row: 3 / 4;
+}
+
+#result-wrapper {
+  @apply flex flex-col justify-start items-center;
+  grid-column: 1 / -1;
+  grid-row: 4 / -1;
 }

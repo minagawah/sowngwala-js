@@ -14,7 +14,7 @@ import { sun_pos_ecliptic } from './sun_pos_ecliptic';
 
 /**
  * Given a specific date, it will
- * return the equatorial coordinate
+ * return the Equatorial coordinate
  * position which consists of "right
  * ascension (α)" and "declination (δ)".
  * (Peter Duffett-Smith, p.91)

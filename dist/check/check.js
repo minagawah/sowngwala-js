@@ -21603,27 +21603,70 @@ function debounce(f, delay) {
  */
 
 
+var ROUND_DIGITS = 1000;
+var el = {};
+var equatorial_from_ecliptic_with_generic_date;
+var sun_pos_ecliptic;
 var start = () => {
   if (typeof Sowngwala === 'undefined') throw new Error("Can't find Sowngwala");
-  var {
-    sun_pos_equatorial
-  } = Sowngwala.sun;
-
-  // You want to know the sun's position
-  // for July 1, 1988 in the Equatorial
-  // coordinate system which is comprised
-  // of "right ascension (α)" and
-  // "declination (δ)".
-  var utc = moment_default()(Date.UTC(1988, 7 - 1, 27)).utc();
-  var coord = sun_pos_equatorial(utc);
-  var asc = coord.asc; // right ascension (α)
-  var dec = coord.dec; // declination (δ)
-
-  var asc_hms = "".concat(asc.hour(), "\xB0").concat(asc.minute(), "'").concat(asc.second(), "\"");
-  var dec_hms = "".concat(dec.hour(), "\xB0").concat(dec.minute(), "'").concat(dec.second(), "\"");
-  console.log('[check] asc:', asc_hms); // 8°26'4.0
-  console.log('[check] dec:', dec_hms); // 19°12'42.5
+  el.year = document.querySelector('#year');
+  el.month = document.querySelector('#month');
+  el.date = document.querySelector('#date');
+  el.asc = document.querySelector('#asc');
+  el.dec = document.querySelector('#dec');
+  var ok = 1;
+  ['year', 'month', 'date', 'lng', 'asc', 'dec'].forEach(key => {
+    el[key] = document.querySelector("#".concat(key));
+    if (!el[key]) {
+      ok *= 0;
+    }
+  });
+  if (ok) {
+    ({
+      equatorial_from_ecliptic_with_generic_date
+    } = Sowngwala.coords);
+    ({
+      sun_pos_ecliptic
+    } = Sowngwala.sun);
+    ['year', 'month', 'date'].forEach(key => {
+      el[key].addEventListener('change', debounce(onchange, 1000));
+    });
+    onchange();
+  }
 };
+function onchange() {
+  try {
+    var year = el.year.value;
+    var month = el.month.value;
+    var date = el.date.value;
+    if (!year || !month || !date) return;
+    var utc = moment_default()(Date.UTC(year, month - 1, date)).utc();
+    var ecliptic = sun_pos_ecliptic(utc);
+
+    // Ecliptic "longitude (λ)"
+    var {
+      lng
+    } = ecliptic;
+    var equatorial = equatorial_from_ecliptic_with_generic_date({
+      lat: 0.0,
+      lng
+    }, utc);
+
+    // Equatorial "right ascension (α)"
+    var asc = equatorial.asc;
+
+    // Equatorial "declination (δ)"
+    var dec = equatorial.dec;
+    var lng_fixed = Math.round(lng * ROUND_DIGITS) / ROUND_DIGITS;
+    var asc_fixed = Math.round(asc.second() * ROUND_DIGITS) / ROUND_DIGITS;
+    var dec_fixed = Math.round(dec.second() * ROUND_DIGITS) / ROUND_DIGITS;
+    el.lng.innerHTML = "(Ecliptic) [lng(\u03BB)] ".concat(lng_fixed, "\xB0");
+    el.asc.innerHTML = "(Equatorial) [asc(\u03B1)] ".concat(asc.hour(), "\xB0").concat(asc.minute(), "'").concat(asc_fixed, "\"");
+    el.dec.innerHTML = "(Equatorial) [dec(\u03B4)] ".concat(dec.hour(), "\xB0").concat(dec.minute(), "'").concat(dec_fixed, "\"");
+  } catch (err) {
+    console.warn(err);
+  }
+}
 })();
 
 /******/ 	return __webpack_exports__;

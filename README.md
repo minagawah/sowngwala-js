@@ -1,5 +1,7 @@
 # sowngwala-js
 
+[View Demo](https://tokyo800.jp/mina/sowngwala/)
+
 ## 1. About
 
 This is a JS library for finding the sun & moon's position.
@@ -296,6 +298,9 @@ npm install --save-dev @babel/cli @babel/core \
 
 ## 6. History
 
+- 0.3.1
+  - Removed unnecessary log output
+  - Fixed the checker app, making it worthy.
 - 0.3.0
   - For runtime use, changed the exposed global from `Sowngwala.lib` to `Sowngwala`.
 - 0.2.0

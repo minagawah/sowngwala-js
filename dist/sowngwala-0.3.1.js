@@ -24190,7 +24190,6 @@ function sun_longitude_and_mean_anomaly(days) {
   // [Step 4] to [Step 5] (in his book, p.91)
   // Or, it is fully explained in p.89.
   var mean_anom = n + constants.ECLIPTIC_LONGITUDE_AT_1990 - constants.ECLIPTIC_LONGITUDE_OF_PERIGEE;
-  console.log('[sun] mean_anom[0]:', mean_anom);
   if (mean_anom < 0.0) {
     mean_anom += 360.0;
   }
@@ -24304,7 +24303,7 @@ function sun_pos_ecliptic(date) {
 
 /**
  * Given a specific date, it will
- * return the equatorial coordinate
+ * return the Equatorial coordinate
  * position which consists of "right
  * ascension (α)" and "declination (δ)".
  * (Peter Duffett-Smith, p.91)
@@ -24823,4 +24822,4 @@ function moon_pos_equatorial(dt) {
 /******/ })()
 ;
 });
-//# sourceMappingURL=sowngwala-0.3.0.js.map
+//# sourceMappingURL=sowngwala-0.3.1.js.map
