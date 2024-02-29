@@ -2,8 +2,7 @@
  * @module sowngwala/coords/equatorial_from_ecliptic_with_generic_date
  */
 
-import { equatorial_from_ecliptic } from './equatorial_from_ecliptic';
-import { mean_obliquity_of_the_ecliptic } from './mean_obliquity_of_the_ecliptic';
+import { equatorial_from_ecliptic_with_generic_datetime } from './equatorial_from_ecliptic_with_generic_datetime';
 
 /** @typedef {import('moment').Moment} Moment */
 
@@ -18,21 +17,13 @@ import { mean_obliquity_of_the_ecliptic } from './mean_obliquity_of_the_ecliptic
  */
 
 /**
- * See 'equatorial_from_ecliptic' for
- * it has the actual calculations.
- * It will convert the Ecliptic
- * coordinate position into that of
- * the Equatorial.
- * (Peter Duffett-Smith, pp.40-41)
- *
- * Note, also, just by giving
- * a specific date, it calculates
- * "obliquity (of the ecliptic) (ε)"
- * for you.
+ * See
+ * 'equatorial_from_ecliptic_with_generic_datetime'
+ * for details.
  *
  * @public
  * @function
- * @see {@link: module:sowngwala/coords/equatorial_from_ecliptic}
+ * @see {@link: module:sowngwala/coords/equatorial_from_ecliptic_with_generic_datetime}
  * @param {EcliCoordContext} coord
  * @param {Moment} date
  * @returns {EquaCoordContext}
@@ -41,7 +32,10 @@ export function equatorial_from_ecliptic_with_generic_date(
   coord,
   date
 ) {
-  // This is in degrees, not radians.
-  let oblique = mean_obliquity_of_the_ecliptic(date);
-  return equatorial_from_ecliptic(coord, oblique);
+  const dt = date;
+  dt.set({ hour: 0, minute: 0, second: 0 });
+  return equatorial_from_ecliptic_with_generic_datetime(
+    coord,
+    dt
+  );
 }

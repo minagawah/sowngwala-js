@@ -6,91 +6,127 @@
 import moment from 'moment';
 import { debounce } from './utils';
 
+const ELEM_KEYS = [
+  'year',
+  'month',
+  'day',
+  'hour',
+  'min',
+  'sec',
+  'lng',
+  'asc',
+  'dec',
+];
+
+const INPUT_ELEM_KEYS = ELEM_KEYS.filter(
+  key => key !== 'lng' && key !== 'asc' && key !== 'dec'
+);
+
 const ROUND_DIGITS = 1000;
 
 const el = {};
 
-let equatorial_from_ecliptic_with_generic_date;
+const onchange = debounce(event_handler, 1000);
+
+let equatorial_from_ecliptic_with_generic_datetime;
 let sun_pos_ecliptic;
 
 export const start = () => {
   if (typeof Sowngwala === 'undefined')
     throw new Error("Can't find Sowngwala");
 
-  el.year = document.querySelector('#year');
-  el.month = document.querySelector('#month');
-  el.date = document.querySelector('#date');
-  el.asc = document.querySelector('#asc');
-  el.dec = document.querySelector('#dec');
+  ELEM_KEYS.forEach(key => {
+    el[key] = document.querySelector(`#${key}`);
+  });
 
   let ok = 1;
 
-  ['year', 'month', 'date', 'lng', 'asc', 'dec'].forEach(
-    key => {
-      el[key] = document.querySelector(`#${key}`);
-      if (!el[key]) {
-        ok *= 0;
-      }
+  ELEM_KEYS.forEach(key => {
+    el[key] = document.querySelector(`#${key}`);
+    if (!el[key]) {
+      ok *= 0;
     }
-  );
+  });
 
   if (ok) {
-    ({ equatorial_from_ecliptic_with_generic_date } =
+    ({ equatorial_from_ecliptic_with_generic_datetime } =
       Sowngwala.coords);
     ({ sun_pos_ecliptic } = Sowngwala.sun);
 
-    ['year', 'month', 'date'].forEach(key => {
-      el[key].addEventListener(
-        'change',
-        debounce(onchange, 1000)
-      );
+    INPUT_ELEM_KEYS.forEach(key => {
+      el[key].addEventListener('input', onchange);
+      el[key].addEventListener('propertychange', onchange);
     });
 
     onchange();
   }
 };
 
-function onchange() {
+function event_handler() {
   try {
-    const year = el.year.value;
-    const month = el.month.value;
-    const date = el.date.value;
+    let ok = 1;
 
-    if (!year || !month || !date) return;
+    const vals = INPUT_ELEM_KEYS.reduce((acc, key) => {
+      let val = el[key].value || 0;
+      if (!val) {
+        ok *= 0;
+      }
+      acc[key] = val;
+      return acc;
+    }, {});
+
+    if (!ok) return;
 
     const utc = moment(
-      Date.UTC(year, month - 1, date)
+      Date.UTC(
+        vals.year,
+        vals.month - 1,
+        vals.day,
+        vals.hour,
+        vals.min,
+        vals.sec
+      )
     ).utc();
 
-    const ecliptic = sun_pos_ecliptic(utc);
+    // console.log('utc:', utc);
+
+    const coord = sun_pos_ecliptic(utc);
 
     // Ecliptic "longitude (λ)"
-    const { lng } = ecliptic;
+    const { lng } = coord;
 
-    const equatorial =
-      equatorial_from_ecliptic_with_generic_date(
+    const coord2 =
+      equatorial_from_ecliptic_with_generic_datetime(
         { lat: 0.0, lng },
         utc
       );
 
     // Equatorial "right ascension (α)"
-    const asc = equatorial.asc;
+    const asc = coord2.asc;
 
     // Equatorial "declination (δ)"
-    const dec = equatorial.dec;
+    const dec = coord2.dec;
+
+    // console.log('asc:', asc);
+    // console.log('dec:', dec);
 
     const lng_fixed =
       Math.round(lng * ROUND_DIGITS) / ROUND_DIGITS;
+
     const asc_fixed =
       Math.round(asc.second() * ROUND_DIGITS) /
       ROUND_DIGITS;
+
     const dec_fixed =
       Math.round(dec.second() * ROUND_DIGITS) /
       ROUND_DIGITS;
 
-    el.lng.innerHTML = `(Ecliptic) [lng(λ)] ${lng_fixed}°`;
-    el.asc.innerHTML = `(Equatorial) [asc(α)] ${asc.hour()}°${asc.minute()}'${asc_fixed}"`;
-    el.dec.innerHTML = `(Equatorial) [dec(δ)] ${dec.hour()}°${dec.minute()}'${dec_fixed}"`;
+    console.log('asc.sec:', asc.second());
+    console.log('dec.sec:', dec.second());
+
+    el.lng.innerHTML = `${lng_fixed}°`;
+    el.asc.innerHTML = `${asc.hour()}°${asc.minute()}'${asc_fixed}"`;
+    el.dec.innerHTML = `${dec.hour()}°${dec.minute()}'${dec_fixed}"`;
   } catch (err) {
     console.warn(err);
   }

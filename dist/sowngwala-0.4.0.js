@@ -21652,8 +21652,9 @@ __webpack_require__.d(coords_namespaceObject, {
   Angle: () => (Angle),
   EcliCoord: () => (EcliCoord),
   EquaCoord: () => (EquaCoord),
-  equatorial_from_ecliptic: () => (equatorial_from_ecliptic),
   equatorial_from_ecliptic_with_generic_date: () => (equatorial_from_ecliptic_with_generic_date),
+  equatorial_from_ecliptic_with_generic_datetime: () => (equatorial_from_ecliptic_with_generic_datetime),
+  equatorial_from_ecliptic_with_obliquity: () => (equatorial_from_ecliptic_with_obliquity),
   find_kepler: () => (find_kepler),
   mean_obliquity_of_the_ecliptic: () => (mean_obliquity_of_the_ecliptic)
 });
@@ -21705,7 +21706,9 @@ __webpack_require__.d(sun_namespaceObject, {
   eot_from_utc: () => (eot_from_utc),
   sun_longitude_and_mean_anomaly: () => (sun_longitude_and_mean_anomaly),
   sun_pos_ecliptic: () => (sun_pos_ecliptic),
-  sun_pos_equatorial: () => (sun_pos_equatorial)
+  sun_pos_ecliptic_from_generic_date: () => (sun_pos_ecliptic_from_generic_date),
+  sun_pos_equatorial: () => (sun_pos_equatorial),
+  sun_pos_equatorial_from_generic_date: () => (sun_pos_equatorial_from_generic_date)
 });
 
 // NAMESPACE OBJECT: ./src/moon/index.js
@@ -22187,9 +22190,9 @@ var make_logger = function make_logger(mod, func) {
     }
   };
 };
-;// CONCATENATED MODULE: ./src/coords/equatorial_from_ecliptic.js
+;// CONCATENATED MODULE: ./src/coords/equatorial_from_ecliptic_with_obliquity.js
 /**
- * @module sowngwala/coords/equatorial_from_ecliptic
+ * @module sowngwala/coords/equatorial_from_ecliptic_with_obliquity
  */
 
 
@@ -22234,7 +22237,7 @@ var make_logger = function make_logger(mod, func) {
  * @param {number} oblique - Obliquity of the ecliptic (ε) (in degrees)
  * @returns {EquaCoordContext}
  */
-function equatorial_from_ecliptic(coord, oblique) {
+function equatorial_from_ecliptic_with_obliquity(coord, oblique) {
   var oblique_cos = Math.cos(to_radians(oblique));
   var oblique_sin = Math.sin(to_radians(oblique));
   var lat = coord.lat; // latitude (β)
@@ -22282,18 +22285,20 @@ function equatorial_from_ecliptic(coord, oblique) {
  * from the given datetime.
  * (Peter Duffett-Smith, p.41)
  *
- * Note:
- * For 'date' given does not necessarily
- * require hour, min, and sec!
+ * TODO:
+ * The argument for Rust version does
+ * not necessarily require specific
+ * time, but for JS version, it takes
+ * time into consideration.
  *
  * @public
  * @function
  * @see {@link: sowngwala/coords.equatorial_from_ecliptic_with_generic_date}
- * @param {Moment} date
+ * @param {Moment} dt
  * @returns {number} - Obliquity of the ecliptic (ε) (in degrees)
  */
-function mean_obliquity_of_the_ecliptic(date) {
-  var jd = julian_day_from_generic_datetime(date);
+function mean_obliquity_of_the_ecliptic(dt) {
+  var jd = julian_day_from_generic_datetime(dt);
   jd -= 2451545.0; // January 1.5, 2000
 
   var t = jd / 36525.0;
@@ -22301,9 +22306,9 @@ function mean_obliquity_of_the_ecliptic(date) {
   delta /= 3600.0;
   return 23.439292 - delta;
 }
-;// CONCATENATED MODULE: ./src/coords/equatorial_from_ecliptic_with_generic_date.js
+;// CONCATENATED MODULE: ./src/coords/equatorial_from_ecliptic_with_generic_datetime.js
 /**
- * @module sowngwala/coords/equatorial_from_ecliptic_with_generic_date
+ * @module sowngwala/coords/equatorial_from_ecliptic_with_generic_datetime
  */
 
 
@@ -22338,13 +22343,53 @@ function mean_obliquity_of_the_ecliptic(date) {
  * @function
  * @see {@link: module:sowngwala/coords/equatorial_from_ecliptic}
  * @param {EcliCoordContext} coord
+ * @param {Moment} dt
+ * @returns {EquaCoordContext}
+ */
+function equatorial_from_ecliptic_with_generic_datetime(coord, dt) {
+  // This is in degrees, not radians.
+  var oblique = mean_obliquity_of_the_ecliptic(dt);
+  return equatorial_from_ecliptic_with_obliquity(coord, oblique);
+}
+;// CONCATENATED MODULE: ./src/coords/equatorial_from_ecliptic_with_generic_date.js
+/**
+ * @module sowngwala/coords/equatorial_from_ecliptic_with_generic_date
+ */
+
+
+
+/** @typedef {import('moment').Moment} Moment */
+
+/**
+ * @typedef EquaCoordContext
+ * @type {import('./equatorial.js').EquaCoordContext}
+ */
+
+/**
+ * @typedef EcliCoordContext
+ * @type {import('./ecliptic.js').EcliCoordContext}
+ */
+
+/**
+ * See
+ * 'equatorial_from_ecliptic_with_generic_datetime'
+ * for details.
+ *
+ * @public
+ * @function
+ * @see {@link: module:sowngwala/coords/equatorial_from_ecliptic_with_generic_datetime}
+ * @param {EcliCoordContext} coord
  * @param {Moment} date
  * @returns {EquaCoordContext}
  */
 function equatorial_from_ecliptic_with_generic_date(coord, date) {
-  // This is in degrees, not radians.
-  var oblique = mean_obliquity_of_the_ecliptic(date);
-  return equatorial_from_ecliptic(coord, oblique);
+  var dt = date;
+  dt.set({
+    hour: 0,
+    minute: 0,
+    second: 0
+  });
+  return equatorial_from_ecliptic_with_generic_datetime(coord, dt);
 }
 // EXTERNAL MODULE: ./src/constants.js
 var constants = __webpack_require__(3832);
@@ -22416,6 +22461,7 @@ function _kepler_aux(mean_anom, ecc, counter) {
 /**
  * @module sowngwala/coords
  */
+
 
 
 
@@ -24235,7 +24281,18 @@ function sun_longitude_and_mean_anomaly(days) {
 
 
 
+
 /** @typedef {import('moment').Moment} Moment */
+
+/**
+ * @typedef DecimalDays
+ * @type {import('../types.js').DecimalDays}
+ */
+
+/**
+ * @typedef DecimalHours
+ * @type {import('../types.js').DecimalHours}
+ */
 
 /**
  * @typedef EcliCoordContext
@@ -24243,35 +24300,56 @@ function sun_longitude_and_mean_anomaly(days) {
  */
 
 /**
- * In terms of calculating the poistion
- * of the sun, it is probably the zenith
- * of Peter Duffett-Smith's book.
- * The book describes how to calculate
- * the position of the sun in 10 steps.
- *
- * Once found the position of the sun,
- * it returns it in the Ecliptic
- * coordinate position  which consists
- * of "latitude (β)" and "longitude (λ)".
+ * Given a specific 'dt' (datetime)
+ * in UTC, it will return the Ecliptic
+ * position of the sun which consists of
+ * "latitude (β)" and "longitude (λ)".
  * (Peter Duffett-Smith, p.91)
  *
- * Original:
- * - sowngwalla::sun::ecliptic_position_of_the_sun_from_generic_date
+ * The book describes how to calculate
+ * the position in 10 steps.
+ * (see comments bellow for which
+ * part corresponds to which step)
  *
  * @public
  * @function
- * @param {Moment} date
+ * @param {Moment} dt - UTC datetime (for specific time as well)
  * @returns {EcliCoordContext}
  */
-function sun_pos_ecliptic(date) {
+function sun_pos_ecliptic(dt) {
   // [Step 1] (in his book, p.91)
   // Find out the day number for
   // the specified date.
-  var day_number = day_number_from_generic_date(date);
+  var day_number = day_number_from_generic_date(dt);
 
   // [Step 2] (in his book, p.91)
   // Find out days since 1990.
-  var days = days_since_1990(date.year()) + day_number;
+
+  /**
+   * @type {DecimalDays}
+   */
+  var days = days_since_1990(dt.year()) + day_number;
+
+  // ==================================
+  // IMPORTANT
+  // ==================================
+  // This part is not discussed in
+  // Peter Duffett-Smith's book,
+  // and he assumes the time being
+  // '00:00:00' for granted, but
+  // we want to extract time from the
+  // given time, and want to add it
+  // to the decimal days!!!!
+
+  var naive = NaiveTime.from_hmsn(dt.hour(), dt.minute(), dt.second(), 0.0);
+
+  /**
+   * @type {DecimalHours}
+   */
+  var decimal_hours = decimal_hours_from_naive_time(naive);
+
+  // Adding the decimal hours for precision!!!!
+  days + decimal_hours / 24.0;
 
   // [Step 3] to [Step 10] (in his book, p.91)
   // For the given number of days
@@ -24281,6 +24359,13 @@ function sun_pos_ecliptic(date) {
   var {
     lng
   } = sun_longitude_and_mean_anomaly(days);
+
+  // Sun's "latitude (β)" in Ecliptic
+  // will always become 0.0 because
+  // that's the very definition of
+  // what Ecliptic coordinate system.
+  // This is explained in Peter
+  // Duffett-Smith, p.85.
   return EcliCoord({
     lat: 0.0,
     lng
@@ -24302,35 +24387,36 @@ function sun_pos_ecliptic(date) {
  */
 
 /**
- * Given a specific date, it will
- * return the Equatorial coordinate
- * position which consists of "right
- * ascension (α)" and "declination (δ)".
+ * ************************************
+ * Given a specific 'dt' (datetime)
+ * in UTC, it will return the Equatorial
+ * position of the sun which consists
+ * of "right ascension (α)" and
+ * "declination (δ)".
  * (Peter Duffett-Smith, p.91)
  *
- * See
- * 'sun_pos_ecliptic'
- * because the actual calculations are
- * done there.
+ * See 'sun_pos_ecliptic' for that is
+ * where the actual calculations are
+ * to be carried out.
  *
  * See, also
  * 'equatorial_from_ecliptic_with_generic_date'
  * for it converts the Ecliptic
- * coordinate position to the
- * corresponding Equatorial position.
+ * coordinate position to that of
+ * the Equatorial.
  *
  * Original:
  * - sonwgwalla::sun::equatorial_position_of_the_sun_from_generic_date
  *
  * @public
  * @function
- * @see {@link: sowngwala/sun.sun_pos_ecliptic}
- * @see {@link: sowngwala/coords.equatorial_from_ecliptic_with_generic_date}
- * @param {Moment} date
+ * @see {@link: module:sowngwala/sun.sun_pos_ecliptic}
+ * @see {@link: module:sowngwala/coords.equatorial_from_ecliptic_with_generic_datetime}
+ * @param {Moment} dt - UTC datetime (for specific time as well)
  * @returns {EquaCoordContext}
  */
-function sun_pos_equatorial(date) {
-  return equatorial_from_ecliptic_with_generic_date(sun_pos_ecliptic(date), date);
+function sun_pos_equatorial(dt) {
+  return equatorial_from_ecliptic_with_generic_datetime(sun_pos_ecliptic(dt), dt);
 }
 ;// CONCATENATED MODULE: ./src/sun/eot_from_gst.js
 /**
@@ -24554,10 +24640,102 @@ function eot_decimal_from_utc(utc) {
     day_excess
   };
 }
+;// CONCATENATED MODULE: ./src/sun/sun_pos_ecliptic_from_generic_date.js
+/**
+ * @module sowngwala/sun/sun_pos_ecliptic_from_generic_date
+ */
+
+
+
+/** @typedef {import('moment').Moment} Moment */
+
+/**
+ * @typedef EcliCoordContext
+ * @type {import('../coords/ecliptic.js').EcliCoordContext}
+ */
+
+/**
+ * Given a 'date' in UTC (for which
+ * '00:00:00' will automatically be set
+ * for time), and will return
+ * Ecliptic the position of the sun
+ * which consists of "latitude (β)"
+ * and "longitude (λ)".
+ * (Peter Duffett-Smith, p.91)
+ *
+ * See 'sun_pos_ecliptic' for that is
+ * where the actual calculation are
+ * to be carried out.
+ *
+ * Original:
+ * - sowngwalla::sun::ecliptic_position_of_the_sun_from_generic_date
+ *
+ * @public
+ * @function
+ * @see {@link: module:sowngwala/sun/sun_pos_ecliptic}
+ * @param {Moment} date - UTC date (w/o specific time)
+ * @returns {EcliCoordContext}
+ */
+function sun_pos_ecliptic_from_generic_date(date) {
+  var dt = date;
+  dt.set({
+    hour: 0,
+    minute: 0,
+    second: 0
+  });
+  return sun_pos_ecliptic(dt);
+}
+;// CONCATENATED MODULE: ./src/sun/sun_pos_equatorial_from_generic_date.js
+/**
+ * @module sowngwala/sun/sun_pos_equatorial_from_generic_date
+ */
+
+
+
+/** @typedef {import('moment').Moment} Moment */
+
+/**
+ * @typedef EquaCoordContext
+ * @type {import('../coords/equatorial.js').EquaCoordContext}
+ */
+
+/**
+ * Given a specific 'date' (for which
+ * '00:00:00' will automatically be set
+ * for time) in UTC, it will return
+ * the Equatorial position of the sun
+ * which consists of "right ascension
+ * (α)" and "declination (δ)".
+ * (Peter Duffett-Smith, p.91)
+ *
+ * See 'sun_pos_equatorial' for that is
+ * where the actual calculation are
+ * to be carried out.
+ *
+ * Original:
+ * - sonwgwalla::sun::equatorial_position_of_the_sun_from_generic_date
+ *
+ * @public
+ * @function
+ * @see {@link: module:sowngwala/sun.sun_pos_equatorial}
+ * @param {Moment} date - UTC date (w/o specific time)
+ * @returns {EquaCoordContext}
+ */
+function sun_pos_equatorial_from_generic_date(date) {
+  var dt = date;
+  dt.set({
+    hour: 0,
+    minute: 0,
+    second: 0
+  });
+  return sun_pos_equatorial(dt);
+}
 ;// CONCATENATED MODULE: ./src/sun/index.js
 /**
  * @module sowngwala/sun
  */
+
+
 
 
 
@@ -24822,4 +25000,4 @@ function moon_pos_equatorial(dt) {
 /******/ })()
 ;
 });
-//# sourceMappingURL=sowngwala-0.3.1.js.map
+//# sourceMappingURL=sowngwala-0.4.0.js.map

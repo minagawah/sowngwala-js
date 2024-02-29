@@ -39,15 +39,30 @@ Specify the date you want to check the Equatorial position of the sun, and the p
 
         <input type="text" id="month" value="7" />
 
-        <div id="date-label" class="label">
+        <div id="day-label" class="label">
           Date
         </div>
 
-        <input type="text" id="date" value="27" />
+        <input type="text" id="day" value="27" />
 
-        <div id="result-wrapper" class="px-5 py-2 text-3xl font-bold">
+        <div id="time-label" class="label">
+          Time
+        </div>
+
+        <div id="time-wrapper">
+          <input type="text" id="hour" value="0" />
+          <input type="text" id="min" value="0" />
+          <input type="text" id="sec" value="0" />
+        </div>
+
+        <div id="result-wrapper">
+          <div id="lng-label">(Ecliptic) [lng(λ)]</div>
           <div id="lng"></div>
+
+          <div id="asc-label">(Equatorial) [asc(α)]</div>
           <div id="asc"></div>
+
+          <div id="dec-label">(Equatorial) [dec(δ)]</div>
           <div id="dec"></div>
         </div>
       </div>

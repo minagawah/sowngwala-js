@@ -123,8 +123,8 @@ a:active {
   @apply gap-3;
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: 120px 1fr;
-  grid-template-rows: repeat(3, 2rem) 1fr;
+  grid-template-columns: 0.8fr 1fr;
+  grid-template-rows: repeat(4, 2rem) 1fr;
 }
 
 .label {
@@ -151,18 +151,81 @@ a:active {
   grid-row: 2 / 3;
 }
 
-#date-label {
+#day-label {
   grid-column: 1 / 2;
   grid-row: 3 / 4;
 }
 
-#date {
+#day {
   grid-column: 2 / -1;
   grid-row: 3 / 4;
 }
 
+#year, #month, #day {
+  width: 9rem;
+}
+
+#time-label {
+  grid-column: 1 / 2;
+  grid-row: 4 / 5;
+}
+
+#time-wrapper {
+  @apply flex flex-row justify-start items-center;
+  grid-column: 2 / -1;
+  grid-row: 4 / 5;
+}
+
+#hour, #min, #sec {
+  width: 2.5rem;
+  margin-right: 0.2rem;
+  text-align: center;
+}
+
 #result-wrapper {
-  @apply flex flex-col justify-start items-center;
+  @apply px-5 py-2 gap-3 text-xl;
   grid-column: 1 / -1;
-  grid-row: 4 / -1;
+  grid-row: 5 / -1;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+#lng-label {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+#lng {
+  grid-column: 2 / -1;
+  grid-row: 1 / 2;
+}
+
+#asc-label {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+}
+
+#asc {
+  grid-column: 2 / -1;
+  grid-row: 2 / 3;
+}
+
+#dec-label {
+  grid-column: 1 / 2;
+  grid-row: 3 / -1;
+}
+
+#dec {
+  grid-column: 2 / -1;
+  grid-row: 3 / -1;
+}
+
+#lng-label, #asc-label, #dec-label {
+  @apply font-bold;
+}
+
+#lng, #asc, #dec {
+  @apply text-2xl;
 }

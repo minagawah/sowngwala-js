@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: sowngwala/time/decimal_hours_from_naive_time</title>
+    <title>JSDoc: Module: sowngwala/coords/equatorial_from_ecliptic_with_generic_datetime</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -18,7 +18,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: sowngwala/time/decimal_hours_from_naive_time</h1>
+    <h1 class="page-title">Module: sowngwala/coords/equatorial_from_ecliptic_with_generic_datetime</h1>
 
     
 
@@ -102,7 +102,7 @@
     
 
     
-    <h4 class="name" id=".decimal_hours_from_naive_time"><span class="type-signature">(static) </span>decimal_hours_from_naive_time<span class="signature">(naive)</span><span class="type-signature"> &rarr; {<a href="module-sowngwala_time_decimal_hours_from_naive_time.html#~DecimalHours">module:sowngwala/time/decimal_hours_from_naive_time~DecimalHours</a>}</span></h4>
+    <h4 class="name" id=".equatorial_from_ecliptic_with_generic_datetime"><span class="type-signature">(static) </span>equatorial_from_ecliptic_with_generic_datetime<span class="signature">(coord, dt)</span><span class="type-signature"> &rarr; {EquaCoordContext}</span></h4>
     
 
     
@@ -110,15 +110,17 @@
 
 
 <div class="description">
-    Convert `NaiveTime` into
-decimal hours.
+    See 'equatorial_from_ecliptic' for
+it has the actual calculations.
+It will convert the Ecliptic
+coordinate position into that of
+the Equatorial.
+(Peter Duffett-Smith, pp.40-41)
 
-Original:
-- sowngwala::time::decimal_hours_from_naive_time
-
-Reference:
-- (Peter Duffett-Smith, p.10)
-- sowngwala::time::decimal_hours_from_time
+Note, also, just by giving
+a specific date, it calculates
+"obliquity (of the ecliptic) (ε)"
+for you.
 </div>
 
 
@@ -154,13 +156,36 @@ Reference:
 
         <tr>
             
-                <td class="name"><code>naive</code></td>
+                <td class="name"><code>coord</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">NaiveTimeContext</span>
+<span class="param-type">EcliCoordContext</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dt</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-sowngwala_coords_equatorial_from_ecliptic_with_generic_datetime.html#~Moment">module:sowngwala/coords/equatorial_from_ecliptic_with_generic_datetime~Moment</a></span>
 
 
             
@@ -213,6 +238,13 @@ Reference:
     
 
     
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>{@link: module:sowngwala/coords/equatorial_from_ecliptic}</li>
+        </ul>
+    </dd>
+    
 
     
 </dl>
@@ -242,7 +274,7 @@ Reference:
     </dt>
     <dd>
         
-<span class="param-type"><a href="module-sowngwala_time_decimal_hours_from_naive_time.html#~DecimalHours">module:sowngwala/time/decimal_hours_from_naive_time~DecimalHours</a></span>
+<span class="param-type">EquaCoordContext</span>
 
 
     </dd>
@@ -262,7 +294,7 @@ Reference:
 
         
                 
-<h4 class="name" id="~DecimalHours">DecimalHours</h4>
+<h4 class="name" id="~EcliCoordContext">EcliCoordContext</h4>
 
 
 
@@ -273,7 +305,7 @@ Reference:
     <ul>
         <li>
             
-<span class="param-type"><a href="module-sowngwala_time_decimal_hours_from_naive_time.html#~DecimalHours">module:sowngwala/time/decimal_hours_from_naive_time~DecimalHours</a></span>
+<span class="param-type">EcliCoordContext</span>
 
 
         </li>
@@ -325,7 +357,7 @@ Reference:
 
             
                 
-<h4 class="name" id="~NaiveTimeContext">NaiveTimeContext</h4>
+<h4 class="name" id="~EquaCoordContext">EquaCoordContext</h4>
 
 
 
@@ -336,7 +368,70 @@ Reference:
     <ul>
         <li>
             
-<span class="param-type">NaiveTimeContext</span>
+<span class="param-type">EquaCoordContext</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="~Moment">Moment</h4>
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">module:moment~module:sowngwala/coords/equatorial_from_ecliptic_with_generic_datetime~Moment</span>
 
 
         </li>

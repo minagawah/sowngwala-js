@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: sowngwala/time/decimal_hours_from_naive_time</title>
+    <title>JSDoc: Module: sowngwala/sun/sun_pos_ecliptic_from_generic_date</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -18,7 +18,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: sowngwala/time/decimal_hours_from_naive_time</h1>
+    <h1 class="page-title">Module: sowngwala/sun/sun_pos_ecliptic_from_generic_date</h1>
 
     
 
@@ -102,7 +102,7 @@
     
 
     
-    <h4 class="name" id=".decimal_hours_from_naive_time"><span class="type-signature">(static) </span>decimal_hours_from_naive_time<span class="signature">(naive)</span><span class="type-signature"> &rarr; {<a href="module-sowngwala_time_decimal_hours_from_naive_time.html#~DecimalHours">module:sowngwala/time/decimal_hours_from_naive_time~DecimalHours</a>}</span></h4>
+    <h4 class="name" id=".sun_pos_ecliptic_from_generic_date"><span class="type-signature">(static) </span>sun_pos_ecliptic_from_generic_date<span class="signature">(date)</span><span class="type-signature"> &rarr; {EcliCoordContext}</span></h4>
     
 
     
@@ -110,15 +110,20 @@
 
 
 <div class="description">
-    Convert `NaiveTime` into
-decimal hours.
+    Given a 'date' in UTC (for which
+'00:00:00' will automatically be set
+for time), and will return
+Ecliptic the position of the sun
+which consists of "latitude (β)"
+and "longitude (λ)".
+(Peter Duffett-Smith, p.91)
+
+See 'sun_pos_ecliptic' for that is
+where the actual calculation are
+to be carried out.
 
 Original:
-- sowngwala::time::decimal_hours_from_naive_time
-
-Reference:
-- (Peter Duffett-Smith, p.10)
-- sowngwala::time::decimal_hours_from_time
+- sowngwalla::sun::ecliptic_position_of_the_sun_from_generic_date
 </div>
 
 
@@ -154,13 +159,13 @@ Reference:
 
         <tr>
             
-                <td class="name"><code>naive</code></td>
+                <td class="name"><code>date</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">NaiveTimeContext</span>
+<span class="param-type"><a href="module-sowngwala_sun_sun_pos_ecliptic_from_generic_date.html#~Moment">module:sowngwala/sun/sun_pos_ecliptic_from_generic_date~Moment</a></span>
 
 
             
@@ -170,7 +175,7 @@ Reference:
 
             
 
-            <td class="description last"></td>
+            <td class="description last">UTC date (w/o specific time)</td>
         </tr>
 
     
@@ -213,6 +218,13 @@ Reference:
     
 
     
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>{@link: module:sowngwala/sun/sun_pos_ecliptic}</li>
+        </ul>
+    </dd>
+    
 
     
 </dl>
@@ -242,7 +254,7 @@ Reference:
     </dt>
     <dd>
         
-<span class="param-type"><a href="module-sowngwala_time_decimal_hours_from_naive_time.html#~DecimalHours">module:sowngwala/time/decimal_hours_from_naive_time~DecimalHours</a></span>
+<span class="param-type">EcliCoordContext</span>
 
 
     </dd>
@@ -262,7 +274,7 @@ Reference:
 
         
                 
-<h4 class="name" id="~DecimalHours">DecimalHours</h4>
+<h4 class="name" id="~EcliCoordContext">EcliCoordContext</h4>
 
 
 
@@ -273,7 +285,7 @@ Reference:
     <ul>
         <li>
             
-<span class="param-type"><a href="module-sowngwala_time_decimal_hours_from_naive_time.html#~DecimalHours">module:sowngwala/time/decimal_hours_from_naive_time~DecimalHours</a></span>
+<span class="param-type">EcliCoordContext</span>
 
 
         </li>
@@ -325,7 +337,7 @@ Reference:
 
             
                 
-<h4 class="name" id="~NaiveTimeContext">NaiveTimeContext</h4>
+<h4 class="name" id="~Moment">Moment</h4>
 
 
 
@@ -336,7 +348,7 @@ Reference:
     <ul>
         <li>
             
-<span class="param-type">NaiveTimeContext</span>
+<span class="param-type">module:moment~module:sowngwala/sun/sun_pos_ecliptic_from_generic_date~Moment</span>
 
 
         </li>

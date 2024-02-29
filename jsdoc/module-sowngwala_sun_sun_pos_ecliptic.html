@@ -102,7 +102,7 @@
     
 
     
-    <h4 class="name" id=".sun_pos_ecliptic"><span class="type-signature">(static) </span>sun_pos_ecliptic<span class="signature">(date)</span><span class="type-signature"> &rarr; {EcliCoordContext}</span></h4>
+    <h4 class="name" id=".sun_pos_ecliptic"><span class="type-signature">(static) </span>sun_pos_ecliptic<span class="signature">(dt)</span><span class="type-signature"> &rarr; {EcliCoordContext}</span></h4>
     
 
     
@@ -110,20 +110,16 @@
 
 
 <div class="description">
-    In terms of calculating the poistion
-of the sun, it is probably the zenith
-of Peter Duffett-Smith's book.
-The book describes how to calculate
-the position of the sun in 10 steps.
-
-Once found the position of the sun,
-it returns it in the Ecliptic
-coordinate position  which consists
-of "latitude (β)" and "longitude (λ)".
+    Given a specific 'dt' (datetime)
+in UTC, it will return the Ecliptic
+position of the sun which consists of
+"latitude (β)" and "longitude (λ)".
 (Peter Duffett-Smith, p.91)
 
-Original:
-- sowngwalla::sun::ecliptic_position_of_the_sun_from_generic_date
+The book describes how to calculate
+the position in 10 steps.
+(see comments bellow for which
+part corresponds to which step)
 </div>
 
 
@@ -159,7 +155,7 @@ Original:
 
         <tr>
             
-                <td class="name"><code>date</code></td>
+                <td class="name"><code>dt</code></td>
             
 
             <td class="type">
@@ -175,7 +171,7 @@ Original:
 
             
 
-            <td class="description last"></td>
+            <td class="description last">UTC datetime (for specific time as well)</td>
         </tr>
 
     
@@ -266,6 +262,132 @@ Original:
         <h3 class="subsection-title">Type Definitions</h3>
 
         
+                
+<h4 class="name" id="~DecimalDays">DecimalDays</h4>
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="global.html#DecimalDays">DecimalDays</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="~DecimalHours">DecimalHours</h4>
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><a href="global.html#DecimalHours">DecimalHours</a></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
                 
 <h4 class="name" id="~EcliCoordContext">EcliCoordContext</h4>
 
@@ -405,13 +527,13 @@ Original:
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-chrono.html">chrono</a></li><li><a href="module-chrono_naive_time.html">chrono/naive_time</a></li><li><a href="module-coords_angle.html">coords/angle</a></li><li><a href="module-sowngwala.html">sowngwala</a></li><li><a href="module-sowngwala_constants.html">sowngwala/constants</a></li><li><a href="module-sowngwala_coords.html">sowngwala/coords</a></li><li><a href="module-sowngwala_coords_ecliptic.html">sowngwala/coords/ecliptic</a></li><li><a href="module-sowngwala_coords_equatorial.html">sowngwala/coords/equatorial</a></li><li><a href="module-sowngwala_coords_equatorial_from_ecliptic.html">sowngwala/coords/equatorial_from_ecliptic</a></li><li><a href="module-sowngwala_coords_equatorial_from_ecliptic_with_generic_date.html">sowngwala/coords/equatorial_from_ecliptic_with_generic_date</a></li><li><a href="module-sowngwala_coords_find_kepler.html">sowngwala/coords/find_kepler</a></li><li><a href="module-sowngwala_coords_mean_obliquity_of_the_ecliptic.html">sowngwala/coords/mean_obliquity_of_the_ecliptic</a></li><li><a href="module-sowngwala_delta_t.html">sowngwala/delta_t</a></li><li><a href="module-sowngwala_moon.html">sowngwala/moon</a></li><li><a href="module-sowngwala_moon_moon_pos_ecliptic.html">sowngwala/moon/moon_pos_ecliptic</a></li><li><a href="module-sowngwala_moon_moon_pos_equatorial.html">sowngwala/moon/moon_pos_equatorial</a></li><li><a href="module-sowngwala_sun.html">sowngwala/sun</a></li><li><a href="module-sowngwala_sun_eot_decimal_from_utc.html">sowngwala/sun/eot_decimal_from_utc</a></li><li><a href="module-sowngwala_sun_eot_from_gst.html">sowngwala/sun/eot_from_gst</a></li><li><a href="module-sowngwala_sun_eot_from_utc.html">sowngwala/sun/eot_from_utc</a></li><li><a href="module-sowngwala_sun_sun_longitude_and_mean_anomaly.html">sowngwala/sun/sun_longitude_and_mean_anomaly</a></li><li><a href="module-sowngwala_sun_sun_pos_ecliptic.html">sowngwala/sun/sun_pos_ecliptic</a></li><li><a href="module-sowngwala_sun_sun_pos_equatorial.html">sowngwala/sun/sun_pos_equatorial</a></li><li><a href="module-sowngwala_time.html">sowngwala/time</a></li><li><a href="module-sowngwala_time_add_date.html">sowngwala/time/add_date</a></li><li><a href="module-sowngwala_time_angle_from_decimal_hours.html">sowngwala/time/angle_from_decimal_hours</a></li><li><a href="module-sowngwala_time_calibrate_hmsn.html">sowngwala/time/calibrate_hmsn</a></li><li><a href="module-sowngwala_time_day_number_from_generic_date.html">sowngwala/time/day_number_from_generic_date</a></li><li><a href="module-sowngwala_time_day_of_the_week.html">sowngwala/time/day_of_the_week</a></li><li><a href="module-sowngwala_time_decimal_days_from_generic_datetime.html">sowngwala/time/decimal_days_from_generic_datetime</a></li><li><a href="module-sowngwala_time_decimal_hours_from_angle.html">sowngwala/time/decimal_hours_from_angle</a></li><li><a href="module-sowngwala_time_decimal_hours_from_generic_time.html">sowngwala/time/decimal_hours_from_generic_time</a></li><li><a href="module-sowngwala_time_decimal_hours_from_hms.html">sowngwala/time/decimal_hours_from_hms</a></li><li><a href="module-sowngwala_time_decimal_hours_from_naive_time.html">sowngwala/time/decimal_hours_from_naive_time</a></li><li><a href="module-sowngwala_time_decimal_year_from_generic_date.html">sowngwala/time/decimal_year_from_generic_date</a></li><li><a href="module-sowngwala_time_gst_from_utc.html">sowngwala/time/gst_from_utc</a></li><li><a href="module-sowngwala_time_hms_from_decimal_hours.html">sowngwala/time/hms_from_decimal_hours</a></li><li><a href="module-sowngwala_time_is_julian_date.html">sowngwala/time/is_julian_date</a></li><li><a href="module-sowngwala_time_is_leap_year.html">sowngwala/time/is_leap_year</a></li><li><a href="module-sowngwala_time_julian_day.html">sowngwala/time/julian_day</a></li><li><a href="module-sowngwala_time_julian_day_from_generic_date.html">sowngwala/time/julian_day_from_generic_date</a></li><li><a href="module-sowngwala_time_julian_day_from_generic_datetime.html">sowngwala/time/julian_day_from_generic_datetime</a></li><li><a href="module-sowngwala_time_naive_from_julian_day.html">sowngwala/time/naive_from_julian_day</a></li><li><a href="module-sowngwala_time_naive_time_from_decimal_days.html">sowngwala/time/naive_time_from_decimal_days</a></li><li><a href="module-sowngwala_time_naive_time_from_decimal_hours.html">sowngwala/time/naive_time_from_decimal_hours</a></li><li><a href="module-sowngwala_time_naive_time_from_generic_datetime.html">sowngwala/time/naive_time_from_generic_datetime</a></li><li><a href="module-sowngwala_time_nano_from_second.html">sowngwala/time/nano_from_second</a></li><li><a href="module-sowngwala_time_utc_from_gst.html">sowngwala/time/utc_from_gst</a></li><li><a href="module-sowngwala_utils.html">sowngwala/utils</a></li></ul><h3>Global</h3><ul><li><a href="global.html#days_since_1990">days_since_1990</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-chrono.html">chrono</a></li><li><a href="module-chrono_naive_time.html">chrono/naive_time</a></li><li><a href="module-coords_angle.html">coords/angle</a></li><li><a href="module-sowngwala.html">sowngwala</a></li><li><a href="module-sowngwala_constants.html">sowngwala/constants</a></li><li><a href="module-sowngwala_coords.html">sowngwala/coords</a></li><li><a href="module-sowngwala_coords_ecliptic.html">sowngwala/coords/ecliptic</a></li><li><a href="module-sowngwala_coords_equatorial.html">sowngwala/coords/equatorial</a></li><li><a href="module-sowngwala_coords_equatorial_from_ecliptic_with_generic_date.html">sowngwala/coords/equatorial_from_ecliptic_with_generic_date</a></li><li><a href="module-sowngwala_coords_equatorial_from_ecliptic_with_generic_datetime.html">sowngwala/coords/equatorial_from_ecliptic_with_generic_datetime</a></li><li><a href="module-sowngwala_coords_equatorial_from_ecliptic_with_obliquity.html">sowngwala/coords/equatorial_from_ecliptic_with_obliquity</a></li><li><a href="module-sowngwala_coords_find_kepler.html">sowngwala/coords/find_kepler</a></li><li><a href="module-sowngwala_coords_mean_obliquity_of_the_ecliptic.html">sowngwala/coords/mean_obliquity_of_the_ecliptic</a></li><li><a href="module-sowngwala_delta_t.html">sowngwala/delta_t</a></li><li><a href="module-sowngwala_moon.html">sowngwala/moon</a></li><li><a href="module-sowngwala_moon_moon_pos_ecliptic.html">sowngwala/moon/moon_pos_ecliptic</a></li><li><a href="module-sowngwala_moon_moon_pos_equatorial.html">sowngwala/moon/moon_pos_equatorial</a></li><li><a href="module-sowngwala_sun.html">sowngwala/sun</a></li><li><a href="module-sowngwala_sun_eot_decimal_from_utc.html">sowngwala/sun/eot_decimal_from_utc</a></li><li><a href="module-sowngwala_sun_eot_from_gst.html">sowngwala/sun/eot_from_gst</a></li><li><a href="module-sowngwala_sun_eot_from_utc.html">sowngwala/sun/eot_from_utc</a></li><li><a href="module-sowngwala_sun_sun_longitude_and_mean_anomaly.html">sowngwala/sun/sun_longitude_and_mean_anomaly</a></li><li><a href="module-sowngwala_sun_sun_pos_ecliptic.html">sowngwala/sun/sun_pos_ecliptic</a></li><li><a href="module-sowngwala_sun_sun_pos_ecliptic_from_generic_date.html">sowngwala/sun/sun_pos_ecliptic_from_generic_date</a></li><li><a href="module-sowngwala_sun_sun_pos_equatorial.html">sowngwala/sun/sun_pos_equatorial</a></li><li><a href="module-sowngwala_sun_sun_pos_equatorial_from_generic_date.html">sowngwala/sun/sun_pos_equatorial_from_generic_date</a></li><li><a href="module-sowngwala_time.html">sowngwala/time</a></li><li><a href="module-sowngwala_time_add_date.html">sowngwala/time/add_date</a></li><li><a href="module-sowngwala_time_angle_from_decimal_hours.html">sowngwala/time/angle_from_decimal_hours</a></li><li><a href="module-sowngwala_time_calibrate_hmsn.html">sowngwala/time/calibrate_hmsn</a></li><li><a href="module-sowngwala_time_day_number_from_generic_date.html">sowngwala/time/day_number_from_generic_date</a></li><li><a href="module-sowngwala_time_day_of_the_week.html">sowngwala/time/day_of_the_week</a></li><li><a href="module-sowngwala_time_decimal_days_from_generic_datetime.html">sowngwala/time/decimal_days_from_generic_datetime</a></li><li><a href="module-sowngwala_time_decimal_hours_from_angle.html">sowngwala/time/decimal_hours_from_angle</a></li><li><a href="module-sowngwala_time_decimal_hours_from_generic_time.html">sowngwala/time/decimal_hours_from_generic_time</a></li><li><a href="module-sowngwala_time_decimal_hours_from_hms.html">sowngwala/time/decimal_hours_from_hms</a></li><li><a href="module-sowngwala_time_decimal_hours_from_naive_time.html">sowngwala/time/decimal_hours_from_naive_time</a></li><li><a href="module-sowngwala_time_decimal_year_from_generic_date.html">sowngwala/time/decimal_year_from_generic_date</a></li><li><a href="module-sowngwala_time_gst_from_utc.html">sowngwala/time/gst_from_utc</a></li><li><a href="module-sowngwala_time_hms_from_decimal_hours.html">sowngwala/time/hms_from_decimal_hours</a></li><li><a href="module-sowngwala_time_is_julian_date.html">sowngwala/time/is_julian_date</a></li><li><a href="module-sowngwala_time_is_leap_year.html">sowngwala/time/is_leap_year</a></li><li><a href="module-sowngwala_time_julian_day.html">sowngwala/time/julian_day</a></li><li><a href="module-sowngwala_time_julian_day_from_generic_date.html">sowngwala/time/julian_day_from_generic_date</a></li><li><a href="module-sowngwala_time_julian_day_from_generic_datetime.html">sowngwala/time/julian_day_from_generic_datetime</a></li><li><a href="module-sowngwala_time_naive_from_julian_day.html">sowngwala/time/naive_from_julian_day</a></li><li><a href="module-sowngwala_time_naive_time_from_decimal_days.html">sowngwala/time/naive_time_from_decimal_days</a></li><li><a href="module-sowngwala_time_naive_time_from_decimal_hours.html">sowngwala/time/naive_time_from_decimal_hours</a></li><li><a href="module-sowngwala_time_naive_time_from_generic_datetime.html">sowngwala/time/naive_time_from_generic_datetime</a></li><li><a href="module-sowngwala_time_nano_from_second.html">sowngwala/time/nano_from_second</a></li><li><a href="module-sowngwala_time_utc_from_gst.html">sowngwala/time/utc_from_gst</a></li><li><a href="module-sowngwala_utils.html">sowngwala/utils</a></li></ul><h3>Global</h3><ul><li><a href="global.html#days_since_1990">days_since_1990</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Feb 27 2024 21:34:54 GMT+0900 (Japan Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Feb 29 2024 21:02:39 GMT+0900 (Japan Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>

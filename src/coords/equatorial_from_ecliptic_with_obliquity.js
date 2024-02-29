@@ -1,5 +1,5 @@
 /**
- * @module sowngwala/coords/equatorial_from_ecliptic
+ * @module sowngwala/coords/equatorial_from_ecliptic_with_obliquity
  */
 
 import { to_degrees, to_radians } from '../utils';
@@ -44,7 +44,10 @@ import { EquaCoord } from '../coords';
  * @param {number} oblique - Obliquity of the ecliptic (ε) (in degrees)
  * @returns {EquaCoordContext}
  */
-export function equatorial_from_ecliptic(coord, oblique) {
+export function equatorial_from_ecliptic_with_obliquity(
+  coord,
+  oblique
+) {
   let oblique_cos = Math.cos(to_radians(oblique));
   let oblique_sin = Math.sin(to_radians(oblique));
 

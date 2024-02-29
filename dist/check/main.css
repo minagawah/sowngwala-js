@@ -575,6 +575,10 @@ video {
   justify-content: flex-end !important;
 }
 
+.gap-3 {
+  gap: 0.75rem !important;
+}
+
 .rounded {
   border-radius: 0.25rem !important;
 }
@@ -619,11 +623,6 @@ video {
 .py-5 {
   padding-top: 1.25rem !important;
   padding-bottom: 1.25rem !important;
-}
-
-.text-3xl {
-  font-size: 1.875rem !important;
-  line-height: 2.25rem !important;
 }
 
 .font-bold {
@@ -869,8 +868,8 @@ a:hover,
   gap: 0.75rem;
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: 120px 1fr;
-  grid-template-rows: repeat(3, 2rem) 1fr;
+  grid-template-columns: 0.8fr 1fr;
+  grid-template-rows: repeat(4, 2rem) 1fr;
 }
 
 .label {
@@ -900,21 +899,91 @@ a:hover,
   grid-row: 2 / 3;
 }
 
-#date-label {
+#day-label {
   grid-column: 1 / 2;
   grid-row: 3 / 4;
 }
 
-#date {
+#day {
   grid-column: 2 / -1;
   grid-row: 3 / 4;
 }
 
-#result-wrapper {
+#year, #month, #day {
+  width: 9rem;
+}
+
+#time-label {
+  grid-column: 1 / 2;
+  grid-row: 4 / 5;
+}
+
+#time-wrapper {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+  grid-column: 2 / -1;
+  grid-row: 4 / 5;
+}
+
+#hour, #min, #sec {
+  width: 2.5rem;
+  margin-right: 0.2rem;
+  text-align: center;
+}
+
+#result-wrapper {
+  gap: 0.75rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
   grid-column: 1 / -1;
-  grid-row: 4 / -1;
+  grid-row: 5 / -1;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+}
+
+#lng-label {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+#lng {
+  grid-column: 2 / -1;
+  grid-row: 1 / 2;
+}
+
+#asc-label {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+}
+
+#asc {
+  grid-column: 2 / -1;
+  grid-row: 2 / 3;
+}
+
+#dec-label {
+  grid-column: 1 / 2;
+  grid-row: 3 / -1;
+}
+
+#dec {
+  grid-column: 2 / -1;
+  grid-row: 3 / -1;
+}
+
+#lng-label, #asc-label, #dec-label {
+  font-weight: 700;
+}
+
+#lng, #asc, #dec {
+  font-size: 1.5rem;
+  line-height: 2rem;
 }

@@ -1,13 +1,13 @@
 {
   "name": "sowngwala-js",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "private": false,
-  "description": "JS library for calculating the position of the sun.",
-  "main": "dist/sowngwala.lib.js",
+  "description": "JS library for calculating the sun & moon's position.",
+  "main": "dist/sowngwala-$npm_package_version.js",
   "types": "types/index.d.ts",
   "exports": {
-    "import": "dist/sowngwala.lib.js",
-    "require": "dist/sowngwala.lib.cjs"
+    "import": "dist/sowngwala-$npm_package_version.js",
+    "require": "dist/sowngwala-$npm_package_version.cjs"
   },
   "scripts": {
     "eslint": "eslint --ext js \"{src,src.check}/**/*.js\"",
@@ -29,7 +29,9 @@
   },
   "repository": "https://github.com/minagawah/sowngwala-js.git",
   "keywords": [
-    "Sun's Position",
+    "Sun",
+    "Moon",
+    "Position",
     "Astrology",
     "Astronomy"
   ],

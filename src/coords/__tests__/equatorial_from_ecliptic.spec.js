@@ -1,7 +1,7 @@
 const { decimal_hours_from_hms } = require('../../time');
 const {
   EcliCoord,
-  equatorial_from_ecliptic,
+  equatorial_from_ecliptic_with_obliquity,
 } = require('../index');
 
 describe('A test suite for: coords/equatorial_from_ecliptic', () => {
@@ -20,7 +20,7 @@ describe('A test suite for: coords/equatorial_from_ecliptic', () => {
       lng: lng_0_dec,
     });
 
-    const coord = equatorial_from_ecliptic(
+    const coord = equatorial_from_ecliptic_with_obliquity(
       coord_0,
       oblique
     );

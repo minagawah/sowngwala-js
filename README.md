@@ -31,10 +31,10 @@ the most popular demands would probably be the following 2:
 
 Whichever you wish to pursue, the program offers the corresponding 2 methods:
 
-- (Equatorial)  
+- (Equatorial/Horizon)  
 [sun_pos_equatorial](src/sun/sun_pos_equatorial.js)
   - Usually for "Observation"
-  - You want the sun's position in [Equatorial](src/coords/equatorial.js) coordinate system, so that you would get "right ascension (α)" and "declination (δ)" for the given time and space.
+  - You want the sun's position in [Equatorial](src/coords/equatorial.js) coordinate system, so that you would get "right ascension (α)" and "declination (δ)" for the given time and space. Having Equatorial position means that it does not take the location of the observer into consideration, and you may probably want to later convert Equatorial into *Horizon* coordinate which is more relevant to the actual observation. But, that's another story.
 - (Ecliptic)  
 [sun_pos_ecliptic](src/sun/sun_pos_ecliptic.js)
   - Usually for "Astrology"
@@ -78,6 +78,12 @@ window.addEventListener('load', () => {
 
   console.log('asc:', asc_hms); // 8°26'4.0
   console.log('dec:', dec_hms); // 19°12'42.5
+
+  // Usually, you may want to convert
+  // the position which is Equatorial
+  // to that of Horizontal because
+  // that is more relevant when
+  // observing the sky.
 });
 </script>
 </body>
@@ -199,9 +205,9 @@ the Equatorial position of the sun.
 
 Next up, we have **Step 2** which is to find days since January 0th of 1990. This is the epoch date that his book supposes to base his calculations on, and is calculated with [days_since_1990](src/time/days_since_1990.js).
 
-From **Step 3** to **Step 10** is covered by [longitude_and_mean_anomaly](src/sun/longitude_and_mean_anomaly.js). As the name suggests, it takes the number of days since 1900, and will return (1) `lng` ("λ" or "Sun's longitude"), and (2) `mean_anom` ("M" or "Mean Anomaly") for the date.
+From **Step 3** to **Step 10** is covered by [sun_longitude_and_mean_anomaly](src/sun/sun_longitude_and_mean_anomaly.js). As the name suggests, it takes the number of days since 1900, and will return (1) `lng` ("λ" or "Sun's longitude"), and (2) `mean_anom` ("M" or "Mean Anomaly") for the date.
 
-While Duffet-Smith's **Step 3** to **Step 10** are covered within [longitude_and_mean_anomaly](src/sun/longitude_and_mean_anomaly.js), **Step 6** is covered by [find_kepler](src/sun/find_kepler.js) which itself consists of a recursive function for finding "Mean anomaly (M)" and "Eccentric anomaly (E)" using Kepler's equation.
+An additional note for **Step 3** to **Step 10** where **Step 6** is covered by [find_kepler](src/sun/find_kepler.js) which itself consists of a recursive function for finding "Mean anomaly (M)" and "Eccentric anomaly (E)" using Kepler's equation.
 
 ## 5. Installed NPM Packages
 
@@ -298,6 +304,12 @@ npm install --save-dev @babel/cli @babel/core \
 
 ## 6. History
 
+- 0.4.0
+  - Renamed `coords/equatorial_from_ecliptic` to `coords/equatorial_from_ecliptic_with_obliquity`.
+  - Added `coords/equatorial_from_ecliptic_with_generic_datetime`
+  - Added `sun/sun_pos_ecliptic_from_generic_date`
+  - Added `sun/sun_pos_equatorial_from_generic_date`
+  - Fixed `sun/sun_pos_ecliptic` to take time into consideration (it only took date before but not for specific time).
 - 0.3.1
   - Removed unnecessary log output
   - Fixed the checker app, making it worthy.
