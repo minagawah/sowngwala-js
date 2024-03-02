@@ -15,19 +15,19 @@ import { sun_longitude_and_mean_anomaly } from './sun_longitude_and_mean_anomaly
 
 /** @typedef {import('moment').Moment} Moment */
 
-/**
- * @typedef DecimalDays
- * @type {import('../types.js').DecimalDays}
- */
-
-/**
- * @typedef DecimalHours
- * @type {import('../types.js').DecimalHours}
- */
+/** @typedef {import('../types.js').DecimalDays} DecimalDays */
+/** @typedef {import('../types.js').DecimalHours} DecimalHours */
 
 /**
  * @typedef EcliCoordContext
  * @type {import('../coords/ecliptic.js').EcliCoordContext}
+ */
+
+/**
+ * @typedef SunPosEclipticReturned
+ * @type {Object}
+ * @property {EcliCoordContext} coord - Ecliptic position of the Sun
+ * @property {number} _mean_anom - (optional) Mean anomaly (M) (in degrees)
  */
 
 /**
@@ -45,7 +45,7 @@ import { sun_longitude_and_mean_anomaly } from './sun_longitude_and_mean_anomaly
  * @public
  * @function
  * @param {Moment} dt - UTC datetime (for specific time as well)
- * @returns {EcliCoordContext}
+ * @returns {SunPosEclipticReturned}
  */
 export function sun_pos_ecliptic(dt) {
   // [Step 1] (in his book, p.91)
@@ -92,7 +92,8 @@ export function sun_pos_ecliptic(dt) {
   // since 1990, find out "sun's
   // longitude (λ)" and "mean
   // anomaly (M)".
-  let { lng } = sun_longitude_and_mean_anomaly(days);
+  let { lng: _lng, mean_anom: _mean_anom } =
+    sun_longitude_and_mean_anomaly(days);
 
   // Sun's "latitude (β)" in Ecliptic
   // will always become 0.0 because
@@ -100,5 +101,10 @@ export function sun_pos_ecliptic(dt) {
   // what Ecliptic coordinate system.
   // This is explained in Peter
   // Duffett-Smith, p.85.
-  return EcliCoord({ lat: 0.0, lng });
+  const coord = EcliCoord({ lat: 0.0, lng: _lng });
+
+  return {
+    coord,
+    _mean_anom,
+  };
 }

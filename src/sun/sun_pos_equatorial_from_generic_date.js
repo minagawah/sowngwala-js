@@ -7,8 +7,8 @@ import { sun_pos_equatorial } from './sun_pos_equatorial';
 /** @typedef {import('moment').Moment} Moment */
 
 /**
- * @typedef EquaCoordContext
- * @type {import('../coords/equatorial.js').EquaCoordContext}
+ * @typedef SunPosEquatorialFromGenericDateReturned
+ * @type {import('./sun_pos_equatorial.js').SunPosEquatorialReturned}
  */
 
 /**
@@ -31,7 +31,7 @@ import { sun_pos_equatorial } from './sun_pos_equatorial';
  * @function
  * @see {@link: module:sowngwala/sun.sun_pos_equatorial}
  * @param {Moment} date - UTC date (w/o specific time)
- * @returns {EquaCoordContext}
+ * @returns {SunPosEquatorialFromGenericDateReturned}
  */
 export function sun_pos_equatorial_from_generic_date(date) {
   const dt = date;

@@ -7,8 +7,8 @@ import { sun_pos_ecliptic } from './sun_pos_ecliptic';
 /** @typedef {import('moment').Moment} Moment */
 
 /**
- * @typedef EcliCoordContext
- * @type {import('../coords/ecliptic.js').EcliCoordContext}
+ * @typedef SunPosEclipticFromGenericDateReturned
+ * @type {import('./sun_pos_ecliptic').SunPosEclipticReturned}
  */
 
 /**
@@ -31,7 +31,7 @@ import { sun_pos_ecliptic } from './sun_pos_ecliptic';
  * @function
  * @see {@link: module:sowngwala/sun/sun_pos_ecliptic}
  * @param {Moment} date - UTC date (w/o specific time)
- * @returns {EcliCoordContext}
+ * @returns {SunPosEclipticFromGenericDateReturned}
  */
 export function sun_pos_ecliptic_from_generic_date(date) {
   const dt = date;

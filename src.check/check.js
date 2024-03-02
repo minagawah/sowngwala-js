@@ -6,30 +6,41 @@
 import moment from 'moment';
 import { debounce } from './utils';
 
-const ELEM_KEYS = [
+const INPUT_ELEM_KEYS = [
   'year',
   'month',
   'day',
   'hour',
   'min',
   'sec',
+  'lat',
+  'lat-bound',
   'lng',
-  'asc',
-  'dec',
+  'lng-bound',
 ];
 
-const INPUT_ELEM_KEYS = ELEM_KEYS.filter(
-  key => key !== 'lng' && key !== 'asc' && key !== 'dec'
-);
+const ELEM_KEYS = [
+  ...INPUT_ELEM_KEYS,
+  'ecliptic-lng',
+  'mean-anom',
+  'obliquity',
+  'asc',
+  'dec',
+  'azimuth',
+  'altitude',
+];
 
-const ROUND_DIGITS = 1000;
+const ROUND_DIGITS = 10000;
 
 const el = {};
 
 const onchange = debounce(event_handler, 1000);
 
-let equatorial_from_ecliptic_with_generic_datetime;
-let sun_pos_ecliptic;
+let GeoCoord;
+let Longitude;
+let Latitude;
+let sun_pos_equatorial;
+let horizontal_from_equatorial;
 
 export const start = () => {
   if (typeof Sowngwala === 'undefined')
@@ -49,9 +60,14 @@ export const start = () => {
   });
 
   if (ok) {
-    ({ equatorial_from_ecliptic_with_generic_datetime } =
-      Sowngwala.coords);
-    ({ sun_pos_ecliptic } = Sowngwala.sun);
+    ({
+      Longitude,
+      Latitude,
+      GeoCoord,
+      horizontal_from_equatorial,
+    } = Sowngwala.coords);
+
+    ({ sun_pos_equatorial } = Sowngwala.sun);
 
     INPUT_ELEM_KEYS.forEach(key => {
       el[key].addEventListener('input', onchange);
@@ -64,18 +80,8 @@ export const start = () => {
 
 function event_handler() {
   try {
-    let ok = 1;
-
-    const vals = INPUT_ELEM_KEYS.reduce((acc, key) => {
-      let val = el[key].value || 0;
-      if (!val) {
-        ok *= 0;
-      }
-      acc[key] = val;
-      return acc;
-    }, {});
-
-    if (!ok) return;
+    const vals = get_values();
+    if (!vals) return;
 
     const utc = moment(
       Date.UTC(
@@ -88,30 +94,53 @@ function event_handler() {
       )
     ).utc();
 
-    // console.log('utc:', utc);
-
-    const coord = sun_pos_ecliptic(utc);
+    const {
+      // Equatorial
+      coord: equa_coord,
+      // Ecliptic
+      _ecliptic: ecli_coord,
+      // Mean anomaly (M)
+      _mean_anom,
+      // Mean obliquity of the ecliptic (ε)
+      _obliquity,
+    } = sun_pos_equatorial(utc);
 
     // Ecliptic "longitude (λ)"
-    const { lng } = coord;
+    const ecliptic_lng = ecli_coord.lng;
 
-    const coord2 =
-      equatorial_from_ecliptic_with_generic_datetime(
-        { lat: 0.0, lng },
-        utc
-      );
+    // "right ascension (α)" (in the Equatorial)
+    const asc = equa_coord.asc;
 
-    // Equatorial "right ascension (α)"
-    const asc = coord2.asc;
+    // "declination (δ)" (in the Equatorial)
+    const dec = equa_coord.dec;
 
-    // Equatorial "declination (δ)"
-    const dec = coord2.dec;
+    const geo_coord = GeoCoord({
+      lat: Latitude({
+        degrees: vals.lat,
+        bound: vals['lat-bound'],
+      }),
+      lng: Longitude({
+        degrees: vals.lng,
+        bound: vals['lng-bound'],
+      }),
+    });
 
-    // console.log('asc:', asc);
-    // console.log('dec:', dec);
+    const {
+      coord: {
+        // Azimuth (A)
+        azimuth,
+        // Altitude (α)
+        altitude,
+      },
+    } = horizontal_from_equatorial(
+      utc,
+      equa_coord,
+      geo_coord
+    );
 
-    const lng_fixed =
-      Math.round(lng * ROUND_DIGITS) / ROUND_DIGITS;
+    const ecliptic_lng_fixed =
+      Math.round(ecliptic_lng * ROUND_DIGITS) /
+      ROUND_DIGITS;
 
     const asc_fixed =
       Math.round(asc.second() * ROUND_DIGITS) /
@@ -121,13 +150,37 @@ function event_handler() {
       Math.round(dec.second() * ROUND_DIGITS) /
       ROUND_DIGITS;
 
-    console.log('asc.sec:', asc.second());
-    console.log('dec.sec:', dec.second());
+    const azimuth_fixed =
+      Math.round(azimuth.second() * ROUND_DIGITS) /
+      ROUND_DIGITS;
 
-    el.lng.innerHTML = `${lng_fixed}°`;
-    el.asc.innerHTML = `${asc.hour()}°${asc.minute()}'${asc_fixed}"`;
-    el.dec.innerHTML = `${dec.hour()}°${dec.minute()}'${dec_fixed}"`;
+    const altitude_fixed =
+      Math.round(altitude.second() * ROUND_DIGITS) /
+      ROUND_DIGITS;
+
+    el['ecliptic-lng'].innerHTML = `${ecliptic_lng_fixed}°`;
+    el['mean-anom'].innerHTML = `${_mean_anom}°`;
+    el.obliquity.innerHTML = `${_obliquity}`;
+    el.asc.innerHTML = `${asc.hour()}°${asc.minute()}'${asc_fixed}`;
+    el.dec.innerHTML = `${dec.hour()}°${dec.minute()}'${dec_fixed}`;
+    el.azimuth.innerHTML = `${azimuth.hour()}°${azimuth.minute()}'${azimuth_fixed}`;
+    el.altitude.innerHTML = `${altitude.hour()}°${altitude.minute()}'${altitude_fixed}`;
   } catch (err) {
     console.warn(err);
   }
+}
+
+function get_values() {
+  let ok = 1;
+
+  const vals = INPUT_ELEM_KEYS.reduce((acc, key) => {
+    let val = el[key].value || 0;
+    if (!val) {
+      ok *= 0;
+    }
+    acc[key] = val;
+    return acc;
+  }, {});
+
+  return ok ? vals : null;
 }

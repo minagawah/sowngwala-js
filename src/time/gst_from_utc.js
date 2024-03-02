@@ -59,7 +59,9 @@ export function gst_from_utc(utc) {
     2_400.051_336 * t +
     0.000_025_862 * t * t;
 
-  ({ quotient: t0 } = overflow(t0, 24.0));
+  // mosaikekkan
+  // ({ quotient: t0 } = overflow(t0, 24.0));
+  ({ remainder: t0 } = overflow(t0, 24.0));
 
   let naive_time = naive_time_from_generic_datetime(utc);
 
@@ -67,7 +69,9 @@ export function gst_from_utc(utc) {
   decimal *= 1.002_737_909;
   decimal += t0;
 
-  ({ quotient: decimal } = overflow(decimal, 24.0));
+  // mosaikekkan
+  // ({ quotient: decimal } = overflow(decimal, 24.0));
+  ({ remainder: decimal } = overflow(decimal, 24.0));
 
   return naive_time_from_decimal_hours(decimal);
 }

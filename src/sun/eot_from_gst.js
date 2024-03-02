@@ -70,8 +70,7 @@ export function eot_from_gst(gst) {
   // pass 'gst' to the next.
   let date = gst;
 
-  /** @type {EquaCoordContext} */
-  let coord = sun_pos_equatorial(date);
+  let { coord } = sun_pos_equatorial(date);
 
   /**
    * 'asc' in 'EquaCoord' is 'Angle'

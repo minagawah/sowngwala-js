@@ -22,7 +22,7 @@
       </div>
 
       <div id="description" class="mt-5">
-Specify the date you want to check the Equatorial position of the sun, and the program will calculate <span class="strong">right ascension (α)</span> and <span class="strong">declination (δ)</span> for you.
+        Date and time are for calculating the <span class="strong">Ecliptic</span>, <span class="strong">Equatorial</span>, and <span class="strong">Horizontal</span> position of the sun. Latitude and Longitude are used for converting the Equatorial into the Horizontal.
       </div>
 
       <!-- BEGIN: form -->
@@ -40,7 +40,7 @@ Specify the date you want to check the Equatorial position of the sun, and the p
         <input type="text" id="month" value="7" />
 
         <div id="day-label" class="label">
-          Date
+          Day
         </div>
 
         <input type="text" id="day" value="27" />
@@ -55,18 +55,74 @@ Specify the date you want to check the Equatorial position of the sun, and the p
           <input type="text" id="sec" value="0" />
         </div>
 
-        <div id="result-wrapper">
-          <div id="lng-label">(Ecliptic) [lng(λ)]</div>
-          <div id="lng"></div>
+        <div id="location-label" class="label">
+          Lat/Lng
+        </div>
 
-          <div id="asc-label">(Equatorial) [asc(α)]</div>
-          <div id="asc"></div>
-
-          <div id="dec-label">(Equatorial) [dec(δ)]</div>
-          <div id="dec"></div>
+        <div id="location-wrapper">
+          <input type="text" id="lat" value="35.67" />
+          <select id="lat-bound">
+            <option value="N" selected="selected">N</option>
+            <option value="S">S</option>
+          </select>
+          <input type="text" id="lng" value="139.65" />
+          <select id="lng-bound">
+            <option value="E" selected="selected">E</option>
+            <option value="W">W</option>
+          </select>
         </div>
       </div>
       <!-- END OF: form -->
+
+      <div id="result-wrapper">
+        <div class="result-inner-wrapper result-subtitle">
+          Ecliptic
+        </div>
+
+        <div class="result-inner-wrapper">
+          <div class="result-label">Sun's Longitude (λ)</div>
+          <div id="ecliptic-lng" class="result-value"></div>
+        </div>
+
+        <div class="result-inner-wrapper">
+          <div class="result-label">Mean anomaly (M)</div>
+          <div id="mean-anom" class="result-value"></div>
+        </div>
+
+        <div class="result-inner-wrapper">
+          <div class="result-label">Mean Obliquity (ε)</div>
+          <div id="obliquity" class="result-value"></div>
+        </div>
+
+        <div class="result-inner-wrapper result-subtitle">
+          Equatorial
+        </div>
+
+        <div class="result-inner-wrapper">
+          <div class="result-label">Right Ascension (α)</div>
+          <div id="asc" class="result-value"></div>
+        </div>
+
+        <div class="result-inner-wrapper">
+          <div class="result-label">Declination (δ)</div>
+          <div id="dec" class="result-value"></div>
+        </div>
+
+        <div class="result-inner-wrapper result-subtitle">
+          Horizontal
+        </div>
+
+        <div class="result-inner-wrapper">
+          <div class="result-label">Azimuth (A)</div>
+          <div id="azimuth" class="result-value"></div>
+        </div>
+
+        <div class="result-inner-wrapper">
+          <div class="result-label">Altitude (α)</div>
+          <div id="altitude" class="result-value"></div>
+        </div>
+      </div>
+      <!-- END OF: result-wrapper -->
 
     </div>
     <!-- END OF: container -->
@@ -74,7 +130,7 @@ Specify the date you want to check the Equatorial position of the sun, and the p
   </div>
   <!-- END OF: generic-wrapper -->
 
-<script defer src="https://tokyo800.jp/mina/sowngwala-0.4.0.js"></script>
+<script defer src="https://tokyo800.jp/mina/sowngwala-0.5.0.js"></script>
 
 <script type="text/javascript">
 window.addEventListener('load', () => {

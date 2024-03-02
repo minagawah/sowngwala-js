@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Module: sowngwala/coords/horizontal_from_equatorial_with_hour_angle</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+    <link type="text/css" rel="stylesheet" href="styles/custom.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Module: sowngwala/coords/horizontal_from_equatorial_with_hour_angle</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".horizontal_from_equatorial_with_hour_angle"><span class="type-signature">(static) </span>horizontal_from_equatorial_with_hour_angle<span class="signature">(hour_angle, dec, lat)</span><span class="type-signature"> &rarr; {HorizontalFromEquatorialWithHourAngleReturned}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Given the hour angle (H) (which is
+calculated from "right ascension
+(α)" of Equatorial), declination (δ)
+of Equatorial, and Observer's
+latitude, returns "azimuth (A)"
+and "altitude (α)".
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>hour_angle</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">AngleContext</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">"hour_angle" (H) (calculated from "right ascension (α)" of Equatorial).</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dec</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">AngleContext</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">"declination (δ)" of Equatorial.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>lat</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">LatitudeContext</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Observer's latitude</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">HorizontalFromEquatorialWithHourAngleReturned</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+<h4 class="name" id="~AngleContext">AngleContext</h4>
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">AngleContext</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="~HorizonCoordContext">HorizonCoordContext</h4>
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">HorizonCoordContext</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="~HorizontalFromEquatorialWithHourAngleReturned">HorizontalFromEquatorialWithHourAngleReturned</h4>
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>coord</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HorizonCoordContext</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Horizon coordinate position</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="~LatitudeContext">LatitudeContext</h4>
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">LatitudeContext</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+                
+<h4 class="name" id="~Moment">Moment</h4>
+
+
+
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">module:moment~module:sowngwala/coords/horizontal_from_equatorial_with_hour_angle~Moment</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+            
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-chrono.html">chrono</a></li><li><a href="module-chrono_naive_time.html">chrono/naive_time</a></li><li><a href="module-coords_angle.html">coords/angle</a></li><li><a href="module-sowngwala.html">sowngwala</a></li><li><a href="module-sowngwala_constants.html">sowngwala/constants</a></li><li><a href="module-sowngwala_coords.html">sowngwala/coords</a></li><li><a href="module-sowngwala_coords_ecliptic.html">sowngwala/coords/ecliptic</a></li><li><a href="module-sowngwala_coords_equatorial.html">sowngwala/coords/equatorial</a></li><li><a href="module-sowngwala_coords_equatorial_from_ecliptic_with_generic_date.html">sowngwala/coords/equatorial_from_ecliptic_with_generic_date</a></li><li><a href="module-sowngwala_coords_equatorial_from_ecliptic_with_generic_datetime.html">sowngwala/coords/equatorial_from_ecliptic_with_generic_datetime</a></li><li><a href="module-sowngwala_coords_equatorial_from_ecliptic_with_obliquity.html">sowngwala/coords/equatorial_from_ecliptic_with_obliquity</a></li><li><a href="module-sowngwala_coords_find_kepler.html">sowngwala/coords/find_kepler</a></li><li><a href="module-sowngwala_coords_geo.html">sowngwala/coords/geo</a></li><li><a href="module-sowngwala_coords_horizontal.html">sowngwala/coords/horizontal</a></li><li><a href="module-sowngwala_coords_horizontal_from_equatorial.html">sowngwala/coords/horizontal_from_equatorial</a></li><li><a href="module-sowngwala_coords_horizontal_from_equatorial_with_hour_angle.html">sowngwala/coords/horizontal_from_equatorial_with_hour_angle</a></li><li><a href="module-sowngwala_coords_mean_obliquity_of_the_ecliptic.html">sowngwala/coords/mean_obliquity_of_the_ecliptic</a></li><li><a href="module-sowngwala_delta_t.html">sowngwala/delta_t</a></li><li><a href="module-sowngwala_moon.html">sowngwala/moon</a></li><li><a href="module-sowngwala_moon_moon_pos_ecliptic.html">sowngwala/moon/moon_pos_ecliptic</a></li><li><a href="module-sowngwala_moon_moon_pos_equatorial.html">sowngwala/moon/moon_pos_equatorial</a></li><li><a href="module-sowngwala_sun.html">sowngwala/sun</a></li><li><a href="module-sowngwala_sun_eot_decimal_from_utc.html">sowngwala/sun/eot_decimal_from_utc</a></li><li><a href="module-sowngwala_sun_eot_from_gst.html">sowngwala/sun/eot_from_gst</a></li><li><a href="module-sowngwala_sun_eot_from_utc.html">sowngwala/sun/eot_from_utc</a></li><li><a href="module-sowngwala_sun_sun_longitude_and_mean_anomaly.html">sowngwala/sun/sun_longitude_and_mean_anomaly</a></li><li><a href="module-sowngwala_sun_sun_pos_ecliptic.html">sowngwala/sun/sun_pos_ecliptic</a></li><li><a href="module-sowngwala_sun_sun_pos_ecliptic_from_generic_date.html">sowngwala/sun/sun_pos_ecliptic_from_generic_date</a></li><li><a href="module-sowngwala_sun_sun_pos_equatorial.html">sowngwala/sun/sun_pos_equatorial</a></li><li><a href="module-sowngwala_sun_sun_pos_equatorial_from_generic_date.html">sowngwala/sun/sun_pos_equatorial_from_generic_date</a></li><li><a href="module-sowngwala_time.html">sowngwala/time</a></li><li><a href="module-sowngwala_time_add_date.html">sowngwala/time/add_date</a></li><li><a href="module-sowngwala_time_angle_from_decimal_hours.html">sowngwala/time/angle_from_decimal_hours</a></li><li><a href="module-sowngwala_time_asc_from_hour_angle.html">sowngwala/time/asc_from_hour_angle</a></li><li><a href="module-sowngwala_time_calibrate_hmsn.html">sowngwala/time/calibrate_hmsn</a></li><li><a href="module-sowngwala_time_day_number_from_generic_date.html">sowngwala/time/day_number_from_generic_date</a></li><li><a href="module-sowngwala_time_day_of_the_week.html">sowngwala/time/day_of_the_week</a></li><li><a href="module-sowngwala_time_decimal_days_from_generic_datetime.html">sowngwala/time/decimal_days_from_generic_datetime</a></li><li><a href="module-sowngwala_time_decimal_hours_from_angle.html">sowngwala/time/decimal_hours_from_angle</a></li><li><a href="module-sowngwala_time_decimal_hours_from_generic_time.html">sowngwala/time/decimal_hours_from_generic_time</a></li><li><a href="module-sowngwala_time_decimal_hours_from_hms.html">sowngwala/time/decimal_hours_from_hms</a></li><li><a href="module-sowngwala_time_decimal_hours_from_naive_time.html">sowngwala/time/decimal_hours_from_naive_time</a></li><li><a href="module-sowngwala_time_decimal_year_from_generic_date.html">sowngwala/time/decimal_year_from_generic_date</a></li><li><a href="module-sowngwala_time_gst_from_local.html">sowngwala/time/gst_from_local</a></li><li><a href="module-sowngwala_time_gst_from_utc.html">sowngwala/time/gst_from_utc</a></li><li><a href="module-sowngwala_time_hms_from_decimal_hours.html">sowngwala/time/hms_from_decimal_hours</a></li><li><a href="module-sowngwala_time_hour_angle_from_asc.html">sowngwala/time/hour_angle_from_asc</a></li><li><a href="module-sowngwala_time_is_julian_date.html">sowngwala/time/is_julian_date</a></li><li><a href="module-sowngwala_time_is_leap_year.html">sowngwala/time/is_leap_year</a></li><li><a href="module-sowngwala_time_julian_day.html">sowngwala/time/julian_day</a></li><li><a href="module-sowngwala_time_julian_day_from_generic_date.html">sowngwala/time/julian_day_from_generic_date</a></li><li><a href="module-sowngwala_time_julian_day_from_generic_datetime.html">sowngwala/time/julian_day_from_generic_datetime</a></li><li><a href="module-sowngwala_time_local_from_gst.html">sowngwala/time/local_from_gst</a></li><li><a href="module-sowngwala_time_naive_from_julian_day.html">sowngwala/time/naive_from_julian_day</a></li><li><a href="module-sowngwala_time_naive_time_from_decimal_days.html">sowngwala/time/naive_time_from_decimal_days</a></li><li><a href="module-sowngwala_time_naive_time_from_decimal_hours.html">sowngwala/time/naive_time_from_decimal_hours</a></li><li><a href="module-sowngwala_time_naive_time_from_generic_datetime.html">sowngwala/time/naive_time_from_generic_datetime</a></li><li><a href="module-sowngwala_time_nano_from_second.html">sowngwala/time/nano_from_second</a></li><li><a href="module-sowngwala_time_utc_from_gst.html">sowngwala/time/utc_from_gst</a></li><li><a href="module-sowngwala_utils.html">sowngwala/utils</a></li></ul><h3>Global</h3><ul><li><a href="global.html#days_since_1990">days_since_1990</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sun Mar 03 2024 12:08:37 GMT+0900 (Japan Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

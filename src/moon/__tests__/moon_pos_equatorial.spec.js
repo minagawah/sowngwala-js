@@ -2,7 +2,7 @@ const moment = require('moment');
 
 const { moon_pos_equatorial } = require('../index');
 
-describe('A test suite for: sun/moon_pos_equatorial', () => {
+describe('A test suite for: moon/moon_pos_equatorial', () => {
   test('moon_pos_equatorial', () => {
     const utc = moment(
       Date.UTC(1979, 2 - 1, 26, 16, 0, 0)

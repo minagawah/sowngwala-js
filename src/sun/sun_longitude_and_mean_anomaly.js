@@ -12,7 +12,7 @@ import { to_radians, to_degrees } from '../utils';
 import { find_kepler } from '../coords/find_kepler';
 
 /**
- * @typedef LngMeanAnomalyReturned
+ * @typedef SunLngMeanAnomalyReturned
  * @type {Object}
  * @property {number} lng - Sun's longitude (λ)
  * @property {number} mean_anom - Mean anomaly (M) (in degrees)
@@ -44,7 +44,7 @@ import { find_kepler } from '../coords/find_kepler';
  * @see {@link: module:sowngwala/sun.sun_pos_ecliptic}
  * @see {@link: module:sowngwala/sun.sun_pos_equatorial}
  * @param {number} days
- * @returns {LngMeanAnomalyReturned}
+ * @returns {SunLngMeanAnomalyReturned}
  */
 export function sun_longitude_and_mean_anomaly(days) {
   // [Step 3] (in his book, p.91)

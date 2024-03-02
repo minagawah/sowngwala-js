@@ -104,40 +104,5 @@ export function calibrate_hmsn({
   hour = remainder;
   day_excess = quotient;
 
-  // Say, we had -1.0 for
-  // 'sec' which is invalid
-  // for 'sec'. So, we want
-  // to decrease 'min' by 1,
-  // and will now have 59
-  // for 'sec'.
-  //
-  // Say, we had 0°0'-1" for
-  // an angle. Again, -1 is
-  // invalid for 'sec'.
-  // For this, we would return
-  // -1 for 'day_access' and
-  // the new angle will now
-  // become 23°59'59".
-
-  if (nano < 0.0) {
-    nano += 1_000_000_000.0;
-    sec -= 1.0;
-  }
-
-  if (sec < 0.0) {
-    sec += 60.0;
-    min -= 1.0;
-  }
-
-  if (min < 0.0) {
-    min += 60.0;
-    hour -= 1.0;
-  }
-
-  if (hour < 0.0) {
-    hour += hour_limit;
-    day_excess -= 1.0;
-  }
-
   return { hmsn: { hour, min, sec, nano }, day_excess };
 }

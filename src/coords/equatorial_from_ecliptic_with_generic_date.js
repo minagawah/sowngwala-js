@@ -7,13 +7,13 @@ import { equatorial_from_ecliptic_with_generic_datetime } from './equatorial_fro
 /** @typedef {import('moment').Moment} Moment */
 
 /**
- * @typedef EquaCoordContext
- * @type {import('./equatorial.js').EquaCoordContext}
+ * @typedef EcliCoordContext
+ * @type {import('./ecliptic.js').EcliCoordContext}
  */
 
 /**
- * @typedef EcliCoordContext
- * @type {import('./ecliptic.js').EcliCoordContext}
+ * @typedef EquatorialFromEclipticWithGenericDateReturned
+ * @type {import('./equatorial_from_ecliptic_with_generic_datetime.js').EquatorialFromEclipticWithGenericDateTimeReturned}
  */
 
 /**
@@ -26,7 +26,7 @@ import { equatorial_from_ecliptic_with_generic_datetime } from './equatorial_fro
  * @see {@link: module:sowngwala/coords/equatorial_from_ecliptic_with_generic_datetime}
  * @param {EcliCoordContext} coord
  * @param {Moment} date
- * @returns {EquaCoordContext}
+ * @returns {EquatorialFromEclipticWithGenericDateReturned}
  */
 export function equatorial_from_ecliptic_with_generic_date(
   coord,

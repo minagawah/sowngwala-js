@@ -21652,10 +21652,16 @@ __webpack_require__.d(coords_namespaceObject, {
   Angle: () => (Angle),
   EcliCoord: () => (EcliCoord),
   EquaCoord: () => (EquaCoord),
+  GeoCoord: () => (GeoCoord),
+  HorizonCoord: () => (HorizonCoord),
+  Latitude: () => (Latitude),
+  Longitude: () => (Longitude),
   equatorial_from_ecliptic_with_generic_date: () => (equatorial_from_ecliptic_with_generic_date),
   equatorial_from_ecliptic_with_generic_datetime: () => (equatorial_from_ecliptic_with_generic_datetime),
   equatorial_from_ecliptic_with_obliquity: () => (equatorial_from_ecliptic_with_obliquity),
   find_kepler: () => (find_kepler),
+  horizontal_from_equatorial: () => (horizontal_from_equatorial),
+  horizontal_from_equatorial_with_hour_angle: () => (horizontal_from_equatorial_with_hour_angle),
   mean_obliquity_of_the_ecliptic: () => (mean_obliquity_of_the_ecliptic)
 });
 
@@ -21665,6 +21671,7 @@ __webpack_require__.r(time_namespaceObject);
 __webpack_require__.d(time_namespaceObject, {
   add_date: () => (add_date),
   angle_from_decimal_hours: () => (angle_from_decimal_hours),
+  asc_from_hour_angle: () => (asc_from_hour_angle),
   calibrate_hmsn: () => (calibrate_hmsn),
   day_number_from_generic_date: () => (day_number_from_generic_date),
   day_of_the_week: () => (day_of_the_week),
@@ -21675,13 +21682,16 @@ __webpack_require__.d(time_namespaceObject, {
   decimal_hours_from_hms: () => (decimal_hours_from_hms),
   decimal_hours_from_naive_time: () => (decimal_hours_from_naive_time),
   decimal_year_from_generic_date: () => (decimal_year_from_generic_date),
+  gst_from_local: () => (gst_from_local),
   gst_from_utc: () => (gst_from_utc),
   hms_from_decimal_hours: () => (hms_from_decimal_hours),
+  hour_angle_from_asc: () => (hour_angle_from_asc),
   is_julian_date: () => (is_julian_date),
   is_leap_year: () => (is_leap_year),
   julian_day: () => (julian_day),
   julian_day_from_generic_date: () => (julian_day_from_generic_date),
   julian_day_from_generic_datetime: () => (julian_day_from_generic_datetime),
+  local_from_gst: () => (local_from_gst),
   naive_from_julian_day: () => (naive_from_julian_day),
   naive_time_from_decimal_days: () => (naive_time_from_decimal_days),
   naive_time_from_decimal_hours: () => (naive_time_from_decimal_hours),
@@ -21965,10 +21975,581 @@ function _from_hms(h, m, s) {
     return _day_excess;
   }
 }
+;// CONCATENATED MODULE: ./node_modules/ramda/es/internal/_isPlaceholder.js
+function _isPlaceholder(a) {
+  return a != null && typeof a === 'object' && a['@@functional/placeholder'] === true;
+}
+;// CONCATENATED MODULE: ./node_modules/ramda/es/internal/_curry1.js
+
+/**
+ * Optimized internal one-arity curry function.
+ *
+ * @private
+ * @category Function
+ * @param {Function} fn The function to curry.
+ * @return {Function} The curried function.
+ */
+
+function _curry1(fn) {
+  return function f1(a) {
+    if (arguments.length === 0 || _isPlaceholder(a)) {
+      return f1;
+    } else {
+      return fn.apply(this, arguments);
+    }
+  };
+}
+;// CONCATENATED MODULE: ./node_modules/ramda/es/internal/_has.js
+function _has(prop, obj) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+;// CONCATENATED MODULE: ./node_modules/ramda/es/internal/_isArguments.js
+
+var _isArguments_toString = Object.prototype.toString;
+
+var _isArguments =
+/*#__PURE__*/
+function () {
+  return _isArguments_toString.call(arguments) === '[object Arguments]' ? function _isArguments(x) {
+    return _isArguments_toString.call(x) === '[object Arguments]';
+  } : function _isArguments(x) {
+    return _has('callee', x);
+  };
+}();
+
+/* harmony default export */ const internal_isArguments = (_isArguments);
+;// CONCATENATED MODULE: ./node_modules/ramda/es/internal/_isArray.js
+/**
+ * Tests whether or not an object is an array.
+ *
+ * @private
+ * @param {*} val The object to test.
+ * @return {Boolean} `true` if `val` is an array, `false` otherwise.
+ * @example
+ *
+ *      _isArray([]); //=> true
+ *      _isArray(null); //=> false
+ *      _isArray({}); //=> false
+ */
+/* harmony default export */ const _isArray = (Array.isArray || function _isArray(val) {
+  return val != null && val.length >= 0 && Object.prototype.toString.call(val) === '[object Array]';
+});
+;// CONCATENATED MODULE: ./node_modules/ramda/es/internal/_isObject.js
+function _isObject(x) {
+  return Object.prototype.toString.call(x) === '[object Object]';
+}
+;// CONCATENATED MODULE: ./node_modules/ramda/es/internal/_isString.js
+function _isString(x) {
+  return Object.prototype.toString.call(x) === '[object String]';
+}
+;// CONCATENATED MODULE: ./node_modules/ramda/es/internal/_isTypedArray.js
+/**
+ * Tests whether or not an object is a typed array.
+ *
+ * @private
+ * @param {*} val The object to test.
+ * @return {Boolean} `true` if `val` is a typed array, `false` otherwise.
+ * @example
+ *
+ *      _isTypedArray(new Uint8Array([])); //=> true
+ *      _isTypedArray(new Float32Array([])); //=> true
+ *      _isTypedArray([]); //=> false
+ *      _isTypedArray(null); //=> false
+ *      _isTypedArray({}); //=> false
+ */
+function _isTypedArray(val) {
+  var type = Object.prototype.toString.call(val);
+  return type === '[object Uint8ClampedArray]' || type === '[object Int8Array]' || type === '[object Uint8Array]' || type === '[object Int16Array]' || type === '[object Uint16Array]' || type === '[object Int32Array]' || type === '[object Uint32Array]' || type === '[object Float32Array]' || type === '[object Float64Array]' || type === '[object BigInt64Array]' || type === '[object BigUint64Array]';
+}
+;// CONCATENATED MODULE: ./node_modules/ramda/es/empty.js
+
+
+
+
+
+
+/**
+ * Returns the empty value of its argument's type. Ramda defines the empty
+ * value of Array (`[]`), Object (`{}`), String (`''`),
+ * TypedArray (`Uint8Array []`, `Float32Array []`, etc), and Arguments. Other
+ * types are supported if they define `<Type>.empty`,
+ * `<Type>.prototype.empty` or implement the
+ * [FantasyLand Monoid spec](https://github.com/fantasyland/fantasy-land#monoid).
+ *
+ * Dispatches to the `empty` method of the first argument, if present.
+ *
+ * @func
+ * @memberOf R
+ * @since v0.3.0
+ * @category Function
+ * @sig a -> a
+ * @param {*} x
+ * @return {*}
+ * @example
+ *
+ *      R.empty(Just(42));               //=> Nothing()
+ *      R.empty([1, 2, 3]);              //=> []
+ *      R.empty('unicorns');             //=> ''
+ *      R.empty({x: 1, y: 2});           //=> {}
+ *      R.empty(Uint8Array.from('123')); //=> Uint8Array []
+ */
+
+var empty =
+/*#__PURE__*/
+_curry1(function empty(x) {
+  return x != null && typeof x['fantasy-land/empty'] === 'function' ? x['fantasy-land/empty']() : x != null && x.constructor != null && typeof x.constructor['fantasy-land/empty'] === 'function' ? x.constructor['fantasy-land/empty']() : x != null && typeof x.empty === 'function' ? x.empty() : x != null && x.constructor != null && typeof x.constructor.empty === 'function' ? x.constructor.empty() : _isArray(x) ? [] : _isString(x) ? '' : _isObject(x) ? {} : internal_isArguments(x) ? function () {
+    return arguments;
+  }() : _isTypedArray(x) ? x.constructor.from('') : void 0 // else
+  ;
+});
+
+/* harmony default export */ const es_empty = (empty);
+;// CONCATENATED MODULE: ./node_modules/ramda/es/internal/_curry2.js
+
+
+/**
+ * Optimized internal two-arity curry function.
+ *
+ * @private
+ * @category Function
+ * @param {Function} fn The function to curry.
+ * @return {Function} The curried function.
+ */
+
+function _curry2(fn) {
+  return function f2(a, b) {
+    switch (arguments.length) {
+      case 0:
+        return f2;
+
+      case 1:
+        return _isPlaceholder(a) ? f2 : _curry1(function (_b) {
+          return fn(a, _b);
+        });
+
+      default:
+        return _isPlaceholder(a) && _isPlaceholder(b) ? f2 : _isPlaceholder(a) ? _curry1(function (_a) {
+          return fn(_a, b);
+        }) : _isPlaceholder(b) ? _curry1(function (_b) {
+          return fn(a, _b);
+        }) : fn(a, b);
+    }
+  };
+}
+;// CONCATENATED MODULE: ./node_modules/ramda/es/internal/_arrayFromIterator.js
+function _arrayFromIterator(iter) {
+  var list = [];
+  var next;
+
+  while (!(next = iter.next()).done) {
+    list.push(next.value);
+  }
+
+  return list;
+}
+;// CONCATENATED MODULE: ./node_modules/ramda/es/internal/_includesWith.js
+function _includesWith(pred, x, list) {
+  var idx = 0;
+  var len = list.length;
+
+  while (idx < len) {
+    if (pred(x, list[idx])) {
+      return true;
+    }
+
+    idx += 1;
+  }
+
+  return false;
+}
+;// CONCATENATED MODULE: ./node_modules/ramda/es/internal/_functionName.js
+function _functionName(f) {
+  // String(x => x) evaluates to "x => x", so the pattern may not match.
+  var match = String(f).match(/^function (\w*)/);
+  return match == null ? '' : match[1];
+}
+;// CONCATENATED MODULE: ./node_modules/ramda/es/internal/_objectIs.js
+// Based on https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
+function _objectIs(a, b) {
+  // SameValue algorithm
+  if (a === b) {
+    // Steps 1-5, 7-10
+    // Steps 6.b-6.e: +0 != -0
+    return a !== 0 || 1 / a === 1 / b;
+  } else {
+    // Step 6.a: NaN == NaN
+    return a !== a && b !== b;
+  }
+}
+
+/* harmony default export */ const internal_objectIs = (typeof Object.is === 'function' ? Object.is : _objectIs);
+;// CONCATENATED MODULE: ./node_modules/ramda/es/keys.js
+
+
+ // cover IE < 9 keys issues
+
+var hasEnumBug = !
+/*#__PURE__*/
+{
+  toString: null
+}.propertyIsEnumerable('toString');
+var nonEnumerableProps = ['constructor', 'valueOf', 'isPrototypeOf', 'toString', 'propertyIsEnumerable', 'hasOwnProperty', 'toLocaleString']; // Safari bug
+
+var hasArgsEnumBug =
+/*#__PURE__*/
+function () {
+  'use strict';
+
+  return arguments.propertyIsEnumerable('length');
+}();
+
+var contains = function contains(list, item) {
+  var idx = 0;
+
+  while (idx < list.length) {
+    if (list[idx] === item) {
+      return true;
+    }
+
+    idx += 1;
+  }
+
+  return false;
+};
+/**
+ * Returns a list containing the names of all the enumerable own properties of
+ * the supplied object.
+ * Note that the order of the output array is not guaranteed to be consistent
+ * across different JS platforms.
+ *
+ * @func
+ * @memberOf R
+ * @since v0.1.0
+ * @category Object
+ * @sig {k: v} -> [k]
+ * @param {Object} obj The object to extract properties from
+ * @return {Array} An array of the object's own properties.
+ * @see R.keysIn, R.values, R.toPairs
+ * @example
+ *
+ *      R.keys({a: 1, b: 2, c: 3}); //=> ['a', 'b', 'c']
+ */
+
+
+var keys = typeof Object.keys === 'function' && !hasArgsEnumBug ?
+/*#__PURE__*/
+_curry1(function keys(obj) {
+  return Object(obj) !== obj ? [] : Object.keys(obj);
+}) :
+/*#__PURE__*/
+_curry1(function keys(obj) {
+  if (Object(obj) !== obj) {
+    return [];
+  }
+
+  var prop, nIdx;
+  var ks = [];
+
+  var checkArgsLength = hasArgsEnumBug && internal_isArguments(obj);
+
+  for (prop in obj) {
+    if (_has(prop, obj) && (!checkArgsLength || prop !== 'length')) {
+      ks[ks.length] = prop;
+    }
+  }
+
+  if (hasEnumBug) {
+    nIdx = nonEnumerableProps.length - 1;
+
+    while (nIdx >= 0) {
+      prop = nonEnumerableProps[nIdx];
+
+      if (_has(prop, obj) && !contains(ks, prop)) {
+        ks[ks.length] = prop;
+      }
+
+      nIdx -= 1;
+    }
+  }
+
+  return ks;
+});
+/* harmony default export */ const es_keys = (keys);
+;// CONCATENATED MODULE: ./node_modules/ramda/es/type.js
+
+/**
+ * Gives a single-word string description of the (native) type of a value,
+ * returning such answers as 'Object', 'Number', 'Array', or 'Null'. Does not
+ * attempt to distinguish user Object types any further, reporting them all as
+ * 'Object'.
+ *
+ * @func
+ * @memberOf R
+ * @since v0.8.0
+ * @category Type
+ * @sig * -> String
+ * @param {*} val The value to test
+ * @return {String}
+ * @example
+ *
+ *      R.type({}); //=> "Object"
+ *      R.type(1); //=> "Number"
+ *      R.type(false); //=> "Boolean"
+ *      R.type('s'); //=> "String"
+ *      R.type(null); //=> "Null"
+ *      R.type([]); //=> "Array"
+ *      R.type(/[A-z]/); //=> "RegExp"
+ *      R.type(() => {}); //=> "Function"
+ *      R.type(async () => {}); //=> "AsyncFunction"
+ *      R.type(undefined); //=> "Undefined"
+ */
+
+var type =
+/*#__PURE__*/
+_curry1(function type(val) {
+  return val === null ? 'Null' : val === undefined ? 'Undefined' : Object.prototype.toString.call(val).slice(8, -1);
+});
+
+/* harmony default export */ const es_type = (type);
+;// CONCATENATED MODULE: ./node_modules/ramda/es/internal/_equals.js
+
+
+
+
+
+
+
+/**
+ * private _uniqContentEquals function.
+ * That function is checking equality of 2 iterator contents with 2 assumptions
+ * - iterators lengths are the same
+ * - iterators values are unique
+ *
+ * false-positive result will be returned for comparison of, e.g.
+ * - [1,2,3] and [1,2,3,4]
+ * - [1,1,1] and [1,2,3]
+ * */
+
+function _uniqContentEquals(aIterator, bIterator, stackA, stackB) {
+  var a = _arrayFromIterator(aIterator);
+
+  var b = _arrayFromIterator(bIterator);
+
+  function eq(_a, _b) {
+    return _equals(_a, _b, stackA.slice(), stackB.slice());
+  } // if *a* array contains any element that is not included in *b*
+
+
+  return !_includesWith(function (b, aItem) {
+    return !_includesWith(eq, aItem, b);
+  }, b, a);
+}
+
+function _equals(a, b, stackA, stackB) {
+  if (internal_objectIs(a, b)) {
+    return true;
+  }
+
+  var typeA = es_type(a);
+
+  if (typeA !== es_type(b)) {
+    return false;
+  }
+
+  if (typeof a['fantasy-land/equals'] === 'function' || typeof b['fantasy-land/equals'] === 'function') {
+    return typeof a['fantasy-land/equals'] === 'function' && a['fantasy-land/equals'](b) && typeof b['fantasy-land/equals'] === 'function' && b['fantasy-land/equals'](a);
+  }
+
+  if (typeof a.equals === 'function' || typeof b.equals === 'function') {
+    return typeof a.equals === 'function' && a.equals(b) && typeof b.equals === 'function' && b.equals(a);
+  }
+
+  switch (typeA) {
+    case 'Arguments':
+    case 'Array':
+    case 'Object':
+      if (typeof a.constructor === 'function' && _functionName(a.constructor) === 'Promise') {
+        return a === b;
+      }
+
+      break;
+
+    case 'Boolean':
+    case 'Number':
+    case 'String':
+      if (!(typeof a === typeof b && internal_objectIs(a.valueOf(), b.valueOf()))) {
+        return false;
+      }
+
+      break;
+
+    case 'Date':
+      if (!internal_objectIs(a.valueOf(), b.valueOf())) {
+        return false;
+      }
+
+      break;
+
+    case 'Error':
+      return a.name === b.name && a.message === b.message;
+
+    case 'RegExp':
+      if (!(a.source === b.source && a.global === b.global && a.ignoreCase === b.ignoreCase && a.multiline === b.multiline && a.sticky === b.sticky && a.unicode === b.unicode)) {
+        return false;
+      }
+
+      break;
+  }
+
+  var idx = stackA.length - 1;
+
+  while (idx >= 0) {
+    if (stackA[idx] === a) {
+      return stackB[idx] === b;
+    }
+
+    idx -= 1;
+  }
+
+  switch (typeA) {
+    case 'Map':
+      if (a.size !== b.size) {
+        return false;
+      }
+
+      return _uniqContentEquals(a.entries(), b.entries(), stackA.concat([a]), stackB.concat([b]));
+
+    case 'Set':
+      if (a.size !== b.size) {
+        return false;
+      }
+
+      return _uniqContentEquals(a.values(), b.values(), stackA.concat([a]), stackB.concat([b]));
+
+    case 'Arguments':
+    case 'Array':
+    case 'Object':
+    case 'Boolean':
+    case 'Number':
+    case 'String':
+    case 'Date':
+    case 'Error':
+    case 'RegExp':
+    case 'Int8Array':
+    case 'Uint8Array':
+    case 'Uint8ClampedArray':
+    case 'Int16Array':
+    case 'Uint16Array':
+    case 'Int32Array':
+    case 'Uint32Array':
+    case 'Float32Array':
+    case 'Float64Array':
+    case 'ArrayBuffer':
+      break;
+
+    default:
+      // Values of other types are only equal if identical.
+      return false;
+  }
+
+  var keysA = es_keys(a);
+
+  if (keysA.length !== es_keys(b).length) {
+    return false;
+  }
+
+  var extendedStackA = stackA.concat([a]);
+  var extendedStackB = stackB.concat([b]);
+  idx = keysA.length - 1;
+
+  while (idx >= 0) {
+    var key = keysA[idx];
+
+    if (!(_has(key, b) && _equals(b[key], a[key], extendedStackA, extendedStackB))) {
+      return false;
+    }
+
+    idx -= 1;
+  }
+
+  return true;
+}
+;// CONCATENATED MODULE: ./node_modules/ramda/es/equals.js
+
+
+/**
+ * Returns `true` if its arguments are equivalent, `false` otherwise. Handles
+ * cyclical data structures.
+ *
+ * Dispatches symmetrically to the `equals` methods of both arguments, if
+ * present.
+ *
+ * @func
+ * @memberOf R
+ * @since v0.15.0
+ * @category Relation
+ * @sig a -> b -> Boolean
+ * @param {*} a
+ * @param {*} b
+ * @return {Boolean}
+ * @example
+ *
+ *      R.equals(1, 1); //=> true
+ *      R.equals(1, '1'); //=> false
+ *      R.equals([1, 2, 3], [1, 2, 3]); //=> true
+ *
+ *      const a = {}; a.v = a;
+ *      const b = {}; b.v = b;
+ *      R.equals(a, b); //=> true
+ */
+
+var equals =
+/*#__PURE__*/
+_curry2(function equals(a, b) {
+  return _equals(a, b, [], []);
+});
+
+/* harmony default export */ const es_equals = (equals);
+;// CONCATENATED MODULE: ./node_modules/ramda/es/isEmpty.js
+
+
+
+/**
+ * Returns `true` if the given value is its type's empty value; `false`
+ * otherwise.
+ *
+ * @func
+ * @memberOf R
+ * @since v0.1.0
+ * @category Logic
+ * @sig a -> Boolean
+ * @param {*} x
+ * @return {Boolean}
+ * @see R.empty
+ * @example
+ *
+ *      R.isEmpty([1, 2, 3]);           //=> false
+ *      R.isEmpty([]);                  //=> true
+ *      R.isEmpty('');                  //=> true
+ *      R.isEmpty(null);                //=> false
+ *      R.isEmpty({});                  //=> true
+ *      R.isEmpty({length: 0});         //=> false
+ *      R.isEmpty(Uint8Array.from('')); //=> true
+ */
+
+var isEmpty =
+/*#__PURE__*/
+_curry1(function isEmpty(x) {
+  return x != null && es_equals(x, es_empty(x));
+});
+
+/* harmony default export */ const es_isEmpty = (isEmpty);
 ;// CONCATENATED MODULE: ./src/coords/ecliptic.js
 /**
  * @module sowngwala/coords/ecliptic
  */
+
+
 
 /**
  * An object returned when calling
@@ -21980,13 +22561,14 @@ function _from_hms(h, m, s) {
  *
  * @typedef EcliCoordContext
  * @type {Object}
- * @property {number} lat - latitude (β)
- * @property {number} lng - longitude (λ)
+ * @property {number} lat - latitude (β) (in degrees)
+ * @property {number} lng - longitude (λ) (in degrees)
  */
 
 /**
  * @public
  * @function
+ * @throw {Error}
  * @param {Object} args
  * @param {number} args.lat
  * @param {number} args.lng
@@ -21997,6 +22579,8 @@ var EcliCoord = _ref => {
     lat,
     lng
   } = _ref;
+  if (es_isEmpty(lat)) throw new Error("No 'lat'");
+  if (es_isEmpty(lng)) throw new Error("No 'lng'");
   return {
     lat,
     lng
@@ -22006,6 +22590,8 @@ var EcliCoord = _ref => {
 /**
  * @module sowngwala/coords/equatorial
  */
+
+
 
 /**
  * @typedef AngleContext
@@ -22029,6 +22615,7 @@ var EcliCoord = _ref => {
 /**
  * @public
  * @function
+ * @throw {Error}
  * @param {Object} args
  * @param {AngleContext} args.asc - right ascension (α)
  * @param {AngleContext} args.dec - declination (δ)
@@ -22039,6 +22626,8 @@ var EquaCoord = _ref => {
     asc,
     dec
   } = _ref;
+  if (es_isEmpty(asc)) throw new Error("No 'asc'");
+  if (es_isEmpty(dec)) throw new Error("No 'dec'");
   return {
     asc,
     dec
@@ -22089,6 +22678,26 @@ function overflow(value, base) {
   var remainder = value % base;
   var divisible = value - remainder;
   var quotient = divisible / base;
+
+  // Say, we had -1.0 for
+  // 'sec' which is invalid
+  // for 'sec'. So, we want
+  // to decrease 'min' by 1,
+  // and will now have 59
+  // for 'sec'.
+  //
+  // Say, we had 0°0'-1" for
+  // an angle. Again, -1 is
+  // invalid for 'sec'.
+  // For this, we would return
+  // -1 for 'day_access' and
+  // the new angle will now
+  // become 23°59'59".
+
+  if (remainder < 0.0) {
+    remainder += base;
+    quotient -= 1;
+  }
   remainder = unsigned_zero(remainder);
   quotient = unsigned_zero(quotient);
   return {
@@ -22210,25 +22819,29 @@ var make_logger = function make_logger(mod, func) {
  */
 
 /**
+ * It will onvert Ecliptic coordinate
+ * position into the Equatorial
+ * coordinate position.
  * For the first argument, it takes
- * the ecliptic coordinate position
+ * the Ecliptic coordinate position
  * which consists of "latitude (β)"
- * and "longitude (λ)". For the second
- * argument, it takes "the obliquity
- * of the ecliptic (ε)".
- * The function aims to carry out
- * the conversion, and will return
- * the Equatorial coordinate position
- * which consists of "right ascension
+ * and "longitude (λ)".
+ * For the second argument, it takes
+ * "the obliquity of the ecliptic (ε)".
+ * The returned Equatorial position
+ * will consist of "right ascension
  * (α)" and "declination (δ)".
  * (Peter Duffett-Smith, pp.40-41)
  *
- * Generally, you should better use
+ * In general, you may want to rather
+ * use
  * 'equatorial_from_ecliptic_with_generic_date'
- * because you usually don't know the
- * "obliquity (ε)" for  date, but
+ * because you don't normally know
+ * "obliquity (ε)" for the given date.
+ * On the other hand,
  * 'equatorial_from_ecliptic_with_generic_date'
- * will calculate it for you.
+ * will calculate  "obliquity (ε)"
+ * for you.
  *
  * @public
  * @function
@@ -22317,39 +22930,48 @@ function mean_obliquity_of_the_ecliptic(dt) {
 /** @typedef {import('moment').Moment} Moment */
 
 /**
- * @typedef EquaCoordContext
- * @type {import('./equatorial.js').EquaCoordContext}
- */
-
-/**
  * @typedef EcliCoordContext
  * @type {import('./ecliptic.js').EcliCoordContext}
  */
 
 /**
+ * @typedef EquaCoordContext
+ * @type {import('./equatorial.js').EquaCoordContext}
+ */
+
+/**
+ * @typedef EquatorialFromEclipticWithGenericDateTimeReturned
+ * @type {Object}
+ * @property {EquaCoordContext} coord - Equatorial position of the sun
+ * @property {number} _obliquity - (optional) Mean obliquity of the ecliptic (ε)
+ */
+
+/**
+ * Converts the Ecliptic coordinate
+ * position into that of the Equatorial.
  * See 'equatorial_from_ecliptic' for
- * it has the actual calculations.
- * It will convert the Ecliptic
- * coordinate position into that of
- * the Equatorial.
+ * actual calculations.
  * (Peter Duffett-Smith, pp.40-41)
  *
- * Note, also, just by giving
- * a specific date, it calculates
- * "obliquity (of the ecliptic) (ε)"
- * for you.
+ * Also, notice how it automatically
+ * calculates for "obliquity of the
+ * ecliptic (ε)" from the given date.
  *
  * @public
  * @function
  * @see {@link: module:sowngwala/coords/equatorial_from_ecliptic}
  * @param {EcliCoordContext} coord
  * @param {Moment} dt
- * @returns {EquaCoordContext}
+ * @returns {EquatorialFromEclipticWithGenericDateTimeReturned}
  */
 function equatorial_from_ecliptic_with_generic_datetime(coord, dt) {
   // This is in degrees, not radians.
-  var oblique = mean_obliquity_of_the_ecliptic(dt);
-  return equatorial_from_ecliptic_with_obliquity(coord, oblique);
+  var _obliquity = mean_obliquity_of_the_ecliptic(dt);
+  var equatorial = equatorial_from_ecliptic_with_obliquity(coord, _obliquity);
+  return {
+    coord: equatorial,
+    _obliquity
+  };
 }
 ;// CONCATENATED MODULE: ./src/coords/equatorial_from_ecliptic_with_generic_date.js
 /**
@@ -22361,13 +22983,13 @@ function equatorial_from_ecliptic_with_generic_datetime(coord, dt) {
 /** @typedef {import('moment').Moment} Moment */
 
 /**
- * @typedef EquaCoordContext
- * @type {import('./equatorial.js').EquaCoordContext}
+ * @typedef EcliCoordContext
+ * @type {import('./ecliptic.js').EcliCoordContext}
  */
 
 /**
- * @typedef EcliCoordContext
- * @type {import('./ecliptic.js').EcliCoordContext}
+ * @typedef EquatorialFromEclipticWithGenericDateReturned
+ * @type {import('./equatorial_from_ecliptic_with_generic_datetime.js').EquatorialFromEclipticWithGenericDateTimeReturned}
  */
 
 /**
@@ -22380,7 +23002,7 @@ function equatorial_from_ecliptic_with_generic_datetime(coord, dt) {
  * @see {@link: module:sowngwala/coords/equatorial_from_ecliptic_with_generic_datetime}
  * @param {EcliCoordContext} coord
  * @param {Moment} date
- * @returns {EquaCoordContext}
+ * @returns {EquatorialFromEclipticWithGenericDateReturned}
  */
 function equatorial_from_ecliptic_with_generic_date(coord, date) {
   var dt = date;
@@ -22457,10 +23079,334 @@ function _kepler_aux(mean_anom, ecc, counter) {
   }
   return ecc;
 }
+;// CONCATENATED MODULE: ./src/coords/geo.js
+/**
+ * @module sowngwala/coords/geo
+ */
+
+
+
+/**
+ * @typedef AngleContext
+ * @type {import('./angle.js').AngleContext}
+ */
+
+/** @typedef {'N' | 'S'} LatitudeBound */
+/** @typedef {'E' | 'W'} LongitudeBound */
+
+/**
+ * Latitude (φ) in Horizontal system.
+ *
+ * @typedef LatitudeContext
+ * @type {Object}
+ * @property {number} degrees - Latitude in degrees
+ * @property {LatitudeBound} bound - North ("N") or South ("S")
+ */
+
+/**
+ * Longitude in Horizontal system.
+ *
+ * @typedef LongitudeContext
+ * @type {Object}
+ * @property {number} degrees - Longitude in degrees
+ * @property {LongitudeBound} bound - East ("E") or West ("W")
+ */
+
+/**
+ * @public
+ * @function
+ * @throw {Error}
+ * @param {Object} args
+ * @param {number} args.degrees - Latitude in degrees
+ * @param {LatitudeBound} args.bound - North ("N") or South ("S")
+ * @returns {LatitudeContext}
+ */
+var Latitude = _ref => {
+  var {
+    degrees,
+    bound
+  } = _ref;
+  if (es_isEmpty(degrees)) throw new Error("No 'degrees'");
+  if (es_isEmpty(bound)) throw new Error("No 'bound'");
+  if (!(bound === 'N' || bound === 'S')) throw new Error("Invalid bound: ".concat(bound));
+  return {
+    degrees,
+    bound
+  };
+};
+
+/**
+ * @public
+ * @function
+ * @throw {Error}
+ * @param {Object} args
+ * @param {number} args.degrees - Longitude in degrees
+ * @param {LongitudeBound} args.bound - East ("E") or West ("W")
+ * @returns {LongitudeContext}
+ */
+var Longitude = _ref2 => {
+  var {
+    degrees,
+    bound
+  } = _ref2;
+  if (es_isEmpty(degrees)) throw new Error("No 'degrees'");
+  if (es_isEmpty(bound)) throw new Error("No 'bound'");
+  if (!(bound === 'E' || bound === 'W')) throw new Error("Invalid bound: ".concat(bound));
+  return {
+    degrees,
+    bound
+  };
+};
+
+/**
+ * An object returned when calling
+ * 'GeoCoord' which represents
+ * the position of the observer
+ * in Geo location position.
+ * and it consists of Latitude
+ * and Longitude.
+ *
+ * @typedef GeoCoordContext
+ * @type {Object}
+ * @property {LatitudeContext} lat - latitude for Geo location
+ * @property {LongitudeContext} lng - longitude for Geo location
+ */
+
+/**
+ * @public
+ * @function
+ * @throw {Error}
+ * @param {Object} args
+ * @param {LatitudeContext} args.lat - latitude for Geo location
+ * @param {LongitudeContext} args.lng - longitude for Geo location
+ * @returns {GeoCoordContext}
+ */
+var GeoCoord = _ref3 => {
+  var {
+    lat,
+    lng
+  } = _ref3;
+  if (es_isEmpty(lat)) throw new Error("No 'lat'");
+  if (es_isEmpty(lng)) throw new Error("No 'lng'");
+  return {
+    lat,
+    lng
+  };
+};
+;// CONCATENATED MODULE: ./src/coords/horizontal.js
+/**
+ * @module sowngwala/coords/horizontal
+ */
+
+
+
+/**
+ * @typedef AngleContext
+ * @type {import('./angle.js').AngleContext}
+ */
+
+/**
+ * An object returned when calling
+ * 'HorizonCoord' which represents
+ * the position of the planetary body
+ * in the Horizontal coordinate
+ * system, and it consists of
+ * "azimuth (A)" and "altitude (α)".
+ *
+ * @typedef HorizonCoordContext
+ * @type {Object}
+ * @property {AngleContext} azimuth - azimuth (A)
+ * @property {AngleContext} altitude - altitude (α)
+ */
+
+/**
+ * @public
+ * @function
+ * @throw {Error}
+ * @param {Object} args
+ * @param {AngleContext} args.azimuth - azimuth (A)
+ * @param {AngleContext} args.altitude - altitude (α)
+ * @returns {HorizonCoordContext}
+ */
+var HorizonCoord = _ref => {
+  var {
+    azimuth,
+    altitude
+  } = _ref;
+  if (es_isEmpty(azimuth)) throw new Error("No 'azimuth'");
+  if (es_isEmpty(altitude)) throw new Error("No 'altitude'");
+  return {
+    azimuth,
+    altitude
+  };
+};
+;// CONCATENATED MODULE: ./src/coords/horizontal_from_equatorial_with_hour_angle.js
+/**
+ * @module sowngwala/coords/horizontal_from_equatorial_with_hour_angle
+ */
+
+
+
+
+
+/** @typedef {import('moment').Moment} Moment */
+
+/**
+ * @typedef AngleContext
+ * @type {import('./angle.js').AngleContext}
+ */
+
+/**
+ * @typedef LatitudeContext
+ * @type {import('./geo.js').LatitudeContext}
+ */
+
+/**
+ * @typedef HorizonCoordContext
+ * @type {import('./horizontal.js').HorizonCoordContext}
+ */
+
+/**
+ * @typedef HorizontalFromEquatorialWithHourAngleReturned
+ * @type {Object}
+ * @property {HorizonCoordContext} coord - Horizon coordinate position
+ */
+
+/**
+ * Given the hour angle (H) (which is
+ * calculated from "right ascension
+ * (α)" of Equatorial), declination (δ)
+ * of Equatorial, and Observer's
+ * latitude, returns "azimuth (A)"
+ * and "altitude (α)".
+ *
+ * @public
+ * @function
+ * @param {AngleContext} hour_angle - "hour_angle" (H) (calculated from "right ascension (α)" of Equatorial).
+ * @param {AngleContext} dec - "declination (δ)" of Equatorial.
+ * @param {LatitudeContext} lat - Observer's latitude
+ * @returns {HorizontalFromEquatorialWithHourAngleReturned}
+ */
+function horizontal_from_equatorial_with_hour_angle(hour_angle, dec, lat) {
+  var h_decimal_hours = decimal_hours_from_angle(hour_angle);
+  var h_decimal_degrees = h_decimal_hours * 15;
+  var h_radians = to_radians(h_decimal_degrees);
+  var dec_decimal_hours = decimal_hours_from_angle(dec);
+  var dec_decimal_degrees = dec_decimal_hours;
+  var dec_radians = to_radians(dec_decimal_degrees);
+  var lat_radians = to_radians(lat.degrees);
+  var sin_altitude = Math.sin(dec_radians) * Math.sin(lat_radians) + Math.cos(dec_radians) * Math.cos(lat_radians) * Math.cos(h_radians);
+  var altitude_radians = Math.asin(sin_altitude);
+  var altitude_degrees = to_degrees(altitude_radians);
+  var cos_azimuth = (Math.sin(dec_radians) - Math.sin(lat_radians) * sin_altitude) / (Math.cos(lat_radians) * Math.cos(altitude_radians));
+  var azimuth_radians = Math.acos(cos_azimuth);
+  var azimuth_degrees = to_degrees(azimuth_radians);
+  var sin_h = Math.sin(h_radians);
+  if (sin_h >= 0.0) {
+    azimuth_degrees = 360 - azimuth_degrees;
+  }
+  var altitude = angle_from_decimal_hours(altitude_degrees);
+  var azimuth = angle_from_decimal_hours(azimuth_degrees);
+  var coord = HorizonCoord({
+    azimuth,
+    altitude
+  });
+  return {
+    coord
+  };
+}
+;// CONCATENATED MODULE: ./src/coords/horizontal_from_equatorial.js
+/**
+ * @module sowngwala/coords/horizontal_from_equatorial
+ */
+
+
+
+
+/** @typedef {import('moment').Moment} Moment */
+
+/**
+ * @typedef AngleContext
+ * @type {import('./angle.js').AngleContext}
+ */
+
+/**
+ * @typedef EquaCoordContext
+ * @type {import('./equatorial.js').EquaCoordContext}
+ */
+
+/**
+ * @typedef GeoCoordContext
+ * @type {import('./geo.js').GeoCoordContext}
+ */
+
+/**
+ * @typedef HorizonCoordContext
+ * @type {import('./horizontal.js').HorizonCoordContext}
+ */
+
+/**
+ * @typedef HorizontalFromEquatorialReturned
+ * @type {Object}
+ * @property {HorizonCoordContext} coord - Horizon coordinate position
+ * @property {AngleContext} _hour_angle - Hour Angle (H)
+ */
+
+/**
+ * Using
+ * 'horizontal_from_equatorial_with_hour_angle'
+ * to easily carry out Equatorial to
+ * Horizontal calculation.
+ *
+ * See
+ * 'horizontal_from_equatorial_with_hour_angle'
+ * for most of the calculations are
+ * done there.
+ 
+ * Given the datetime in UTC, Equatorial
+ * coordinate position (which consists
+ * of "right ascension (α)" and
+ * "declination (δ)"), and Observer's
+ * Geo location (which consists of
+* "Longitude and Latitude). It will
+ * first calculate "hour angle (H)",
+ * which is passed down to
+ * 'horizontal_from_equatorial_with_hour_angle'
+ * which returns the Horizontal
+ * coordinate position.
+ * (which consists of "azimuth (A)" and
+ * "altitude (α)")
+ *
+ * @public
+ * @function
+ * @see {@link: module:sowngwala/coords.horizontal_from_equatorial_with_hour_angle}
+ * @param {Moment} utc
+ * @param {EquaCoordContext} equa_coord
+ * @param {GeoCoordContext} geo_coord - Observer's Geolocation
+ * @returns {HorizontalFromEquatorialReturned}
+ */
+function horizontal_from_equatorial(utc, equa_coord, geo_coord) {
+  var asc = equa_coord.asc;
+  var dec = equa_coord.dec;
+  var lat = geo_coord.lat;
+  var lng = geo_coord.lng;
+  var _hour_angle = hour_angle_from_asc(utc, asc, lng);
+  var {
+    coord
+  } = horizontal_from_equatorial_with_hour_angle(_hour_angle, dec, lat);
+  return {
+    coord,
+    _hour_angle
+  };
+}
 ;// CONCATENATED MODULE: ./src/coords/index.js
 /**
  * @module sowngwala/coords
  */
+
+
+
+
 
 
 
@@ -22486,6 +23432,9 @@ function _kepler_aux(mean_anom, ecc, counter) {
  * Note it is different from the Rust version.
  * See 'decimal_hours_from_angle' for
  * it depends on this version.
+ *
+ * References:
+ * - Peter Duffett-Smith, p.11
  *
  * @private
  * @function
@@ -22539,6 +23488,524 @@ function angle_from_decimal_hours(dec) {
     min,
     sec
   } = hms_from_decimal_hours(dec);
+  return Angle.from_hms(hour, min, sec);
+}
+;// CONCATENATED MODULE: ./src/time/decimal_hours_from_generic_time.js
+/**
+ * @module sowngwala/time/decimal_hours_from_generic_time
+ */
+
+/** @typedef {import('../types.js').DecimalHours} DecimalHours */
+
+/**
+ * @typedef NaiveTimeContext
+ * @type {import('../chrono/naive_time.js').NaiveTimeContext}
+ */
+
+/**
+ * Converts `NativeTime` into decimal hours.
+ *
+ * Reference:
+ * - (Peter Duffett-Smith, p.10)
+ * - sowngwala::time::decimal_hours_from_time
+ *
+ * Example:
+ * ```rust
+ * use approx_eq::assert_approx_eq;
+ * use chrono::naive::NaiveTime;
+ * use sowngwala::time::decimal_hours_from_generic_time;
+ *
+ * let t = NaiveTime::from_hms_nano(18, 31, 27, 0);
+ * let hours = decimal_hours_from_generic_time(t);
+ * assert_approx_eq!(
+ *     hours, // 18.524166666666666
+ *     18.52417,
+ *     1e-6
+ * );
+ * ```
+ * @public
+ * @function
+ * @param {NaiveTimeContext} t
+ * @returns {DecimalHours}
+ */
+function decimal_hours_from_generic_time(t) {
+  var hour = t.hour();
+  var min = t.minute();
+
+  // This is a bit different from
+  // how it is calculated in
+  // Peter Duffett-Smith's book.
+  var sec_0 = t.nanosecond() / 1000000000;
+  var sec = t.second() + sec_0;
+  var dec = hour + (min + sec / 60.0) / 60.0;
+  return hour < 0.0 || min < 0.0 || sec < 0.0 ? -dec : dec;
+}
+// EXTERNAL MODULE: ./node_modules/moment/moment.js
+var moment = __webpack_require__(5093);
+var moment_default = /*#__PURE__*/__webpack_require__.n(moment);
+;// CONCATENATED MODULE: ./src/time/is_julian_date.js
+/**
+ * @module sowngwala/time/is_julian_date
+ */
+
+/** @typedef {import('moment').Moment} Moment */
+
+/**
+ * Checks if the given date is julian date.
+ *
+ * Original:
+ * - sowngwala::time::is_julian_date
+ *
+ * @public
+ * @function
+ * @param {Moment} date
+ * @returns {boolean}
+ */
+function is_julian_date(date) {
+  if (date.year() > 1582) {
+    return false;
+  }
+  if (date.year() < 1582) {
+    return true;
+  }
+  // NOTE: 'month' is indexed in JS
+  if (date.month() + 1 > 10) {
+    return false;
+  }
+  // NOTE: 'month' is indexed in JS
+  if (date.month() + 1 < 10) {
+    return true;
+  }
+  // NOTE: 'day' in Rust is 'date' in JS different
+  if (date.date() > 14) {
+    return false;
+  }
+  return true;
+}
+;// CONCATENATED MODULE: ./src/time/julian_day.js
+/**
+ * @module sowngwala/time/julian_day
+ */
+
+
+
+
+
+/** @typedef {import('moment').Moment} Moment */
+
+/** @typedef {import('../types.js').Year} Year */
+/** @typedef {import('../types.js').Month} Month */
+/** @typedef {import('../types.js').Day} Day */
+
+/**
+ * Converts a generic datetime into
+ * julian date. There are slight
+ * differences for the codes bellow
+ * from that of Duffett-Smith.
+ * For one of the function arguments
+ * `day`, Duffett-Smith suggests
+ * a float (ex. 7.5). Whereas we
+ * want `u32` because `NaiveDate`
+ * would not accept float for `day`.
+ * So, the idea is to use
+ * `NaiveDateTime`, and include
+ * the excess (which is 0.5)
+ * into `NaiveTime` already.
+ *
+ * References:
+ * - (Peter Duffett-Smith, pp.6-7)
+ *
+ * Original:
+ * - sowngwala::time::julian_day
+ *
+ * @param {Year} year
+ * @param {Month} month
+ * @param {Day} day
+ * @returns {number}
+ */
+function julian_day(year, month, day) {
+  var y;
+  var m;
+  if (month == 1 || month == 2) {
+    y = year - 1;
+    m = month + 12;
+  } else {
+    y = year;
+    m = month;
+  }
+  var b;
+  var c;
+  if (is_julian_date(moment_default()(Date.UTC(year,
+  // NOTE: 'month' is indexed in JS
+  month - 1, day)).utc())) {
+    b = 0.0;
+  } else {
+    var a = Math.floor(y / 100.0);
+    b = 2.0 - a + Math.floor(a / 4.0);
+  }
+  if (y < 0.0) {
+    c = Math.floor(constants.NUM_OF_DAYS_IN_A_YEAR * y - 0.75);
+  } else {
+    c = Math.floor(constants.NUM_OF_DAYS_IN_A_YEAR * y);
+  }
+  var d = Math.floor(30.6001 * (m + 1.0));
+  return b + c + d + day + 1720994.5;
+}
+;// CONCATENATED MODULE: ./src/time/julian_day_from_generic_date.js
+/**
+ * @module sowngwala/time/julian_day_from_generic_date
+ */
+
+
+
+/** @typedef {import('moment').Moment} Moment */
+
+/**
+ *
+ * Original:
+ * - sowngwala::time::julian_day_from_generic_date
+ *
+ * @param {Moment} date
+ * @returns {number}
+ */
+function julian_day_from_generic_date(date) {
+  return julian_day(date.year(),
+  // NOTE: 'month' is indexed in JS
+  date.month() + 1,
+  // NOTE: 'day' in Rust is 'date' in JS
+  date.date());
+}
+;// CONCATENATED MODULE: ./src/time/naive_time_from_generic_datetime.js
+/**
+ * @module sowngwala/time/naive_time_from_generic_datetime
+ */
+
+
+
+/** @typedef {import('moment').Moment} Moment */
+
+/**
+ * @typedef NaiveTimeContext
+ * @type {import('../chrono/naive_time.js').NaiveTimeContext}
+ */
+
+/**
+ * @public
+ * @function
+ * @param {Moment} dt
+ * @returns {NaiveTimeContext}
+ */
+function naive_time_from_generic_datetime(dt) {
+  return NaiveTime.from_hmsn(dt.hour(), dt.minute(), dt.second(),
+  // NOTE: 'Moment' does not have 'nanosecond'
+  dt.millisecond() * 1000000);
+}
+;// CONCATENATED MODULE: ./src/time/naive_time_from_decimal_hours.js
+/**
+ * @module sowngwala/time/naive_time_from_decimal_hours
+ */
+
+
+
+/** @typedef {import('../types.js').DecimalHours} DecimalHours */
+
+/**
+ * @typedef NaiveTimeContext
+ * @type {import('../chrono/naive_time.js').NaiveTimeContext}
+ */
+
+/**
+ * Convert decimal hours into `NaiveTime`.
+ *
+ * Original:
+ * - sowngwala::time::naive_time_from_decimal_hours
+ *
+ * References:
+ * - Peter Duffett-Smith, p.11
+ *
+ * @public
+ * @function
+ * @param {DecimalHours} dec
+ * @returns {NaiveTimeContext}
+ */
+function naive_time_from_decimal_hours(dec) {
+  return angle_from_decimal_hours(dec).to_naive_time();
+}
+;// CONCATENATED MODULE: ./src/time/gst_from_utc.js
+/**
+ * @module sowngwala/time/gst_from_utc
+ */
+
+
+
+
+
+
+
+/** @typedef {import('moment').Moment} Moment */
+
+/**
+ * @typedef NaiveTimeContext
+ * @type {import('../chrono/naive_time.js').NaiveTimeContext}
+ */
+
+/**
+ * Given UT, and retursn GST.
+ *
+ * References:
+ * - (Peter Duffett-Smith, p.17)
+ * - sowngwala::time::gst_from_ut
+ *
+ * Example:
+ * ```rust
+ * use chrono::{DateTime, Timelike};
+ * use chrono::naive::NaiveTime;
+ * use chrono::offset::Utc;
+ * use sowngwala::time::{
+ *     build_utc,
+ *     gst_from_utc,
+ * };
+ *
+ * let nanosecond: u32 = 670_000_000;
+ * let utc: DateTime<Utc> =
+ *     build_utc(1980, 4, 22, 14, 36, 51, nanosecond);
+ * let gst: NaiveTime = gst_from_utc(utc);
+ *
+ * assert_eq!(gst.hour(), 4);
+ * assert_eq!(gst.minute(), 40);
+ * assert_eq!(gst.second(), 5); // 5.229576759185761
+ * assert_eq!(gst.nanosecond(), 229_576_759);
+ * ```
+ * @public
+ * @function
+ * @param {Moment} utc
+ * @returns {NaiveTimeContext}
+ */
+function gst_from_utc(utc) {
+  var jd = julian_day_from_generic_date(utc);
+  var s = jd - 2451545.0;
+  var t = s / 36525.0;
+  var t0 = 6.697374558 + 2400.051336 * t + 0.000025862 * t * t;
+
+  // mosaikekkan
+  // ({ quotient: t0 } = overflow(t0, 24.0));
+  ({
+    remainder: t0
+  } = overflow(t0, 24.0));
+  var naive_time = naive_time_from_generic_datetime(utc);
+  var decimal = decimal_hours_from_generic_time(naive_time);
+  decimal *= 1.002737909;
+  decimal += t0;
+
+  // mosaikekkan
+  // ({ quotient: decimal } = overflow(decimal, 24.0));
+  ({
+    remainder: decimal
+  } = overflow(decimal, 24.0));
+  return naive_time_from_decimal_hours(decimal);
+}
+;// CONCATENATED MODULE: ./src/time/decimal_hours_from_hms.js
+/**
+ * @module sowngwala/time/decimal_hours_from_hms
+ */
+
+/** @typedef {import('../types.js').Hour} Hour */
+/** @typedef {import('../types.js').Minute} Minute */
+/** @typedef {import('../types.js').Second} Second */
+/** @typedef {import('../types.js').DecimalHours} DecimalHours */
+
+/**
+ * References:
+ * - Peter Duffett-Smith, p.10
+ *
+ * @public
+ * @function
+ * @param {Hour} hour
+ * @param {Minute} min
+ * @param {Second} sec
+ * @returns {DecimalHours}
+ */
+function decimal_hours_from_hms(hour, min, sec) {
+  var hour_1 = Math.abs(hour);
+  var min_1 = Math.abs(min);
+  var sec_1 = Math.abs(sec);
+  var dec = hour_1 + (min_1 + sec_1 / 60.0) / 60.0;
+  return hour < 0 || min < 0 || sec < 0.0 ? -dec : dec;
+}
+;// CONCATENATED MODULE: ./src/time/decimal_hours_from_naive_time.js
+/**
+ * @module sowngwala/time/decimal_hours_from_naive_time
+ */
+
+
+
+/** @typedef {import('../types.js').DecimalHours} DecimalHours */
+
+/**
+ * @typedef NaiveTimeContext
+ * @type {import('../chrono/naive_time.js').NaiveTimeContext}
+ */
+
+/**
+ * Convert `NaiveTime` into
+ * decimal hours.
+ *
+ * Original:
+ * - sowngwala::time::decimal_hours_from_naive_time
+ *
+ * Reference:
+ * - (Peter Duffett-Smith, p.10)
+ * - sowngwala::time::decimal_hours_from_time
+ *
+ * @public
+ * @function
+ * @param {NaiveTimeContext} naive
+ * @returns {DecimalHours}
+ */
+function decimal_hours_from_naive_time(naive) {
+  var sec_0 = naive.nanosecond() / 1000000000;
+  var sec_1 = naive.second() + sec_0;
+  return decimal_hours_from_hms(naive.hour(), naive.minute(), sec_1);
+}
+;// CONCATENATED MODULE: ./src/time/local_from_gst.js
+/**
+ * @module sowngwala/time/local_from_gst
+ */
+
+
+
+
+/**
+ * @typedef NaiveTimeContext
+ * @type {import('../chrono/naive_time.js').NaiveTimeContext}
+ */
+
+/**
+ * @typedef LongitudeContext
+ * @type {import('../coords/geo.js').LongitudeContext}
+ */
+
+/**
+ * Given GST in NaiveTime and Longitude
+ * for the site, returns LST (Local
+ * Sidereal Time).
+ *
+ * References:
+ * - Peter Duffett-Smith, p.20
+ *
+ * @public
+ * @function
+ * @param {NaiveTimeContext} gst
+ * @param {LongitudeContext} lng
+ * @returns {NaiveTimeContext}
+ */
+function local_from_gst(gst, lng) {
+  var gst_hours = decimal_hours_from_naive_time(gst);
+  var lng_hours = lng.degrees / 15;
+  var decimal_hours = gst_hours;
+  if (lng.bound === 'W') {
+    decimal_hours -= lng_hours;
+  } else {
+    decimal_hours += lng_hours;
+  }
+  if (decimal_hours > 24) {
+    decimal_hours -= 24;
+  }
+  if (decimal_hours < 0) {
+    decimal_hours += 24;
+  }
+  return naive_time_from_decimal_hours(decimal_hours);
+}
+;// CONCATENATED MODULE: ./src/time/decimal_hours_from_angle.js
+/**
+ * @module sowngwala/time/decimal_hours_from_angle
+ */
+
+
+
+/** @typedef {import('../types.js').DecimalHours} DecimalHours */
+
+/**
+ * @typedef AngleContext
+ * @type {import('../coords/angle.js').AngleContext}
+ */
+
+/**
+ * TODO:
+ * For Rust version, I may probably want using
+ * 'hms_from_decimal_hours' like the one
+ * implemented here.
+ *
+ * Original:
+ * - sowngwala::time::decimal_hours_from_angle
+ *
+ * @public
+ * @function
+ * @param {AngleContext} angle
+ * @returns {DecimalHours}
+ */
+function decimal_hours_from_angle(angle) {
+  return decimal_hours_from_hms(angle.hour(), angle.minute(), angle.second());
+}
+;// CONCATENATED MODULE: ./src/time/asc_from_hour_angle.js
+/**
+ * @module sowngwala/time/asc_from_hour_angle
+ */
+
+
+
+
+
+
+
+
+/** @typedef {import('moment').Moment} Moment */
+
+/**
+ * @typedef AngleContext
+ * @type {import('../coords/angle.js').AngleContext}
+ */
+
+/**
+ * @typedef NaiveTimeContext
+ * @type {import('../chrono/naive_time.js').NaiveTimeContext}
+ */
+
+/**
+ * @typedef LongitudeContext
+ * @type {import('../coords/geo.js').LongitudeContext}
+ */
+
+/**
+ * Given the date time in UTC, and
+ * the hour angle in AngleContext,
+ * returns "right ascension (α)".
+ *
+ * References:
+ * - Peter Duffett-Smith, p.35
+ *
+ * @public
+ * @function
+ * @param {Moment} utc
+ * @param {AngleContext} hour_angle
+ * @param {LongitudeContext} lng
+ * @returns {AngleContext}
+ */
+function asc_from_hour_angle(utc, hour_angle, lng) {
+  var gst = gst_from_utc(utc);
+  var lst = local_from_gst(gst, lng);
+  var lst_hours = decimal_hours_from_naive_time(lst);
+  var hour_angle_decimal = decimal_hours_from_angle(hour_angle);
+  var hour_angle_0 = lst_hours;
+  hour_angle_0 -= hour_angle_decimal;
+  if (hour_angle_0 < 0) {
+    hour_angle_0 += 24;
+  }
+  var {
+    hour,
+    min,
+    sec
+  } = hms_from_decimal_hours(hour_angle_0);
   return Angle.from_hms(hour, min, sec);
 }
 ;// CONCATENATED MODULE: ./src/time/calibrate_hmsn.js
@@ -22652,38 +24119,6 @@ function calibrate_hmsn(_ref) {
   } = overflow(hour, hour_limit));
   hour = remainder;
   day_excess = quotient;
-
-  // Say, we had -1.0 for
-  // 'sec' which is invalid
-  // for 'sec'. So, we want
-  // to decrease 'min' by 1,
-  // and will now have 59
-  // for 'sec'.
-  //
-  // Say, we had 0°0'-1" for
-  // an angle. Again, -1 is
-  // invalid for 'sec'.
-  // For this, we would return
-  // -1 for 'day_access' and
-  // the new angle will now
-  // become 23°59'59".
-
-  if (nano < 0.0) {
-    nano += 1000000000.0;
-    sec -= 1.0;
-  }
-  if (sec < 0.0) {
-    sec += 60.0;
-    min -= 1.0;
-  }
-  if (min < 0.0) {
-    min += 60.0;
-    hour -= 1.0;
-  }
-  if (hour < 0.0) {
-    hour += hour_limit;
-    day_excess -= 1.0;
-  }
   return {
     hmsn: {
       hour,
@@ -22693,117 +24128,6 @@ function calibrate_hmsn(_ref) {
     },
     day_excess
   };
-}
-// EXTERNAL MODULE: ./node_modules/moment/moment.js
-var moment = __webpack_require__(5093);
-var moment_default = /*#__PURE__*/__webpack_require__.n(moment);
-;// CONCATENATED MODULE: ./src/time/is_julian_date.js
-/**
- * @module sowngwala/time/is_julian_date
- */
-
-/** @typedef {import('moment').Moment} Moment */
-
-/**
- * Checks if the given date is julian date.
- *
- * Original:
- * - sowngwala::time::is_julian_date
- *
- * @public
- * @function
- * @param {Moment} date
- * @returns {boolean}
- */
-function is_julian_date(date) {
-  if (date.year() > 1582) {
-    return false;
-  }
-  if (date.year() < 1582) {
-    return true;
-  }
-  // NOTE: 'month' is indexed in JS
-  if (date.month() + 1 > 10) {
-    return false;
-  }
-  // NOTE: 'month' is indexed in JS
-  if (date.month() + 1 < 10) {
-    return true;
-  }
-  // NOTE: 'day' in Rust is 'date' in JS different
-  if (date.date() > 14) {
-    return false;
-  }
-  return true;
-}
-;// CONCATENATED MODULE: ./src/time/julian_day.js
-/**
- * @module sowngwala/time/julian_day
- */
-
-
-
-
-
-/** @typedef {import('moment').Moment} Moment */
-
-/** @typedef {import('../types.js').Year} Year */
-/** @typedef {import('../types.js').Month} Month */
-/** @typedef {import('../types.js').Day} Day */
-
-/**
- * Converts a generic datetime into
- * julian date. There are slight
- * differences for the codes bellow
- * from that of Duffett-Smith.
- * For one of the function arguments
- * `day`, Duffett-Smith suggests
- * a float (ex. 7.5). Whereas we
- * want `u32` because `NaiveDate`
- * would not accept float for `day`.
- * So, the idea is to use
- * `NaiveDateTime`, and include
- * the excess (which is 0.5)
- * into `NaiveTime` already.
- *
- * References:
- * - (Peter Duffett-Smith, pp.6-7)
- *
- * Original:
- * - sowngwala::time::julian_day
- *
- * @param {Year} year
- * @param {Month} month
- * @param {Day} day
- * @returns {number}
- */
-function julian_day(year, month, day) {
-  var y;
-  var m;
-  if (month == 1 || month == 2) {
-    y = year - 1;
-    m = month + 12;
-  } else {
-    y = year;
-    m = month;
-  }
-  var b;
-  var c;
-  if (is_julian_date(moment_default()(Date.UTC(year,
-  // NOTE: 'month' is indexed in JS
-  month - 1, day)).utc())) {
-    b = 0.0;
-  } else {
-    var a = Math.floor(y / 100.0);
-    b = 2.0 - a + Math.floor(a / 4.0);
-  }
-  if (y < 0.0) {
-    c = Math.floor(constants.NUM_OF_DAYS_IN_A_YEAR * y - 0.75);
-  } else {
-    c = Math.floor(constants.NUM_OF_DAYS_IN_A_YEAR * y);
-  }
-  var d = Math.floor(30.6001 * (m + 1.0));
-  return b + c + d + day + 1720994.5;
 }
 ;// CONCATENATED MODULE: ./src/time/day_of_the_week.js
 /**
@@ -22985,42 +24309,6 @@ function days_since_1990(year) {
   }
   return days;
 }
-;// CONCATENATED MODULE: ./src/time/decimal_hours_from_naive_time.js
-/**
- * @module sowngwala/time/decimal_hours_from_naive_time
- */
-
-/** @typedef {import('../types.js').DecimalHours} DecimalHours */
-
-/**
- * @typedef NaiveTimeContext
- * @type {import('../chrono/naive_time.js').NaiveTimeContext}
- */
-
-/**
- * Convert `NaiveTime` into
- * decimal hours.
- *
- * Original:
- * - sowngwala::time::decimal_hours_from_naive_time
- *
- * Reference:
- * - (Peter Duffett-Smith, p.10)
- * - sowngwala::time::decimal_hours_from_time
- *
- * @public
- * @function
- * @param {NaiveTimeContext} naive
- * @returns {DecimalHours}
- */
-function decimal_hours_from_naive_time(naive) {
-  var hour = naive.hour();
-  var min = naive.minute();
-  var sec_0 = naive.nanosecond() / 1000000000;
-  var sec = naive.second() + sec_0;
-  var dec = hour + (min + sec / 60.0) / 60.0;
-  return hour < 0.0 || min < 0.0 || sec < 0.0 ? -dec : dec;
-}
 ;// CONCATENATED MODULE: ./src/time/decimal_days_from_generic_datetime.js
 /**
  * @module sowngwala/time/decimal_days_from_generic_datetime
@@ -23045,112 +24333,6 @@ function decimal_days_from_generic_datetime(dt) {
 
   // NOTE: 'day' in Rust is 'date' in JS
   return dt.date() + decimal / 24.0;
-}
-;// CONCATENATED MODULE: ./src/time/decimal_hours_from_hms.js
-/**
- * @module sowngwala/time/decimal_hours_from_hms
- */
-
-/** @typedef {import('../types.js').Hour} Hour */
-/** @typedef {import('../types.js').Minute} Minute */
-/** @typedef {import('../types.js').Second} Second */
-/** @typedef {import('../types.js').DecimalHours} DecimalHours */
-
-/**
- * @public
- * @function
- * @param {Hour} hour
- * @param {Minute} min
- * @param {Second} sec
- * @returns {DecimalHours}
- */
-function decimal_hours_from_hms(hour, min, sec) {
-  var hour_1 = Math.abs(hour);
-  var min_1 = Math.abs(min);
-  var sec_1 = Math.abs(sec);
-  var dec = hour_1 + (min_1 + sec_1 / 60.0) / 60.0;
-  return hour < 0 || min < 0 || sec < 0.0 ? -dec : dec;
-}
-;// CONCATENATED MODULE: ./src/time/decimal_hours_from_generic_time.js
-/**
- * @module sowngwala/time/decimal_hours_from_generic_time
- */
-
-/** @typedef {import('../types.js').DecimalHours} DecimalHours */
-
-/**
- * @typedef NaiveTimeContext
- * @type {import('../chrono/naive_time.js').NaiveTimeContext}
- */
-
-/**
- * Converts `NativeTime` into decimal hours.
- *
- * Reference:
- * - (Peter Duffett-Smith, p.10)
- * - sowngwala::time::decimal_hours_from_time
- *
- * Example:
- * ```rust
- * use approx_eq::assert_approx_eq;
- * use chrono::naive::NaiveTime;
- * use sowngwala::time::decimal_hours_from_generic_time;
- *
- * let t = NaiveTime::from_hms_nano(18, 31, 27, 0);
- * let hours = decimal_hours_from_generic_time(t);
- * assert_approx_eq!(
- *     hours, // 18.524166666666666
- *     18.52417,
- *     1e-6
- * );
- * ```
- * @public
- * @function
- * @param {NaiveTimeContext} t
- * @returns {DecimalHours}
- */
-function decimal_hours_from_generic_time(t) {
-  var hour = t.hour();
-  var min = t.minute();
-
-  // This is a bit different from
-  // how it is calculated in
-  // Peter Duffett-Smith's book.
-  var sec_0 = t.nanosecond() / 1000000000;
-  var sec = t.second() + sec_0;
-  var dec = hour + (min + sec / 60.0) / 60.0;
-  return hour < 0.0 || min < 0.0 || sec < 0.0 ? -dec : dec;
-}
-;// CONCATENATED MODULE: ./src/time/decimal_hours_from_angle.js
-/**
- * @module sowngwala/time/decimal_hours_from_angle
- */
-
-
-
-/** @typedef {import('../types.js').DecimalHours} DecimalHours */
-
-/**
- * @typedef AngleContext
- * @type {import('../coords/angle.js').AngleContext}
- */
-
-/**
- * TODO:
- * For Rust version, I may probably want using
- * 'hms_from_decimal_hours' like the one
- * implemented here.
- *
- * Original:
- * - sowngwala::time::decimal_hours_from_angle
- *
- * @public
- * @function
- * @param {AngleContext} angle
- * @returns {DecimalHours}
- */
-function decimal_hours_from_angle(angle) {
-  return decimal_hours_from_hms(angle.hour(), angle.minute(), angle.second());
 }
 ;// CONCATENATED MODULE: ./src/time/decimal_year_from_generic_date.js
 /**
@@ -23191,38 +24373,13 @@ function decimal_year_from_generic_date(date) {
   var month = date.month() + 1;
   return year + (month - 0.5) / 12.0;
 }
-;// CONCATENATED MODULE: ./src/time/julian_day_from_generic_date.js
+;// CONCATENATED MODULE: ./src/time/gst_from_local.js
 /**
- * @module sowngwala/time/julian_day_from_generic_date
+ * @module sowngwala/time/gst_from_local
  */
 
 
 
-/** @typedef {import('moment').Moment} Moment */
-
-/**
- *
- * Original:
- * - sowngwala::time::julian_day_from_generic_date
- *
- * @param {Moment} date
- * @returns {number}
- */
-function julian_day_from_generic_date(date) {
-  return julian_day(date.year(),
-  // NOTE: 'month' is indexed in JS
-  date.month() + 1,
-  // NOTE: 'day' in Rust is 'date' in JS
-  date.date());
-}
-;// CONCATENATED MODULE: ./src/time/naive_time_from_generic_datetime.js
-/**
- * @module sowngwala/time/naive_time_from_generic_datetime
- */
-
-
-
-/** @typedef {import('moment').Moment} Moment */
 
 /**
  * @typedef NaiveTimeContext
@@ -23230,114 +24387,40 @@ function julian_day_from_generic_date(date) {
  */
 
 /**
- * @public
- * @function
- * @param {Moment} dt
- * @returns {NaiveTimeContext}
- */
-function naive_time_from_generic_datetime(dt) {
-  return NaiveTime.from_hmsn(dt.hour(), dt.minute(), dt.second(),
-  // NOTE: 'Moment' does not have 'nanosecond'
-  dt.millisecond() * 1000000);
-}
-;// CONCATENATED MODULE: ./src/time/naive_time_from_decimal_hours.js
-/**
- * @module sowngwala/time/naive_time_from_decimal_hours
- */
-
-
-
-/** @typedef {import('../types.js').DecimalHours} DecimalHours */
-
-/**
- * @typedef NaiveTimeContext
- * @type {import('../chrono/naive_time.js').NaiveTimeContext}
+ * @typedef LongitudeContext
+ * @type {import('../coords/geo.js').LongitudeContext}
  */
 
 /**
- * Convert decimal hours into `NaiveTime`.
- *
- * Original:
- * - sowngwala::time::naive_time_from_decimal_hours
+ * Given GST LST (Local Sidereal Time)
+ * in NaiveTime and Longitude for
+ * the site, returns GST.
  *
  * References:
- * - (Peter Duffett-Smith, p.11)
- * - sowngwala::time::time_from_decimal_hours;
+ * - Peter Duffett-Smith, p.21
  *
  * @public
  * @function
- * @param {DecimalHours} dec
+ * @param {NaiveTimeContext} lst
+ * @param {LongitudeContext} lng
  * @returns {NaiveTimeContext}
  */
-function naive_time_from_decimal_hours(dec) {
-  return angle_from_decimal_hours(dec).to_naive_time();
-}
-;// CONCATENATED MODULE: ./src/time/gst_from_utc.js
-/**
- * @module sowngwala/time/gst_from_utc
- */
-
-
-
-
-
-
-
-/** @typedef {import('moment').Moment} Moment */
-
-/**
- * @typedef NaiveTimeContext
- * @type {import('../chrono/naive_time.js').NaiveTimeContext}
- */
-
-/**
- * Given UT, and retursn GST.
- *
- * References:
- * - (Peter Duffett-Smith, p.17)
- * - sowngwala::time::gst_from_ut
- *
- * Example:
- * ```rust
- * use chrono::{DateTime, Timelike};
- * use chrono::naive::NaiveTime;
- * use chrono::offset::Utc;
- * use sowngwala::time::{
- *     build_utc,
- *     gst_from_utc,
- * };
- *
- * let nanosecond: u32 = 670_000_000;
- * let utc: DateTime<Utc> =
- *     build_utc(1980, 4, 22, 14, 36, 51, nanosecond);
- * let gst: NaiveTime = gst_from_utc(utc);
- *
- * assert_eq!(gst.hour(), 4);
- * assert_eq!(gst.minute(), 40);
- * assert_eq!(gst.second(), 5); // 5.229576759185761
- * assert_eq!(gst.nanosecond(), 229_576_759);
- * ```
- * @public
- * @function
- * @param {Moment} utc
- * @returns {NaiveTimeContext}
- */
-function gst_from_utc(utc) {
-  var jd = julian_day_from_generic_date(utc);
-  var s = jd - 2451545.0;
-  var t = s / 36525.0;
-  var t0 = 6.697374558 + 2400.051336 * t + 0.000025862 * t * t;
-  ({
-    quotient: t0
-  } = overflow(t0, 24.0));
-  var naive_time = naive_time_from_generic_datetime(utc);
-  var decimal = decimal_hours_from_generic_time(naive_time);
-  decimal *= 1.002737909;
-  decimal += t0;
-  ({
-    quotient: decimal
-  } = overflow(decimal, 24.0));
-  return naive_time_from_decimal_hours(decimal);
+function gst_from_local(lst, lng) {
+  var lst_hours = decimal_hours_from_naive_time(lst);
+  var lng_hours = lng.degrees / 15;
+  var decimal_hours = lst_hours;
+  if (lng.bound === 'W') {
+    decimal_hours += lng_hours;
+  } else {
+    decimal_hours -= lng_hours;
+  }
+  if (decimal_hours > 24) {
+    decimal_hours -= 24;
+  }
+  if (decimal_hours < 0) {
+    decimal_hours += 24;
+  }
+  return naive_time_from_decimal_hours(decimal_hours);
 }
 ;// CONCATENATED MODULE: ./src/time/julian_day_from_generic_datetime.js
 /**
@@ -23364,6 +24447,67 @@ function julian_day_from_generic_datetime(dt) {
   dt.month() + 1,
   // NOTE: A bit problematic in 'sowngwalla'
   decimal_days_from_generic_datetime(dt));
+}
+;// CONCATENATED MODULE: ./src/time/hour_angle_from_asc.js
+/**
+ * @module sowngwala/time/hour_angle_from_asc
+ */
+
+
+
+
+
+
+
+
+/** @typedef {import('moment').Moment} Moment */
+
+/**
+ * @typedef AngleContext
+ * @type {import('../coords/angle.js').AngleContext}
+ */
+
+/**
+ * @typedef NaiveTimeContext
+ * @type {import('../chrono/naive_time.js').NaiveTimeContext}
+ */
+
+/**
+ * @typedef LongitudeContext
+ * @type {import('../coords/geo.js').LongitudeContext}
+ */
+
+/**
+ * Given the date time in UTC, and
+ * "right ascension (α)", returns
+ * the hour angle in AngleContext.
+ *
+ * References:
+ * - Peter Duffett-Smith, p.35
+ *
+ * @public
+ * @function
+ * @param {Moment} utc
+ * @param {AngleContext} asc
+ * @param {LongitudeContext} lng
+ * @returns {AngleContext}
+ */
+function hour_angle_from_asc(utc, asc, lng) {
+  var gst = gst_from_utc(utc);
+  var lst = local_from_gst(gst, lng);
+  var lst_hours = decimal_hours_from_naive_time(lst);
+  var asc_decimal = decimal_hours_from_angle(asc);
+  var hour_angle = lst_hours;
+  hour_angle -= asc_decimal;
+  if (hour_angle < 0) {
+    hour_angle += 24;
+  }
+  var {
+    hour,
+    min,
+    sec
+  } = hms_from_decimal_hours(hour_angle);
+  return Angle.from_hms(hour, min, sec);
 }
 ;// CONCATENATED MODULE: ./src/time/naive_time_from_decimal_days.js
 /**
@@ -23560,6 +24704,10 @@ function utc_from_gst(gst) {
 /**
  * @module sowngwala/time
  */
+
+
+
+
 
 
 
@@ -24191,7 +25339,7 @@ function delta_t_from_generic_date(date) {
 
 
 /**
- * @typedef LngMeanAnomalyReturned
+ * @typedef SunLngMeanAnomalyReturned
  * @type {Object}
  * @property {number} lng - Sun's longitude (λ)
  * @property {number} mean_anom - Mean anomaly (M) (in degrees)
@@ -24223,7 +25371,7 @@ function delta_t_from_generic_date(date) {
  * @see {@link: module:sowngwala/sun.sun_pos_ecliptic}
  * @see {@link: module:sowngwala/sun.sun_pos_equatorial}
  * @param {number} days
- * @returns {LngMeanAnomalyReturned}
+ * @returns {SunLngMeanAnomalyReturned}
  */
 function sun_longitude_and_mean_anomaly(days) {
   // [Step 3] (in his book, p.91)
@@ -24284,19 +25432,19 @@ function sun_longitude_and_mean_anomaly(days) {
 
 /** @typedef {import('moment').Moment} Moment */
 
-/**
- * @typedef DecimalDays
- * @type {import('../types.js').DecimalDays}
- */
-
-/**
- * @typedef DecimalHours
- * @type {import('../types.js').DecimalHours}
- */
+/** @typedef {import('../types.js').DecimalDays} DecimalDays */
+/** @typedef {import('../types.js').DecimalHours} DecimalHours */
 
 /**
  * @typedef EcliCoordContext
  * @type {import('../coords/ecliptic.js').EcliCoordContext}
+ */
+
+/**
+ * @typedef SunPosEclipticReturned
+ * @type {Object}
+ * @property {EcliCoordContext} coord - Ecliptic position of the Sun
+ * @property {number} _mean_anom - (optional) Mean anomaly (M) (in degrees)
  */
 
 /**
@@ -24314,7 +25462,7 @@ function sun_longitude_and_mean_anomaly(days) {
  * @public
  * @function
  * @param {Moment} dt - UTC datetime (for specific time as well)
- * @returns {EcliCoordContext}
+ * @returns {SunPosEclipticReturned}
  */
 function sun_pos_ecliptic(dt) {
   // [Step 1] (in his book, p.91)
@@ -24357,7 +25505,8 @@ function sun_pos_ecliptic(dt) {
   // longitude (λ)" and "mean
   // anomaly (M)".
   var {
-    lng
+    lng: _lng,
+    mean_anom: _mean_anom
   } = sun_longitude_and_mean_anomaly(days);
 
   // Sun's "latitude (β)" in Ecliptic
@@ -24366,10 +25515,14 @@ function sun_pos_ecliptic(dt) {
   // what Ecliptic coordinate system.
   // This is explained in Peter
   // Duffett-Smith, p.85.
-  return EcliCoord({
+  var coord = EcliCoord({
     lat: 0.0,
-    lng
+    lng: _lng
   });
+  return {
+    coord,
+    _mean_anom
+  };
 }
 ;// CONCATENATED MODULE: ./src/sun/sun_pos_equatorial.js
 /**
@@ -24382,12 +25535,25 @@ function sun_pos_ecliptic(dt) {
 /** @typedef {import('moment').Moment} Moment */
 
 /**
+ * @typedef EcliCoordContext
+ * @type {import('../coords/ecliptic.js').EcliCoordContext}
+ */
+
+/**
  * @typedef EquaCoordContext
  * @type {import('../coords/equatorial.js').EquaCoordContext}
  */
 
 /**
- * ************************************
+ * @typedef SunPosEquatorialReturned
+ * @type {Object}
+ * @property {EquaCoordContext} coord - Equatorial position of the sun
+ * @property {EcliCoordContext} _ecliptic - (optional) Ecliptic position of the sun
+ * @property {number} _mean_anom - (optional) Mean anomaly (M) (in degrees)
+ * @property {number} _obliquity - (optional) Mean obliquity of the ecliptic (ε)
+ */
+
+/**
  * Given a specific 'dt' (datetime)
  * in UTC, it will return the Equatorial
  * position of the sun which consists
@@ -24413,10 +25579,23 @@ function sun_pos_ecliptic(dt) {
  * @see {@link: module:sowngwala/sun.sun_pos_ecliptic}
  * @see {@link: module:sowngwala/coords.equatorial_from_ecliptic_with_generic_datetime}
  * @param {Moment} dt - UTC datetime (for specific time as well)
- * @returns {EquaCoordContext}
+ * @returns {SunPosEquatorialReturned}
  */
 function sun_pos_equatorial(dt) {
-  return equatorial_from_ecliptic_with_generic_datetime(sun_pos_ecliptic(dt), dt);
+  var {
+    coord: _ecliptic,
+    _mean_anom
+  } = sun_pos_ecliptic(dt);
+  var {
+    coord,
+    _obliquity
+  } = equatorial_from_ecliptic_with_generic_datetime(_ecliptic, dt);
+  return {
+    coord,
+    _ecliptic,
+    _mean_anom,
+    _obliquity
+  };
 }
 ;// CONCATENATED MODULE: ./src/sun/eot_from_gst.js
 /**
@@ -24484,9 +25663,9 @@ function eot_from_gst(gst) {
   // the same in JS. Hence, we simply
   // pass 'gst' to the next.
   var date = gst;
-
-  /** @type {EquaCoordContext} */
-  var coord = sun_pos_equatorial(date);
+  var {
+    coord
+  } = sun_pos_equatorial(date);
 
   /**
    * 'asc' in 'EquaCoord' is 'Angle'
@@ -24650,8 +25829,8 @@ function eot_decimal_from_utc(utc) {
 /** @typedef {import('moment').Moment} Moment */
 
 /**
- * @typedef EcliCoordContext
- * @type {import('../coords/ecliptic.js').EcliCoordContext}
+ * @typedef SunPosEclipticFromGenericDateReturned
+ * @type {import('./sun_pos_ecliptic').SunPosEclipticReturned}
  */
 
 /**
@@ -24674,7 +25853,7 @@ function eot_decimal_from_utc(utc) {
  * @function
  * @see {@link: module:sowngwala/sun/sun_pos_ecliptic}
  * @param {Moment} date - UTC date (w/o specific time)
- * @returns {EcliCoordContext}
+ * @returns {SunPosEclipticFromGenericDateReturned}
  */
 function sun_pos_ecliptic_from_generic_date(date) {
   var dt = date;
@@ -24695,8 +25874,8 @@ function sun_pos_ecliptic_from_generic_date(date) {
 /** @typedef {import('moment').Moment} Moment */
 
 /**
- * @typedef EquaCoordContext
- * @type {import('../coords/equatorial.js').EquaCoordContext}
+ * @typedef SunPosEquatorialFromGenericDateReturned
+ * @type {import('./sun_pos_equatorial.js').SunPosEquatorialReturned}
  */
 
 /**
@@ -24719,7 +25898,7 @@ function sun_pos_ecliptic_from_generic_date(date) {
  * @function
  * @see {@link: module:sowngwala/sun.sun_pos_equatorial}
  * @param {Moment} date - UTC date (w/o specific time)
- * @returns {EquaCoordContext}
+ * @returns {SunPosEquatorialFromGenericDateReturned}
  */
 function sun_pos_equatorial_from_generic_date(date) {
   var dt = date;
@@ -24965,7 +26144,10 @@ function moon_pos_equatorial(dt) {
   // Later, for Rust, we want to convert
   // datetime into date.
   var date = dt;
-  return equatorial_from_ecliptic_with_generic_date(moon_pos_ecliptic(dt), date);
+  var {
+    coord
+  } = equatorial_from_ecliptic_with_generic_date(moon_pos_ecliptic(dt), date);
+  return coord;
 }
 ;// CONCATENATED MODULE: ./src/moon/index.js
 /**
@@ -25000,4 +26182,4 @@ function moon_pos_equatorial(dt) {
 /******/ })()
 ;
 });
-//# sourceMappingURL=sowngwala-0.4.0.js.map
+//# sourceMappingURL=sowngwala-0.5.0.js.map

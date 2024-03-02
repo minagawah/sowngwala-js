@@ -46,6 +46,26 @@ export function overflow(value, base) {
   let divisible = value - remainder;
   let quotient = divisible / base;
 
+  // Say, we had -1.0 for
+  // 'sec' which is invalid
+  // for 'sec'. So, we want
+  // to decrease 'min' by 1,
+  // and will now have 59
+  // for 'sec'.
+  //
+  // Say, we had 0°0'-1" for
+  // an angle. Again, -1 is
+  // invalid for 'sec'.
+  // For this, we would return
+  // -1 for 'day_access' and
+  // the new angle will now
+  // become 23°59'59".
+
+  if (remainder < 0.0) {
+    remainder += base;
+    quotient -= 1;
+  }
+
   remainder = unsigned_zero(remainder);
   quotient = unsigned_zero(quotient);
 

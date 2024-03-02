@@ -14,6 +14,9 @@ import { fract } from '../utils';
  * See 'decimal_hours_from_angle' for
  * it depends on this version.
  *
+ * References:
+ * - Peter Duffett-Smith, p.11
+ *
  * @private
  * @function
  * @param {DecimalHours} dec

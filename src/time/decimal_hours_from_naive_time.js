@@ -2,6 +2,8 @@
  * @module sowngwala/time/decimal_hours_from_naive_time
  */
 
+import { decimal_hours_from_hms } from './decimal_hours_from_hms';
+
 /** @typedef {import('../types.js').DecimalHours} DecimalHours */
 
 /**
@@ -26,12 +28,12 @@
  * @returns {DecimalHours}
  */
 export function decimal_hours_from_naive_time(naive) {
-  let hour = naive.hour();
-  let min = naive.minute();
-
   let sec_0 = naive.nanosecond() / 1_000_000_000;
-  let sec = naive.second() + sec_0;
-  let dec = hour + (min + sec / 60.0) / 60.0;
+  let sec_1 = naive.second() + sec_0;
 
-  return hour < 0.0 || min < 0.0 || sec < 0.0 ? -dec : dec;
+  return decimal_hours_from_hms(
+    naive.hour(),
+    naive.minute(),
+    sec_1
+  );
 }

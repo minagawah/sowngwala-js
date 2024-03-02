@@ -124,7 +124,7 @@ a:active {
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 0.8fr 1fr;
-  grid-template-rows: repeat(4, 2rem) 1fr;
+  grid-template-rows: repeat(4, 2rem) 4rem 1fr;
 }
 
 .label {
@@ -182,50 +182,73 @@ a:active {
   text-align: center;
 }
 
-#result-wrapper {
-  @apply px-5 py-2 gap-3 text-xl;
-  grid-column: 1 / -1;
-  grid-row: 5 / -1;
-  box-sizing: border-box;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+#location-label {
+  grid-column: 1 / 2;
+  grid-row: 5 / 6;
 }
 
-#lng-label {
+#location-wrapper {
+  @apply gap-3;
+  grid-column: 2 / -1;
+  grid-row: 5 / 6;
+
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 8rem 4rem;
+  grid-template-rows: repeat(2, 1fr);
+}
+
+#lat {
   grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+#lat-bound {
+  grid-column: 2 / -1;
   grid-row: 1 / 2;
 }
 
 #lng {
-  grid-column: 2 / -1;
-  grid-row: 1 / 2;
-}
-
-#asc-label {
   grid-column: 1 / 2;
-  grid-row: 2 / 3;
+  grid-row: 2 / -1;
 }
 
-#asc {
+#lng-bound {
   grid-column: 2 / -1;
-  grid-row: 2 / 3;
+  grid-row: 2 / -1;
 }
 
-#dec-label {
-  grid-column: 1 / 2;
-  grid-row: 3 / -1;
+#result-wrapper {
+  @apply mt-8 px-5 flex flex-col justify-start items-center text-xl;
+  grid-column: 1 / -1;
+  grid-row: 6 / -1;
+  @media (max-width: 767px) {
+    width: 100%;
+  }
+  @media (min-width: 768px) {
+    width: 80%;
+    max-width: 500px;
+  }
 }
 
-#dec {
-  grid-column: 2 / -1;
-  grid-row: 3 / -1;
+.result-subtitle {
+  @apply w-full mt-5 py-2 text-2xl font-bold;
+  background-color: #55af04;
+  color: #c6ff90;
 }
 
-#lng-label, #asc-label, #dec-label {
-  @apply font-bold;
+.result-inner-wrapper {
+  @apply w-full flex flex-col justify-start items-center;
 }
 
-#lng, #asc, #dec {
-  @apply text-2xl;
+.result-label {
+  @apply w-full px-3 py-1 font-bold;
+  background-color: #baf583;
+  color: #55a30d;
+}
+
+.result-value {
+  @apply w-full px-3 py-2 text-2xl;
+  text-align: right;
+  background-color: #f5ffeb;
 }

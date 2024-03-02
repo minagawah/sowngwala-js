@@ -39,15 +39,21 @@ describe('A test suite on: utils.js', () => {
     expect(quotient).toBe(-2.0);
 
     ({ remainder, quotient } = overflow(-59.0, 60.0));
-    expect(remainder).toBe(-59.0);
-    expect(quotient).toBe(0);
+    // expect(remainder).toBe(-59.0);
+    // expect(quotient).toBe(0);
+    expect(remainder).toBe(1);
+    expect(quotient).toBe(-1);
 
     ({ remainder, quotient } = overflow(-61.0, 60.0));
-    expect(remainder).toBe(-1.0);
-    expect(quotient).toBe(-1.0);
+    // expect(remainder).toBe(-1.0);
+    // expect(quotient).toBe(-1.0);
+    expect(remainder).toBe(59.0);
+    expect(quotient).toBe(-2.0);
 
     ({ remainder, quotient } = overflow(-60.1, 60.0));
-    expect(remainder).toBeCloseTo(-0.1, 0); // 1e-1
-    expect(quotient).toBe(-1.0);
+    // expect(remainder).toBeCloseTo(-0.1, 0);
+    // expect(quotient).toBe(-1.0);
+    expect(remainder).toBeCloseTo(59.9, 0); // 1e-1
+    expect(quotient).toBe(-2.0);
   });
 });

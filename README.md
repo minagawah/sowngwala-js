@@ -1,7 +1,5 @@
 # sowngwala-js
 
-[View Demo](https://tokyo800.jp/mina/sowngwala/)
-
 ## 1. About
 
 This is a JS library for finding the sun & moon's position.
@@ -17,9 +15,15 @@ As it is mentioned in the original library, majority of calculation logic are ba
 [Belter language](https://expanse.fandom.com/wiki/Belter_Creole)
 which is from a sci-fi TV series "The Expanse (2015)".
 
-## 2. Usage
+[View Demo](https://tokyo800.jp/mina/sowngwala/)
 
-### 2-1. Position of the Sun
+## 2. Release Change Log
+
+See [changelog](changelog.md).
+
+## 3. Usage
+
+### 3-1. Position of the Sun
 
 When you are finding the position of the sun,
 the most popular demands would probably be the following 2:
@@ -31,10 +35,10 @@ the most popular demands would probably be the following 2:
 
 Whichever you wish to pursue, the program offers the corresponding 2 methods:
 
-- (Equatorial/Horizon)  
+- (Equatorial/Horizontal)  
 [sun_pos_equatorial](src/sun/sun_pos_equatorial.js)
   - Usually for "Observation"
-  - You want the sun's position in [Equatorial](src/coords/equatorial.js) coordinate system, so that you would get "right ascension (α)" and "declination (δ)" for the given time and space. Having Equatorial position means that it does not take the location of the observer into consideration, and you may probably want to later convert Equatorial into *Horizon* coordinate which is more relevant to the actual observation. But, that's another story.
+  - You want the sun's position either in [Equatorial](src/coords/equatorial.js) or [Horizontal](src/coords/horizontal.js) coordinate system, so that you will get to know for which direction you should face toward to see the sun.
 - (Ecliptic)  
 [sun_pos_ecliptic](src/sun/sun_pos_ecliptic.js)
   - Usually for "Astrology"
@@ -43,7 +47,9 @@ Whichever you wish to pursue, the program offers the corresponding 2 methods:
 Since the steps for finding Equatorial position includes that of Ecliptic,
 we can only focus on Equatorial, and it should pretty much suffice the needs.
 
-Let's see how you can calculate Equatorial position of the sun.
+Let's see how you can calculate **Equatorial** position of the sun.
+
+If you want **Horizontal** position of the sun, check out [src.check/check.js](src.check/check.js) which runs on [the demo page](https://tokyo800.jp/mina/sowngwala/), and it contains an example to find Horizontal position of the sun.
 
 ### (a) Runtime Usage
 
@@ -68,7 +74,7 @@ window.addEventListener('load', () => {
   // "declination (δ)".
 
   const utc = moment(Date.UTC(1988, 7 - 1, 27)).utc();
-  const coord = sun_pos_equatorial(utc);
+  const { coord } = sun_pos_equatorial(utc);
 
   const asc = coord.asc; // right ascension (α)
   const dec = coord.dec; // declination (δ)
@@ -89,6 +95,8 @@ window.addEventListener('load', () => {
 </body>
 </html>
 ```
+
+As mentioned in the beginning, the above is for the Equatorial position, and it is advised that you check out [src.check/check.js](src.check/check.js) for it contains a full example of finding the Horizontal.
 
 ### (b) For NPM Apps
 
@@ -115,7 +123,10 @@ import { sun_pos_equatorial } from 'sowngwala';
 // for the runtime...
 ```
 
-### 2-1. Position of the Moon
+As mentioned, check out [src.check/check.js](src.check/check.js) for the Horizontal position.
+
+
+### 3-1. Position of the Moon
 
 You can calculate the position of the moon as well.
 If you wish the Ecliptic position,
@@ -138,8 +149,7 @@ console.log('asc:', asc_hms); // 22°33'28.7
 console.log('dec:', dec_hms); // -8°00'57.6
 ```
 
-
-## 3. Development
+## 4. Development
 
 First of all, install NPM packages:
 ```
@@ -173,20 +183,20 @@ by serving the check page I have in `src.check/check.html`:
 npm run dev
 ```
 
-## 4. Notes
+## 5. Notes
 
-### 4-1. What's the Web-related NPM Packages All About?
+### 5-1. What's the Web-related NPM Packages All About?
 
 You may notice the repo contains a lot of
 web-related NPM packages, and it seems
 strange for a library containing
 only mathematical calculations.
 It has web-related NPM packages
-only because I have [a check page](src.check/check.html)
+only because [I have a check page](https://tokyo800.jp/mina/sowngwala/)
 which runs when you `npm run dev`.
 So, they have nothing to do with the implementations of the library itself.
 
-### 4-2. How Does the Program Find the Sun's Position
+### 5-2. How Does the Program Find the Sun's Position
 
 When it comes to finding the Equatorial position of the sun,
 it all begins with
@@ -209,7 +219,7 @@ From **Step 3** to **Step 10** is covered by [sun_longitude_and_mean_anomaly](sr
 
 An additional note for **Step 3** to **Step 10** where **Step 6** is covered by [find_kepler](src/sun/find_kepler.js) which itself consists of a recursive function for finding "Mean anomaly (M)" and "Eccentric anomaly (E)" using Kepler's equation.
 
-## 5. Installed NPM Packages
+## 6. Installed NPM Packages
 
 Although this is a libray, it has web related NPM modules installed
 because we want to run Webpack devServer to check library behaviors using
@@ -269,6 +279,7 @@ Otherwise, we won't need such web related dependencies.
   - High vulnerability depnding on: jsdoc-parse
 - jsdoc-plugin-intersection
 - typescript
+- @types/ramda
 
 ### Jest
 
@@ -298,31 +309,9 @@ npm install --save-dev @babel/cli @babel/core \
   postcss-preset-env postcss-import postcss-mixins postcss-nested \
   tailwindcss babel-plugin-preval \
   jsdoc jsdoc-tsimport-plugin jsdoc-plugin-intersection \
-  typescript jest \
+  typescript @types/ramda jest \
   rimraf nodemon concurrently ;
 ```
-
-## 6. History
-
-- 0.4.0
-  - Renamed `coords/equatorial_from_ecliptic` to `coords/equatorial_from_ecliptic_with_obliquity`.
-  - Added `coords/equatorial_from_ecliptic_with_generic_datetime`
-  - Added `sun/sun_pos_ecliptic_from_generic_date`
-  - Added `sun/sun_pos_equatorial_from_generic_date`
-  - Fixed `sun/sun_pos_ecliptic` to take time into consideration (it only took date before but not for specific time).
-- 0.3.1
-  - Removed unnecessary log output
-  - Fixed the checker app, making it worthy.
-- 0.3.0
-  - For runtime use, changed the exposed global from `Sowngwala.lib` to `Sowngwala`.
-- 0.2.0
-  - Added `moon/moon_pos_equatorial` and `moon/moon_pos_equatorial` for calculating for the moon's position.
-  - For both `src/coords/Angle` and `chrono/NaiveTime` will no longer run `calibrate_hms` upon the instance creation, meaning, it will not check for the overflow on "hour", "min", and "sec", but you must run it manually whenever you need it.
-  - Instead of `sun/longitude_and_mean_anomaly` returning `mean_anom` in "radians", it now returns it in "degrees".
-  - Moved `sun/find_kepler` to `coords/find_kepler`
-  - Renamed `sun/pos_ecliptic_from_generic_date` to `sun/sun_pos_ecliptic`
-  - Renamed `sun/pos_equatorial_from_generic_date` to `sun/sun_pos_equatorial`
-  - Renamed `longitude_and_mean_anomaly` to `sun_longitude_and_mean_anomaly`
 
 ## 7. License
 

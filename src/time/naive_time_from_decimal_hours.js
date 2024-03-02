@@ -18,8 +18,7 @@ import { angle_from_decimal_hours } from './angle_from_decimal_hours';
  * - sowngwala::time::naive_time_from_decimal_hours
  *
  * References:
- * - (Peter Duffett-Smith, p.11)
- * - sowngwala::time::time_from_decimal_hours;
+ * - Peter Duffett-Smith, p.11
  *
  * @public
  * @function

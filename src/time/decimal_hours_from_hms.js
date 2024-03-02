@@ -8,6 +8,9 @@
 /** @typedef {import('../types.js').DecimalHours} DecimalHours */
 
 /**
+ * References:
+ * - Peter Duffett-Smith, p.10
+ *
  * @public
  * @function
  * @param {Hour} hour

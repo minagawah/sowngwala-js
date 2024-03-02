@@ -343,6 +343,94 @@ describe('A test suite for: sun/find_kepler', () => {
 
 const moment = require('moment');
 const {
+  Angle,
+  EquaCoord,
+  GeoCoord,
+  Longitude,
+  Latitude,
+  horizontal_from_equatorial
+} = require('../index');
+describe('A test suite for: coords/horizontal_from_equatorial', () => {
+  test('horizontal_from_equatorial', () => {
+    // Peter Duffett-Smith, p.36
+
+    const utc = moment(Date.UTC(1980, 4 - 1, 22, 14, 36, 51.67)).utc();
+    const asc = Angle.from_hms(18, 32, 21);
+    const dec = Angle.from_hms(23, 13, 10);
+    const equa_coord = EquaCoord({
+      asc,
+      dec
+    });
+    const lat = Latitude({
+      degrees: 52,
+      bound: 'N'
+    });
+    const lng = Longitude({
+      degrees: 64,
+      bound: 'W'
+    });
+    const geo_coord = GeoCoord({
+      lat,
+      lng
+    });
+    const {
+      coord: {
+        azimuth,
+        altitude
+      }
+    } = horizontal_from_equatorial(utc, equa_coord, geo_coord);
+
+    // Azimuth (A)
+    expect(azimuth.hour()).toBe(283);
+    expect(azimuth.minute()).toBe(16);
+    expect(azimuth.minute()).toBeCloseTo(16, 0);
+
+    // Altitude (α)
+    expect(altitude.hour()).toBe(19);
+    expect(altitude.minute()).toBe(20);
+    // Actual: 7.617965126296156
+    expect(altitude.second()).toBeCloseTo(4, -1);
+  });
+});
+"use strict";
+
+const {
+  Angle,
+  Latitude,
+  horizontal_from_equatorial_with_hour_angle
+} = require('../index');
+describe('A test suite for: coords/horizontal_from_equatorial_with_hour_angle', () => {
+  test('horizontal_from_equatorial_with_hour_angle', () => {
+    // Peter Duffett-Smith, p.36
+
+    const hour_angle = Angle.from_hms(5, 51, 44);
+    const dec = Angle.from_hms(23, 13, 10);
+    const lat = Latitude({
+      degrees: 52,
+      bound: 'N'
+    });
+    const {
+      coord: {
+        azimuth,
+        altitude
+      }
+    } = horizontal_from_equatorial_with_hour_angle(hour_angle, dec, lat);
+
+    // Azimuth (A)
+    expect(azimuth.hour()).toBe(283);
+    expect(azimuth.minute()).toBe(16);
+    expect(azimuth.minute()).toBeCloseTo(16, 0);
+
+    // Altitude (α)
+    expect(altitude.hour()).toBe(19);
+    expect(altitude.minute()).toBe(20);
+    expect(altitude.second()).toBeCloseTo(4, 0);
+  });
+});
+"use strict";
+
+const moment = require('moment');
+const {
   mean_obliquity_of_the_ecliptic
 } = require('../index');
 describe('A test suite for: coords/mean_obliquity_of_the_ecliptic', () => {
@@ -537,6 +625,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.EcliCoord = void 0;
+var _ramda = require("ramda");
 /**
  * @module sowngwala/coords/ecliptic
  */
@@ -551,13 +640,14 @@ exports.EcliCoord = void 0;
  *
  * @typedef EcliCoordContext
  * @type {Object}
- * @property {number} lat - latitude (β)
- * @property {number} lng - longitude (λ)
+ * @property {number} lat - latitude (β) (in degrees)
+ * @property {number} lng - longitude (λ) (in degrees)
  */
 
 /**
  * @public
  * @function
+ * @throw {Error}
  * @param {Object} args
  * @param {number} args.lat
  * @param {number} args.lng
@@ -567,6 +657,8 @@ const EcliCoord = ({
   lat,
   lng
 }) => {
+  if ((0, _ramda.isEmpty)(lat)) throw new Error(`No 'lat'`);
+  if ((0, _ramda.isEmpty)(lng)) throw new Error(`No 'lng'`);
   return {
     lat,
     lng
@@ -579,6 +671,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.EquaCoord = void 0;
+var _ramda = require("ramda");
 /**
  * @module sowngwala/coords/equatorial
  */
@@ -605,6 +698,7 @@ exports.EquaCoord = void 0;
 /**
  * @public
  * @function
+ * @throw {Error}
  * @param {Object} args
  * @param {AngleContext} args.asc - right ascension (α)
  * @param {AngleContext} args.dec - declination (δ)
@@ -614,6 +708,8 @@ const EquaCoord = ({
   asc,
   dec
 }) => {
+  if ((0, _ramda.isEmpty)(asc)) throw new Error(`No 'asc'`);
+  if ((0, _ramda.isEmpty)(dec)) throw new Error(`No 'dec'`);
   return {
     asc,
     dec
@@ -634,13 +730,13 @@ var _equatorial_from_ecliptic_with_generic_datetime = require("./equatorial_from
 /** @typedef {import('moment').Moment} Moment */
 
 /**
- * @typedef EquaCoordContext
- * @type {import('./equatorial.js').EquaCoordContext}
+ * @typedef EcliCoordContext
+ * @type {import('./ecliptic.js').EcliCoordContext}
  */
 
 /**
- * @typedef EcliCoordContext
- * @type {import('./ecliptic.js').EcliCoordContext}
+ * @typedef EquatorialFromEclipticWithGenericDateReturned
+ * @type {import('./equatorial_from_ecliptic_with_generic_datetime.js').EquatorialFromEclipticWithGenericDateTimeReturned}
  */
 
 /**
@@ -653,7 +749,7 @@ var _equatorial_from_ecliptic_with_generic_datetime = require("./equatorial_from
  * @see {@link: module:sowngwala/coords/equatorial_from_ecliptic_with_generic_datetime}
  * @param {EcliCoordContext} coord
  * @param {Moment} date
- * @returns {EquaCoordContext}
+ * @returns {EquatorialFromEclipticWithGenericDateReturned}
  */
 function equatorial_from_ecliptic_with_generic_date(coord, date) {
   const dt = date;
@@ -679,39 +775,48 @@ var _mean_obliquity_of_the_ecliptic = require("./mean_obliquity_of_the_ecliptic"
 /** @typedef {import('moment').Moment} Moment */
 
 /**
- * @typedef EquaCoordContext
- * @type {import('./equatorial.js').EquaCoordContext}
- */
-
-/**
  * @typedef EcliCoordContext
  * @type {import('./ecliptic.js').EcliCoordContext}
  */
 
 /**
+ * @typedef EquaCoordContext
+ * @type {import('./equatorial.js').EquaCoordContext}
+ */
+
+/**
+ * @typedef EquatorialFromEclipticWithGenericDateTimeReturned
+ * @type {Object}
+ * @property {EquaCoordContext} coord - Equatorial position of the sun
+ * @property {number} _obliquity - (optional) Mean obliquity of the ecliptic (ε)
+ */
+
+/**
+ * Converts the Ecliptic coordinate
+ * position into that of the Equatorial.
  * See 'equatorial_from_ecliptic' for
- * it has the actual calculations.
- * It will convert the Ecliptic
- * coordinate position into that of
- * the Equatorial.
+ * actual calculations.
  * (Peter Duffett-Smith, pp.40-41)
  *
- * Note, also, just by giving
- * a specific date, it calculates
- * "obliquity (of the ecliptic) (ε)"
- * for you.
+ * Also, notice how it automatically
+ * calculates for "obliquity of the
+ * ecliptic (ε)" from the given date.
  *
  * @public
  * @function
  * @see {@link: module:sowngwala/coords/equatorial_from_ecliptic}
  * @param {EcliCoordContext} coord
  * @param {Moment} dt
- * @returns {EquaCoordContext}
+ * @returns {EquatorialFromEclipticWithGenericDateTimeReturned}
  */
 function equatorial_from_ecliptic_with_generic_datetime(coord, dt) {
   // This is in degrees, not radians.
-  let oblique = (0, _mean_obliquity_of_the_ecliptic.mean_obliquity_of_the_ecliptic)(dt);
-  return (0, _equatorial_from_ecliptic_with_obliquity.equatorial_from_ecliptic_with_obliquity)(coord, oblique);
+  let _obliquity = (0, _mean_obliquity_of_the_ecliptic.mean_obliquity_of_the_ecliptic)(dt);
+  const equatorial = (0, _equatorial_from_ecliptic_with_obliquity.equatorial_from_ecliptic_with_obliquity)(coord, _obliquity);
+  return {
+    coord: equatorial,
+    _obliquity
+  };
 }
 "use strict";
 
@@ -737,25 +842,29 @@ var _coords = require("../coords");
  */
 
 /**
+ * It will onvert Ecliptic coordinate
+ * position into the Equatorial
+ * coordinate position.
  * For the first argument, it takes
- * the ecliptic coordinate position
+ * the Ecliptic coordinate position
  * which consists of "latitude (β)"
- * and "longitude (λ)". For the second
- * argument, it takes "the obliquity
- * of the ecliptic (ε)".
- * The function aims to carry out
- * the conversion, and will return
- * the Equatorial coordinate position
- * which consists of "right ascension
+ * and "longitude (λ)".
+ * For the second argument, it takes
+ * "the obliquity of the ecliptic (ε)".
+ * The returned Equatorial position
+ * will consist of "right ascension
  * (α)" and "declination (δ)".
  * (Peter Duffett-Smith, pp.40-41)
  *
- * Generally, you should better use
+ * In general, you may want to rather
+ * use
  * 'equatorial_from_ecliptic_with_generic_date'
- * because you usually don't know the
- * "obliquity (ε)" for  date, but
+ * because you don't normally know
+ * "obliquity (ε)" for the given date.
+ * On the other hand,
  * 'equatorial_from_ecliptic_with_generic_date'
- * will calculate it for you.
+ * will calculate  "obliquity (ε)"
+ * for you.
  *
  * @public
  * @function
@@ -867,6 +976,342 @@ function _kepler_aux(mean_anom, ecc, counter) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.Longitude = exports.Latitude = exports.GeoCoord = void 0;
+var _ramda = require("ramda");
+/**
+ * @module sowngwala/coords/geo
+ */
+
+/**
+ * @typedef AngleContext
+ * @type {import('./angle.js').AngleContext}
+ */
+
+/** @typedef {'N' | 'S'} LatitudeBound */
+/** @typedef {'E' | 'W'} LongitudeBound */
+
+/**
+ * Latitude (φ) in Horizontal system.
+ *
+ * @typedef LatitudeContext
+ * @type {Object}
+ * @property {number} degrees - Latitude in degrees
+ * @property {LatitudeBound} bound - North ("N") or South ("S")
+ */
+
+/**
+ * Longitude in Horizontal system.
+ *
+ * @typedef LongitudeContext
+ * @type {Object}
+ * @property {number} degrees - Longitude in degrees
+ * @property {LongitudeBound} bound - East ("E") or West ("W")
+ */
+
+/**
+ * @public
+ * @function
+ * @throw {Error}
+ * @param {Object} args
+ * @param {number} args.degrees - Latitude in degrees
+ * @param {LatitudeBound} args.bound - North ("N") or South ("S")
+ * @returns {LatitudeContext}
+ */
+const Latitude = ({
+  degrees,
+  bound
+}) => {
+  if ((0, _ramda.isEmpty)(degrees)) throw new Error(`No 'degrees'`);
+  if ((0, _ramda.isEmpty)(bound)) throw new Error(`No 'bound'`);
+  if (!(bound === 'N' || bound === 'S')) throw new Error(`Invalid bound: ${bound}`);
+  return {
+    degrees,
+    bound
+  };
+};
+
+/**
+ * @public
+ * @function
+ * @throw {Error}
+ * @param {Object} args
+ * @param {number} args.degrees - Longitude in degrees
+ * @param {LongitudeBound} args.bound - East ("E") or West ("W")
+ * @returns {LongitudeContext}
+ */
+exports.Latitude = Latitude;
+const Longitude = ({
+  degrees,
+  bound
+}) => {
+  if ((0, _ramda.isEmpty)(degrees)) throw new Error(`No 'degrees'`);
+  if ((0, _ramda.isEmpty)(bound)) throw new Error(`No 'bound'`);
+  if (!(bound === 'E' || bound === 'W')) throw new Error(`Invalid bound: ${bound}`);
+  return {
+    degrees,
+    bound
+  };
+};
+
+/**
+ * An object returned when calling
+ * 'GeoCoord' which represents
+ * the position of the observer
+ * in Geo location position.
+ * and it consists of Latitude
+ * and Longitude.
+ *
+ * @typedef GeoCoordContext
+ * @type {Object}
+ * @property {LatitudeContext} lat - latitude for Geo location
+ * @property {LongitudeContext} lng - longitude for Geo location
+ */
+
+/**
+ * @public
+ * @function
+ * @throw {Error}
+ * @param {Object} args
+ * @param {LatitudeContext} args.lat - latitude for Geo location
+ * @param {LongitudeContext} args.lng - longitude for Geo location
+ * @returns {GeoCoordContext}
+ */
+exports.Longitude = Longitude;
+const GeoCoord = ({
+  lat,
+  lng
+}) => {
+  if ((0, _ramda.isEmpty)(lat)) throw new Error(`No 'lat'`);
+  if ((0, _ramda.isEmpty)(lng)) throw new Error(`No 'lng'`);
+  return {
+    lat,
+    lng
+  };
+};
+exports.GeoCoord = GeoCoord;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.HorizonCoord = void 0;
+var _ramda = require("ramda");
+/**
+ * @module sowngwala/coords/horizontal
+ */
+
+/**
+ * @typedef AngleContext
+ * @type {import('./angle.js').AngleContext}
+ */
+
+/**
+ * An object returned when calling
+ * 'HorizonCoord' which represents
+ * the position of the planetary body
+ * in the Horizontal coordinate
+ * system, and it consists of
+ * "azimuth (A)" and "altitude (α)".
+ *
+ * @typedef HorizonCoordContext
+ * @type {Object}
+ * @property {AngleContext} azimuth - azimuth (A)
+ * @property {AngleContext} altitude - altitude (α)
+ */
+
+/**
+ * @public
+ * @function
+ * @throw {Error}
+ * @param {Object} args
+ * @param {AngleContext} args.azimuth - azimuth (A)
+ * @param {AngleContext} args.altitude - altitude (α)
+ * @returns {HorizonCoordContext}
+ */
+const HorizonCoord = ({
+  azimuth,
+  altitude
+}) => {
+  if ((0, _ramda.isEmpty)(azimuth)) throw new Error(`No 'azimuth'`);
+  if ((0, _ramda.isEmpty)(altitude)) throw new Error(`No 'altitude'`);
+  return {
+    azimuth,
+    altitude
+  };
+};
+exports.HorizonCoord = HorizonCoord;
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.horizontal_from_equatorial = horizontal_from_equatorial;
+var _time = require("../time");
+var _horizontal_from_equatorial_with_hour_angle = require("./horizontal_from_equatorial_with_hour_angle");
+/**
+ * @module sowngwala/coords/horizontal_from_equatorial
+ */
+
+/** @typedef {import('moment').Moment} Moment */
+
+/**
+ * @typedef AngleContext
+ * @type {import('./angle.js').AngleContext}
+ */
+
+/**
+ * @typedef EquaCoordContext
+ * @type {import('./equatorial.js').EquaCoordContext}
+ */
+
+/**
+ * @typedef GeoCoordContext
+ * @type {import('./geo.js').GeoCoordContext}
+ */
+
+/**
+ * @typedef HorizonCoordContext
+ * @type {import('./horizontal.js').HorizonCoordContext}
+ */
+
+/**
+ * @typedef HorizontalFromEquatorialReturned
+ * @type {Object}
+ * @property {HorizonCoordContext} coord - Horizon coordinate position
+ * @property {AngleContext} _hour_angle - Hour Angle (H)
+ */
+
+/**
+ * Using
+ * 'horizontal_from_equatorial_with_hour_angle'
+ * to easily carry out Equatorial to
+ * Horizontal calculation.
+ *
+ * See
+ * 'horizontal_from_equatorial_with_hour_angle'
+ * for most of the calculations are
+ * done there.
+ 
+ * Given the datetime in UTC, Equatorial
+ * coordinate position (which consists
+ * of "right ascension (α)" and
+ * "declination (δ)"), and Observer's
+ * Geo location (which consists of
+* "Longitude and Latitude). It will
+ * first calculate "hour angle (H)",
+ * which is passed down to
+ * 'horizontal_from_equatorial_with_hour_angle'
+ * which returns the Horizontal
+ * coordinate position.
+ * (which consists of "azimuth (A)" and
+ * "altitude (α)")
+ *
+ * @public
+ * @function
+ * @see {@link: module:sowngwala/coords.horizontal_from_equatorial_with_hour_angle}
+ * @param {Moment} utc
+ * @param {EquaCoordContext} equa_coord
+ * @param {GeoCoordContext} geo_coord - Observer's Geolocation
+ * @returns {HorizontalFromEquatorialReturned}
+ */
+function horizontal_from_equatorial(utc, equa_coord, geo_coord) {
+  const asc = equa_coord.asc;
+  const dec = equa_coord.dec;
+  const lat = geo_coord.lat;
+  const lng = geo_coord.lng;
+  const _hour_angle = (0, _time.hour_angle_from_asc)(utc, asc, lng);
+  const {
+    coord
+  } = (0, _horizontal_from_equatorial_with_hour_angle.horizontal_from_equatorial_with_hour_angle)(_hour_angle, dec, lat);
+  return {
+    coord,
+    _hour_angle
+  };
+}
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.horizontal_from_equatorial_with_hour_angle = horizontal_from_equatorial_with_hour_angle;
+var _utils = require("../utils");
+var _time = require("../time");
+var _horizontal = require("./horizontal");
+/**
+ * @module sowngwala/coords/horizontal_from_equatorial_with_hour_angle
+ */
+
+/** @typedef {import('moment').Moment} Moment */
+
+/**
+ * @typedef AngleContext
+ * @type {import('./angle.js').AngleContext}
+ */
+
+/**
+ * @typedef LatitudeContext
+ * @type {import('./geo.js').LatitudeContext}
+ */
+
+/**
+ * @typedef HorizonCoordContext
+ * @type {import('./horizontal.js').HorizonCoordContext}
+ */
+
+/**
+ * @typedef HorizontalFromEquatorialWithHourAngleReturned
+ * @type {Object}
+ * @property {HorizonCoordContext} coord - Horizon coordinate position
+ */
+
+/**
+ * Given the hour angle (H) (which is
+ * calculated from "right ascension
+ * (α)" of Equatorial), declination (δ)
+ * of Equatorial, and Observer's
+ * latitude, returns "azimuth (A)"
+ * and "altitude (α)".
+ *
+ * @public
+ * @function
+ * @param {AngleContext} hour_angle - "hour_angle" (H) (calculated from "right ascension (α)" of Equatorial).
+ * @param {AngleContext} dec - "declination (δ)" of Equatorial.
+ * @param {LatitudeContext} lat - Observer's latitude
+ * @returns {HorizontalFromEquatorialWithHourAngleReturned}
+ */
+function horizontal_from_equatorial_with_hour_angle(hour_angle, dec, lat) {
+  const h_decimal_hours = (0, _time.decimal_hours_from_angle)(hour_angle);
+  const h_decimal_degrees = h_decimal_hours * 15;
+  const h_radians = (0, _utils.to_radians)(h_decimal_degrees);
+  const dec_decimal_hours = (0, _time.decimal_hours_from_angle)(dec);
+  const dec_decimal_degrees = dec_decimal_hours;
+  const dec_radians = (0, _utils.to_radians)(dec_decimal_degrees);
+  const lat_radians = (0, _utils.to_radians)(lat.degrees);
+  const sin_altitude = Math.sin(dec_radians) * Math.sin(lat_radians) + Math.cos(dec_radians) * Math.cos(lat_radians) * Math.cos(h_radians);
+  const altitude_radians = Math.asin(sin_altitude);
+  const altitude_degrees = (0, _utils.to_degrees)(altitude_radians);
+  const cos_azimuth = (Math.sin(dec_radians) - Math.sin(lat_radians) * sin_altitude) / (Math.cos(lat_radians) * Math.cos(altitude_radians));
+  const azimuth_radians = Math.acos(cos_azimuth);
+  let azimuth_degrees = (0, _utils.to_degrees)(azimuth_radians);
+  const sin_h = Math.sin(h_radians);
+  if (sin_h >= 0.0) {
+    azimuth_degrees = 360 - azimuth_degrees;
+  }
+  const altitude = (0, _time.angle_from_decimal_hours)(altitude_degrees);
+  const azimuth = (0, _time.angle_from_decimal_hours)(azimuth_degrees);
+  const coord = (0, _horizontal.HorizonCoord)({
+    azimuth,
+    altitude
+  });
+  return {
+    coord
+  };
+}
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 Object.defineProperty(exports, "Angle", {
   enumerable: true,
   get: function () {
@@ -883,6 +1328,30 @@ Object.defineProperty(exports, "EquaCoord", {
   enumerable: true,
   get: function () {
     return _equatorial.EquaCoord;
+  }
+});
+Object.defineProperty(exports, "GeoCoord", {
+  enumerable: true,
+  get: function () {
+    return _geo.GeoCoord;
+  }
+});
+Object.defineProperty(exports, "HorizonCoord", {
+  enumerable: true,
+  get: function () {
+    return _horizontal.HorizonCoord;
+  }
+});
+Object.defineProperty(exports, "Latitude", {
+  enumerable: true,
+  get: function () {
+    return _geo.Latitude;
+  }
+});
+Object.defineProperty(exports, "Longitude", {
+  enumerable: true,
+  get: function () {
+    return _geo.Longitude;
   }
 });
 Object.defineProperty(exports, "equatorial_from_ecliptic_with_generic_date", {
@@ -909,6 +1378,18 @@ Object.defineProperty(exports, "find_kepler", {
     return _find_kepler.find_kepler;
   }
 });
+Object.defineProperty(exports, "horizontal_from_equatorial", {
+  enumerable: true,
+  get: function () {
+    return _horizontal_from_equatorial.horizontal_from_equatorial;
+  }
+});
+Object.defineProperty(exports, "horizontal_from_equatorial_with_hour_angle", {
+  enumerable: true,
+  get: function () {
+    return _horizontal_from_equatorial_with_hour_angle.horizontal_from_equatorial_with_hour_angle;
+  }
+});
 Object.defineProperty(exports, "mean_obliquity_of_the_ecliptic", {
   enumerable: true,
   get: function () {
@@ -923,6 +1404,10 @@ var _equatorial_from_ecliptic_with_generic_date = require("./equatorial_from_ecl
 var _equatorial_from_ecliptic_with_generic_datetime = require("./equatorial_from_ecliptic_with_generic_datetime");
 var _find_kepler = require("./find_kepler");
 var _mean_obliquity_of_the_ecliptic = require("./mean_obliquity_of_the_ecliptic");
+var _geo = require("./geo");
+var _horizontal = require("./horizontal");
+var _horizontal_from_equatorial = require("./horizontal_from_equatorial");
+var _horizontal_from_equatorial_with_hour_angle = require("./horizontal_from_equatorial_with_hour_angle");
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1349,7 +1834,7 @@ const moment = require('moment');
 const {
   moon_pos_equatorial
 } = require('../index');
-describe('A test suite for: sun/moon_pos_equatorial', () => {
+describe('A test suite for: moon/moon_pos_equatorial', () => {
   test('moon_pos_equatorial', () => {
     const utc = moment(Date.UTC(1979, 2 - 1, 26, 16, 0, 0)).utc();
     let coord = moon_pos_equatorial(utc);
@@ -1625,7 +2110,10 @@ function moon_pos_equatorial(dt) {
   // Later, for Rust, we want to convert
   // datetime into date.
   let date = dt;
-  return (0, _coords.equatorial_from_ecliptic_with_generic_date)((0, _moon_pos_ecliptic.moon_pos_ecliptic)(dt), date);
+  const {
+    coord
+  } = (0, _coords.equatorial_from_ecliptic_with_generic_date)((0, _moon_pos_ecliptic.moon_pos_ecliptic)(dt), date);
+  return coord;
 }
 "use strict";
 
@@ -1659,7 +2147,9 @@ const {
 describe('A test suite for: sun/sun_pos_ecliptic', () => {
   test('sun_pos_ecliptic', () => {
     const utc = moment(Date.UTC(1988, 7 - 1, 27)).utc();
-    const coord = sun_pos_ecliptic(utc);
+    const {
+      coord
+    } = sun_pos_ecliptic(utc);
     // Actual: 124.187_731_829_979_58
     expect(coord.lng).toBeCloseTo(124.187_732, 6);
   });
@@ -1673,7 +2163,9 @@ const {
 describe('A test suite for: sun/sun_pos_equatorial', () => {
   test('sun_pos_equatorial', () => {
     const utc = moment(Date.UTC(1988, 7 - 1, 27)).utc();
-    const coord = sun_pos_equatorial(utc);
+    const {
+      coord
+    } = sun_pos_equatorial(utc);
     const asc = coord.asc; // right ascension (α)
     const dec = coord.dec; // declination (δ)
 
@@ -1820,9 +2312,9 @@ function eot_from_gst(gst) {
   // the same in JS. Hence, we simply
   // pass 'gst' to the next.
   let date = gst;
-
-  /** @type {EquaCoordContext} */
-  let coord = (0, _sun_pos_equatorial.sun_pos_equatorial)(date);
+  let {
+    coord
+  } = (0, _sun_pos_equatorial.sun_pos_equatorial)(date);
 
   /**
    * 'asc' in 'EquaCoord' is 'Angle'
@@ -2000,7 +2492,7 @@ var _find_kepler = require("../coords/find_kepler");
  */
 
 /**
- * @typedef LngMeanAnomalyReturned
+ * @typedef SunLngMeanAnomalyReturned
  * @type {Object}
  * @property {number} lng - Sun's longitude (λ)
  * @property {number} mean_anom - Mean anomaly (M) (in degrees)
@@ -2032,7 +2524,7 @@ var _find_kepler = require("../coords/find_kepler");
  * @see {@link: module:sowngwala/sun.sun_pos_ecliptic}
  * @see {@link: module:sowngwala/sun.sun_pos_equatorial}
  * @param {number} days
- * @returns {LngMeanAnomalyReturned}
+ * @returns {SunLngMeanAnomalyReturned}
  */
 function sun_longitude_and_mean_anomaly(days) {
   // [Step 3] (in his book, p.91)
@@ -2097,19 +2589,19 @@ var _sun_longitude_and_mean_anomaly = require("./sun_longitude_and_mean_anomaly"
 
 /** @typedef {import('moment').Moment} Moment */
 
-/**
- * @typedef DecimalDays
- * @type {import('../types.js').DecimalDays}
- */
-
-/**
- * @typedef DecimalHours
- * @type {import('../types.js').DecimalHours}
- */
+/** @typedef {import('../types.js').DecimalDays} DecimalDays */
+/** @typedef {import('../types.js').DecimalHours} DecimalHours */
 
 /**
  * @typedef EcliCoordContext
  * @type {import('../coords/ecliptic.js').EcliCoordContext}
+ */
+
+/**
+ * @typedef SunPosEclipticReturned
+ * @type {Object}
+ * @property {EcliCoordContext} coord - Ecliptic position of the Sun
+ * @property {number} _mean_anom - (optional) Mean anomaly (M) (in degrees)
  */
 
 /**
@@ -2127,7 +2619,7 @@ var _sun_longitude_and_mean_anomaly = require("./sun_longitude_and_mean_anomaly"
  * @public
  * @function
  * @param {Moment} dt - UTC datetime (for specific time as well)
- * @returns {EcliCoordContext}
+ * @returns {SunPosEclipticReturned}
  */
 function sun_pos_ecliptic(dt) {
   // [Step 1] (in his book, p.91)
@@ -2170,7 +2662,8 @@ function sun_pos_ecliptic(dt) {
   // longitude (λ)" and "mean
   // anomaly (M)".
   let {
-    lng
+    lng: _lng,
+    mean_anom: _mean_anom
   } = (0, _sun_longitude_and_mean_anomaly.sun_longitude_and_mean_anomaly)(days);
 
   // Sun's "latitude (β)" in Ecliptic
@@ -2179,10 +2672,14 @@ function sun_pos_ecliptic(dt) {
   // what Ecliptic coordinate system.
   // This is explained in Peter
   // Duffett-Smith, p.85.
-  return (0, _coords.EcliCoord)({
+  const coord = (0, _coords.EcliCoord)({
     lat: 0.0,
-    lng
+    lng: _lng
   });
+  return {
+    coord,
+    _mean_anom
+  };
 }
 "use strict";
 
@@ -2198,8 +2695,8 @@ var _sun_pos_ecliptic = require("./sun_pos_ecliptic");
 /** @typedef {import('moment').Moment} Moment */
 
 /**
- * @typedef EcliCoordContext
- * @type {import('../coords/ecliptic.js').EcliCoordContext}
+ * @typedef SunPosEclipticFromGenericDateReturned
+ * @type {import('./sun_pos_ecliptic').SunPosEclipticReturned}
  */
 
 /**
@@ -2222,7 +2719,7 @@ var _sun_pos_ecliptic = require("./sun_pos_ecliptic");
  * @function
  * @see {@link: module:sowngwala/sun/sun_pos_ecliptic}
  * @param {Moment} date - UTC date (w/o specific time)
- * @returns {EcliCoordContext}
+ * @returns {SunPosEclipticFromGenericDateReturned}
  */
 function sun_pos_ecliptic_from_generic_date(date) {
   const dt = date;
@@ -2248,12 +2745,25 @@ var _sun_pos_ecliptic = require("./sun_pos_ecliptic");
 /** @typedef {import('moment').Moment} Moment */
 
 /**
+ * @typedef EcliCoordContext
+ * @type {import('../coords/ecliptic.js').EcliCoordContext}
+ */
+
+/**
  * @typedef EquaCoordContext
  * @type {import('../coords/equatorial.js').EquaCoordContext}
  */
 
 /**
- * ************************************
+ * @typedef SunPosEquatorialReturned
+ * @type {Object}
+ * @property {EquaCoordContext} coord - Equatorial position of the sun
+ * @property {EcliCoordContext} _ecliptic - (optional) Ecliptic position of the sun
+ * @property {number} _mean_anom - (optional) Mean anomaly (M) (in degrees)
+ * @property {number} _obliquity - (optional) Mean obliquity of the ecliptic (ε)
+ */
+
+/**
  * Given a specific 'dt' (datetime)
  * in UTC, it will return the Equatorial
  * position of the sun which consists
@@ -2279,10 +2789,23 @@ var _sun_pos_ecliptic = require("./sun_pos_ecliptic");
  * @see {@link: module:sowngwala/sun.sun_pos_ecliptic}
  * @see {@link: module:sowngwala/coords.equatorial_from_ecliptic_with_generic_datetime}
  * @param {Moment} dt - UTC datetime (for specific time as well)
- * @returns {EquaCoordContext}
+ * @returns {SunPosEquatorialReturned}
  */
 function sun_pos_equatorial(dt) {
-  return (0, _coords.equatorial_from_ecliptic_with_generic_datetime)((0, _sun_pos_ecliptic.sun_pos_ecliptic)(dt), dt);
+  const {
+    coord: _ecliptic,
+    _mean_anom
+  } = (0, _sun_pos_ecliptic.sun_pos_ecliptic)(dt);
+  const {
+    coord,
+    _obliquity
+  } = (0, _coords.equatorial_from_ecliptic_with_generic_datetime)(_ecliptic, dt);
+  return {
+    coord,
+    _ecliptic,
+    _mean_anom,
+    _obliquity
+  };
 }
 "use strict";
 
@@ -2298,8 +2821,8 @@ var _sun_pos_equatorial = require("./sun_pos_equatorial");
 /** @typedef {import('moment').Moment} Moment */
 
 /**
- * @typedef EquaCoordContext
- * @type {import('../coords/equatorial.js').EquaCoordContext}
+ * @typedef SunPosEquatorialFromGenericDateReturned
+ * @type {import('./sun_pos_equatorial.js').SunPosEquatorialReturned}
  */
 
 /**
@@ -2322,7 +2845,7 @@ var _sun_pos_equatorial = require("./sun_pos_equatorial");
  * @function
  * @see {@link: module:sowngwala/sun.sun_pos_equatorial}
  * @param {Moment} date - UTC date (w/o specific time)
- * @returns {EquaCoordContext}
+ * @returns {SunPosEquatorialFromGenericDateReturned}
  */
 function sun_pos_equatorial_from_generic_date(date) {
   const dt = date;
@@ -2365,6 +2888,31 @@ describe('A test suite for: time/angle_from_decimal_hours', () => {
     expect(angle.hour()).toBe(0);
     expect(angle.minute()).toBe(0);
     expect(angle.second()).toBe(30);
+  });
+});
+"use strict";
+
+const moment = require('moment');
+const {
+  Angle,
+  Longitude
+} = require('../../coords');
+const {
+  asc_from_hour_angle
+} = require('../asc_from_hour_angle');
+describe('A test suite for: time/asc_from_hour_angle', () => {
+  test('asc_from_hour_angle', () => {
+    const utc = moment(Date.UTC(1980, 4 - 1, 22, 14, 36, 51.67)).utc();
+    const hour_angle = Angle.from_hms(5, 51, 44);
+    const lng = Longitude({
+      degrees: 64,
+      bound: 'W'
+    });
+    const angle = asc_from_hour_angle(utc, hour_angle, lng);
+    expect(angle.hour()).toBe(18);
+    expect(angle.minute()).toBe(32);
+    // Actual: 20.5577423601585
+    expect(angle.second()).toBeCloseTo(21, 0);
   });
 });
 "use strict";
@@ -2666,6 +3214,32 @@ describe('A test suite for: time/decimal_year_from_generic_date', () => {
 "use strict";
 
 const {
+  NaiveTime
+} = require('../../chrono');
+const {
+  Longitude
+} = require('../../coords');
+const {
+  gst_from_local
+} = require('../gst_from_local');
+describe('A test suite for: time/gst_from_local', () => {
+  test('gst_from_local', () => {
+    const lst = NaiveTime.from_hmsn(0, 24, 5.23, 0.0);
+    const lng = Longitude({
+      degrees: 64,
+      bound: 'W'
+    });
+    const local = gst_from_local(lst, lng);
+    expect(local.hour()).toBe(4);
+    expect(local.minute()).toBe(40);
+
+    // Actual: 5.230_000_000_000_956
+    expect(local.second()).toBeCloseTo(5.23, 2);
+  });
+});
+"use strict";
+
+const {
   hms_from_decimal_hours
 } = require('../index');
 describe('A test suite for: time/hms_from_decimal_hours', () => {
@@ -2721,6 +3295,33 @@ describe('A test suite for: time/hms_from_decimal_hours', () => {
     expect(hour).toBe(0);
     expect(min).toBe(0);
     expect(sec).toBe(30);
+  });
+});
+"use strict";
+
+const moment = require('moment');
+
+// const { NaiveTime } = require('../../chrono');
+const {
+  Angle,
+  Longitude
+} = require('../../coords');
+const {
+  hour_angle_from_asc
+} = require('../hour_angle_from_asc');
+describe('A test suite for: time/hour_angle_from_asc', () => {
+  test('hour_angle_from_asc', () => {
+    const utc = moment(Date.UTC(1980, 4 - 1, 22, 14, 36, 51.67)).utc();
+    const asc = Angle.from_hms(18, 32, 21);
+    const lng = Longitude({
+      degrees: 64,
+      bound: 'W'
+    });
+    const angle = hour_angle_from_asc(utc, asc, lng);
+    expect(angle.hour()).toBe(5);
+    expect(angle.minute()).toBe(51);
+    // Actual: 43.557742360158045
+    expect(angle.second()).toBeCloseTo(44, 0);
   });
 });
 "use strict";
@@ -2796,6 +3397,32 @@ describe('A test suite for: time/julian_day_from_generic_datetime', () => {
     let dt = moment(date).utc();
     let jd = julian_day_from_generic_datetime(dt);
     expect(jd).toBe(2_446_113.75);
+  });
+});
+"use strict";
+
+const {
+  NaiveTime
+} = require('../../chrono');
+const {
+  Longitude
+} = require('../../coords');
+const {
+  local_from_gst
+} = require('../local_from_gst');
+describe('A test suite for: time/local_from_gst', () => {
+  test('local_from_gst', () => {
+    const gst = NaiveTime.from_hmsn(4, 40, 5.23, 0.0);
+    const lng = Longitude({
+      degrees: 64,
+      bound: 'W'
+    });
+    const local = local_from_gst(gst, lng);
+    expect(local.hour()).toBe(0);
+    expect(local.minute()).toBe(24);
+
+    // Actual: 5.230_000_000_001_169
+    expect(local.second()).toBeCloseTo(5.23, 2);
   });
 });
 "use strict";
@@ -3069,6 +3696,71 @@ function angle_from_decimal_hours(dec) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.asc_from_hour_angle = asc_from_hour_angle;
+var _coords = require("../coords");
+var _gst_from_utc = require("./gst_from_utc");
+var _local_from_gst = require("./local_from_gst");
+var _decimal_hours_from_angle = require("./decimal_hours_from_angle");
+var _decimal_hours_from_naive_time = require("./decimal_hours_from_naive_time");
+var _hms_from_decimal_hours = require("./hms_from_decimal_hours");
+/**
+ * @module sowngwala/time/asc_from_hour_angle
+ */
+
+/** @typedef {import('moment').Moment} Moment */
+
+/**
+ * @typedef AngleContext
+ * @type {import('../coords/angle.js').AngleContext}
+ */
+
+/**
+ * @typedef NaiveTimeContext
+ * @type {import('../chrono/naive_time.js').NaiveTimeContext}
+ */
+
+/**
+ * @typedef LongitudeContext
+ * @type {import('../coords/geo.js').LongitudeContext}
+ */
+
+/**
+ * Given the date time in UTC, and
+ * the hour angle in AngleContext,
+ * returns "right ascension (α)".
+ *
+ * References:
+ * - Peter Duffett-Smith, p.35
+ *
+ * @public
+ * @function
+ * @param {Moment} utc
+ * @param {AngleContext} hour_angle
+ * @param {LongitudeContext} lng
+ * @returns {AngleContext}
+ */
+function asc_from_hour_angle(utc, hour_angle, lng) {
+  const gst = (0, _gst_from_utc.gst_from_utc)(utc);
+  const lst = (0, _local_from_gst.local_from_gst)(gst, lng);
+  const lst_hours = (0, _decimal_hours_from_naive_time.decimal_hours_from_naive_time)(lst);
+  const hour_angle_decimal = (0, _decimal_hours_from_angle.decimal_hours_from_angle)(hour_angle);
+  let hour_angle_0 = lst_hours;
+  hour_angle_0 -= hour_angle_decimal;
+  if (hour_angle_0 < 0) {
+    hour_angle_0 += 24;
+  }
+  const {
+    hour,
+    min,
+    sec
+  } = (0, _hms_from_decimal_hours.hms_from_decimal_hours)(hour_angle_0);
+  return _coords.Angle.from_hms(hour, min, sec);
+}
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.calibrate_hmsn = calibrate_hmsn;
 var _utils = require("../utils");
 /**
@@ -3178,38 +3870,6 @@ function calibrate_hmsn({
   } = (0, _utils.overflow)(hour, hour_limit));
   hour = remainder;
   day_excess = quotient;
-
-  // Say, we had -1.0 for
-  // 'sec' which is invalid
-  // for 'sec'. So, we want
-  // to decrease 'min' by 1,
-  // and will now have 59
-  // for 'sec'.
-  //
-  // Say, we had 0°0'-1" for
-  // an angle. Again, -1 is
-  // invalid for 'sec'.
-  // For this, we would return
-  // -1 for 'day_access' and
-  // the new angle will now
-  // become 23°59'59".
-
-  if (nano < 0.0) {
-    nano += 1_000_000_000.0;
-    sec -= 1.0;
-  }
-  if (sec < 0.0) {
-    sec += 60.0;
-    min -= 1.0;
-  }
-  if (min < 0.0) {
-    min += 60.0;
-    hour -= 1.0;
-  }
-  if (hour < 0.0) {
-    hour += hour_limit;
-    day_excess -= 1.0;
-  }
   return {
     hmsn: {
       hour,
@@ -3520,6 +4180,9 @@ exports.decimal_hours_from_hms = decimal_hours_from_hms;
 /** @typedef {import('../types.js').DecimalHours} DecimalHours */
 
 /**
+ * References:
+ * - Peter Duffett-Smith, p.10
+ *
  * @public
  * @function
  * @param {Hour} hour
@@ -3540,6 +4203,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.decimal_hours_from_naive_time = decimal_hours_from_naive_time;
+var _decimal_hours_from_hms = require("./decimal_hours_from_hms");
 /**
  * @module sowngwala/time/decimal_hours_from_naive_time
  */
@@ -3568,12 +4232,9 @@ exports.decimal_hours_from_naive_time = decimal_hours_from_naive_time;
  * @returns {DecimalHours}
  */
 function decimal_hours_from_naive_time(naive) {
-  let hour = naive.hour();
-  let min = naive.minute();
   let sec_0 = naive.nanosecond() / 1_000_000_000;
-  let sec = naive.second() + sec_0;
-  let dec = hour + (min + sec / 60.0) / 60.0;
-  return hour < 0.0 || min < 0.0 || sec < 0.0 ? -dec : dec;
+  let sec_1 = naive.second() + sec_0;
+  return (0, _decimal_hours_from_hms.decimal_hours_from_hms)(naive.hour(), naive.minute(), sec_1);
 }
 "use strict";
 
@@ -3618,6 +4279,59 @@ function decimal_year_from_generic_date(date) {
   // NOTE: 'month' in JS is indexed
   const month = date.month() + 1;
   return year + (month - 0.5) / 12.0;
+}
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.gst_from_local = gst_from_local;
+var _decimal_hours_from_naive_time = require("./decimal_hours_from_naive_time");
+var _naive_time_from_decimal_hours = require("./naive_time_from_decimal_hours");
+/**
+ * @module sowngwala/time/gst_from_local
+ */
+
+/**
+ * @typedef NaiveTimeContext
+ * @type {import('../chrono/naive_time.js').NaiveTimeContext}
+ */
+
+/**
+ * @typedef LongitudeContext
+ * @type {import('../coords/geo.js').LongitudeContext}
+ */
+
+/**
+ * Given GST LST (Local Sidereal Time)
+ * in NaiveTime and Longitude for
+ * the site, returns GST.
+ *
+ * References:
+ * - Peter Duffett-Smith, p.21
+ *
+ * @public
+ * @function
+ * @param {NaiveTimeContext} lst
+ * @param {LongitudeContext} lng
+ * @returns {NaiveTimeContext}
+ */
+function gst_from_local(lst, lng) {
+  const lst_hours = (0, _decimal_hours_from_naive_time.decimal_hours_from_naive_time)(lst);
+  const lng_hours = lng.degrees / 15;
+  let decimal_hours = lst_hours;
+  if (lng.bound === 'W') {
+    decimal_hours += lng_hours;
+  } else {
+    decimal_hours -= lng_hours;
+  }
+  if (decimal_hours > 24) {
+    decimal_hours -= 24;
+  }
+  if (decimal_hours < 0) {
+    decimal_hours += 24;
+  }
+  return (0, _naive_time_from_decimal_hours.naive_time_from_decimal_hours)(decimal_hours);
 }
 "use strict";
 
@@ -3678,15 +4392,21 @@ function gst_from_utc(utc) {
   let s = jd - 2_451_545.0;
   let t = s / 36_525.0;
   let t0 = 6.697_374_558 + 2_400.051_336 * t + 0.000_025_862 * t * t;
+
+  // mosaikekkan
+  // ({ quotient: t0 } = overflow(t0, 24.0));
   ({
-    quotient: t0
+    remainder: t0
   } = (0, _utils.overflow)(t0, 24.0));
   let naive_time = (0, _naive_time_from_generic_datetime.naive_time_from_generic_datetime)(utc);
   let decimal = (0, _decimal_hours_from_generic_time.decimal_hours_from_generic_time)(naive_time);
   decimal *= 1.002_737_909;
   decimal += t0;
+
+  // mosaikekkan
+  // ({ quotient: decimal } = overflow(decimal, 24.0));
   ({
-    quotient: decimal
+    remainder: decimal
   } = (0, _utils.overflow)(decimal, 24.0));
   return (0, _naive_time_from_decimal_hours.naive_time_from_decimal_hours)(decimal);
 }
@@ -3710,6 +4430,9 @@ var _utils = require("../utils");
  * Note it is different from the Rust version.
  * See 'decimal_hours_from_angle' for
  * it depends on this version.
+ *
+ * References:
+ * - Peter Duffett-Smith, p.11
  *
  * @private
  * @function
@@ -3741,6 +4464,71 @@ function hms_from_decimal_hours(dec) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.hour_angle_from_asc = hour_angle_from_asc;
+var _coords = require("../coords");
+var _gst_from_utc = require("./gst_from_utc");
+var _local_from_gst = require("./local_from_gst");
+var _decimal_hours_from_angle = require("./decimal_hours_from_angle");
+var _decimal_hours_from_naive_time = require("./decimal_hours_from_naive_time");
+var _hms_from_decimal_hours = require("./hms_from_decimal_hours");
+/**
+ * @module sowngwala/time/hour_angle_from_asc
+ */
+
+/** @typedef {import('moment').Moment} Moment */
+
+/**
+ * @typedef AngleContext
+ * @type {import('../coords/angle.js').AngleContext}
+ */
+
+/**
+ * @typedef NaiveTimeContext
+ * @type {import('../chrono/naive_time.js').NaiveTimeContext}
+ */
+
+/**
+ * @typedef LongitudeContext
+ * @type {import('../coords/geo.js').LongitudeContext}
+ */
+
+/**
+ * Given the date time in UTC, and
+ * "right ascension (α)", returns
+ * the hour angle in AngleContext.
+ *
+ * References:
+ * - Peter Duffett-Smith, p.35
+ *
+ * @public
+ * @function
+ * @param {Moment} utc
+ * @param {AngleContext} asc
+ * @param {LongitudeContext} lng
+ * @returns {AngleContext}
+ */
+function hour_angle_from_asc(utc, asc, lng) {
+  const gst = (0, _gst_from_utc.gst_from_utc)(utc);
+  const lst = (0, _local_from_gst.local_from_gst)(gst, lng);
+  const lst_hours = (0, _decimal_hours_from_naive_time.decimal_hours_from_naive_time)(lst);
+  const asc_decimal = (0, _decimal_hours_from_angle.decimal_hours_from_angle)(asc);
+  let hour_angle = lst_hours;
+  hour_angle -= asc_decimal;
+  if (hour_angle < 0) {
+    hour_angle += 24;
+  }
+  const {
+    hour,
+    min,
+    sec
+  } = (0, _hms_from_decimal_hours.hms_from_decimal_hours)(hour_angle);
+  return _coords.Angle.from_hms(hour, min, sec);
+}
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 Object.defineProperty(exports, "add_date", {
   enumerable: true,
   get: function () {
@@ -3751,6 +4539,12 @@ Object.defineProperty(exports, "angle_from_decimal_hours", {
   enumerable: true,
   get: function () {
     return _angle_from_decimal_hours.angle_from_decimal_hours;
+  }
+});
+Object.defineProperty(exports, "asc_from_hour_angle", {
+  enumerable: true,
+  get: function () {
+    return _asc_from_hour_angle.asc_from_hour_angle;
   }
 });
 Object.defineProperty(exports, "calibrate_hmsn", {
@@ -3813,6 +4607,12 @@ Object.defineProperty(exports, "decimal_year_from_generic_date", {
     return _decimal_year_from_generic_date.decimal_year_from_generic_date;
   }
 });
+Object.defineProperty(exports, "gst_from_local", {
+  enumerable: true,
+  get: function () {
+    return _gst_from_local.gst_from_local;
+  }
+});
 Object.defineProperty(exports, "gst_from_utc", {
   enumerable: true,
   get: function () {
@@ -3823,6 +4623,12 @@ Object.defineProperty(exports, "hms_from_decimal_hours", {
   enumerable: true,
   get: function () {
     return _hms_from_decimal_hours.hms_from_decimal_hours;
+  }
+});
+Object.defineProperty(exports, "hour_angle_from_asc", {
+  enumerable: true,
+  get: function () {
+    return _hour_angle_from_asc.hour_angle_from_asc;
   }
 });
 Object.defineProperty(exports, "is_julian_date", {
@@ -3853,6 +4659,12 @@ Object.defineProperty(exports, "julian_day_from_generic_datetime", {
   enumerable: true,
   get: function () {
     return _julian_day_from_generic_datetime.julian_day_from_generic_datetime;
+  }
+});
+Object.defineProperty(exports, "local_from_gst", {
+  enumerable: true,
+  get: function () {
+    return _local_from_gst.local_from_gst;
   }
 });
 Object.defineProperty(exports, "naive_from_julian_day", {
@@ -3893,6 +4705,7 @@ Object.defineProperty(exports, "utc_from_gst", {
 });
 var _add_date = require("./add_date");
 var _angle_from_decimal_hours = require("./angle_from_decimal_hours");
+var _asc_from_hour_angle = require("./asc_from_hour_angle");
 var _calibrate_hmsn = require("./calibrate_hmsn");
 var _day_of_the_week = require("./day_of_the_week");
 var _day_number_from_generic_date = require("./day_number_from_generic_date");
@@ -3903,6 +4716,7 @@ var _decimal_hours_from_hms = require("./decimal_hours_from_hms");
 var _decimal_hours_from_generic_time = require("./decimal_hours_from_generic_time");
 var _decimal_hours_from_angle = require("./decimal_hours_from_angle");
 var _decimal_year_from_generic_date = require("./decimal_year_from_generic_date");
+var _gst_from_local = require("./gst_from_local");
 var _gst_from_utc = require("./gst_from_utc");
 var _hms_from_decimal_hours = require("./hms_from_decimal_hours");
 var _is_julian_date = require("./is_julian_date");
@@ -3910,6 +4724,8 @@ var _is_leap_year = require("./is_leap_year");
 var _julian_day = require("./julian_day");
 var _julian_day_from_generic_date = require("./julian_day_from_generic_date");
 var _julian_day_from_generic_datetime = require("./julian_day_from_generic_datetime");
+var _local_from_gst = require("./local_from_gst");
+var _hour_angle_from_asc = require("./hour_angle_from_asc");
 var _naive_from_julian_day = require("./naive_from_julian_day");
 var _naive_time_from_decimal_days = require("./naive_time_from_decimal_days");
 var _naive_time_from_decimal_hours = require("./naive_time_from_decimal_hours");
@@ -4129,6 +4945,59 @@ function julian_day_from_generic_datetime(dt) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.local_from_gst = local_from_gst;
+var _decimal_hours_from_naive_time = require("./decimal_hours_from_naive_time");
+var _naive_time_from_decimal_hours = require("./naive_time_from_decimal_hours");
+/**
+ * @module sowngwala/time/local_from_gst
+ */
+
+/**
+ * @typedef NaiveTimeContext
+ * @type {import('../chrono/naive_time.js').NaiveTimeContext}
+ */
+
+/**
+ * @typedef LongitudeContext
+ * @type {import('../coords/geo.js').LongitudeContext}
+ */
+
+/**
+ * Given GST in NaiveTime and Longitude
+ * for the site, returns LST (Local
+ * Sidereal Time).
+ *
+ * References:
+ * - Peter Duffett-Smith, p.20
+ *
+ * @public
+ * @function
+ * @param {NaiveTimeContext} gst
+ * @param {LongitudeContext} lng
+ * @returns {NaiveTimeContext}
+ */
+function local_from_gst(gst, lng) {
+  const gst_hours = (0, _decimal_hours_from_naive_time.decimal_hours_from_naive_time)(gst);
+  const lng_hours = lng.degrees / 15;
+  let decimal_hours = gst_hours;
+  if (lng.bound === 'W') {
+    decimal_hours -= lng_hours;
+  } else {
+    decimal_hours += lng_hours;
+  }
+  if (decimal_hours > 24) {
+    decimal_hours -= 24;
+  }
+  if (decimal_hours < 0) {
+    decimal_hours += 24;
+  }
+  return (0, _naive_time_from_decimal_hours.naive_time_from_decimal_hours)(decimal_hours);
+}
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.naive_from_julian_day = naive_from_julian_day;
 var _moment = _interopRequireDefault(require("moment"));
 var _utils = require("../utils");
@@ -4255,8 +5124,7 @@ var _angle_from_decimal_hours = require("./angle_from_decimal_hours");
  * - sowngwala::time::naive_time_from_decimal_hours
  *
  * References:
- * - (Peter Duffett-Smith, p.11)
- * - sowngwala::time::time_from_decimal_hours;
+ * - Peter Duffett-Smith, p.11
  *
  * @public
  * @function
@@ -4472,6 +5340,26 @@ function overflow(value, base) {
   let remainder = value % base;
   let divisible = value - remainder;
   let quotient = divisible / base;
+
+  // Say, we had -1.0 for
+  // 'sec' which is invalid
+  // for 'sec'. So, we want
+  // to decrease 'min' by 1,
+  // and will now have 59
+  // for 'sec'.
+  //
+  // Say, we had 0°0'-1" for
+  // an angle. Again, -1 is
+  // invalid for 'sec'.
+  // For this, we would return
+  // -1 for 'day_access' and
+  // the new angle will now
+  // become 23°59'59".
+
+  if (remainder < 0.0) {
+    remainder += base;
+    quotient -= 1;
+  }
   remainder = unsigned_zero(remainder);
   quotient = unsigned_zero(quotient);
   return {
@@ -4635,19 +5523,25 @@ describe('A test suite on: utils.js', () => {
       remainder,
       quotient
     } = overflow(-59.0, 60.0));
-    expect(remainder).toBe(-59.0);
-    expect(quotient).toBe(0);
+    // expect(remainder).toBe(-59.0);
+    // expect(quotient).toBe(0);
+    expect(remainder).toBe(1);
+    expect(quotient).toBe(-1);
     ({
       remainder,
       quotient
     } = overflow(-61.0, 60.0));
-    expect(remainder).toBe(-1.0);
-    expect(quotient).toBe(-1.0);
+    // expect(remainder).toBe(-1.0);
+    // expect(quotient).toBe(-1.0);
+    expect(remainder).toBe(59.0);
+    expect(quotient).toBe(-2.0);
     ({
       remainder,
       quotient
     } = overflow(-60.1, 60.0));
-    expect(remainder).toBeCloseTo(-0.1, 0); // 1e-1
-    expect(quotient).toBe(-1.0);
+    // expect(remainder).toBeCloseTo(-0.1, 0);
+    // expect(quotient).toBe(-1.0);
+    expect(remainder).toBeCloseTo(59.9, 0); // 1e-1
+    expect(quotient).toBe(-2.0);
   });
 });

@@ -1,3 +1,3 @@
-export function sun_pos_equatorial_from_generic_date(date: Moment): EquaCoordContext;
+export function sun_pos_equatorial_from_generic_date(date: Moment): SunPosEquatorialFromGenericDateReturned;
 export type Moment = import('moment').Moment;
-export type EquaCoordContext = import('../coords/equatorial.js').EquaCoordContext;
+export type SunPosEquatorialFromGenericDateReturned = import('./sun_pos_equatorial.js').SunPosEquatorialReturned;
