@@ -2,6 +2,11 @@
  * @module sowngwala/coords
  */
 
+export {
+  approx_zone_from_geo,
+  zone_format,
+} from './approx_zone_from_geo';
+
 export { Angle } from './angle';
 export { EcliCoord } from './ecliptic';
 export { EquaCoord } from './equatorial';

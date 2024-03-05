@@ -2,6 +2,7 @@
  * @module chrono/naive_time
  */
 
+import { pad, nano_from_sec } from '../utils';
 import { calibrate_hmsn } from '../time';
 
 /** @typedef {import('../types.js').Hour} Hour */
@@ -29,6 +30,7 @@ import { calibrate_hmsn } from '../time';
  * @property {Getter<NanoSecond>} nanosecond
  * @property {Getter<DecimalDays>} day_excess
  * @property {Calibrate} calibrate
+ * @property {function(): void} print
  */
 
 /**
@@ -37,7 +39,16 @@ import { calibrate_hmsn } from '../time';
  *
  * @typedef NaiveTime
  * @type {Object}
+ * @property {FromHMS} from_hms
  * @property {FromHMSNano} from_hmsn
+ */
+
+/**
+ * @callback FromHMS
+ * @param {number} h
+ * @param {number} m
+ * @param {number} s
+ * @returns {NaiveTimeContext}
  */
 
 /**
@@ -60,8 +71,19 @@ import { calibrate_hmsn } from '../time';
  * @type {NaiveTime}
  */
 export const NaiveTime = Object.freeze({
+  from_hms,
   from_hmsn,
 });
+
+/**
+ * @public
+ * @static
+ * @type {FromHMS}
+ */
+function from_hms(h, m, s) {
+  const { sec, nano } = nano_from_sec(s);
+  return _from_hmsn(h, m, sec, nano);
+}
 
 /**
  * @public
@@ -69,16 +91,14 @@ export const NaiveTime = Object.freeze({
  * @type {FromHMSNano}
  */
 function from_hmsn(h, m, s, n) {
-  const self = _from_hmsn(h, m, s, n);
-  // self.calibrate();
-  return self;
+  return _from_hmsn(h, m, s, n);
 }
 
 /**
  * @private
  * @type {FromHMSNano}
  */
-function _from_hmsn(h, m, s, n) {
+function _from_hmsn(h, m, s, n = 0.0) {
   /**
    * @private
    * @type {Hour}
@@ -122,6 +142,7 @@ function _from_hmsn(h, m, s, n) {
     nanosecond: () => nano,
     day_excess: () => day_excess,
     calibrate,
+    print: () => `${pad(hour)}:${pad(min)}:${pad(sec)}`,
   });
 
   /**

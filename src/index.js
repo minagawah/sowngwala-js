@@ -9,7 +9,7 @@
 // This is where the app begins.
 // ------------------------------------
 
-export * as NaiveTime from './chrono';
+export * as chrono from './chrono';
 export * as coords from './coords';
 export * as moon from './moon';
 export * as sun from './sun';

@@ -2,9 +2,16 @@
  * @module sowngwala/utils
  */
 
+import { NANOSECOND_UNIT } from './constants';
+
 /** @typedef {import('moment').Moment} Moment */
+/** @typedef {import('./types.js').Second} Second */
+/** @typedef {import('./types.js').NanoSecond} NanoSecond */
 
 export const noop = () => {};
+
+export const pad = (n = 0, digits = 2) =>
+  n.toString().padStart(digits, '0');
 
 /**
  * JS has '-0' and '+0' which
@@ -20,6 +27,35 @@ export const unsigned_zero = value =>
   Object.is(value, -0) || Object.is(value, +0)
     ? value | 0
     : value;
+
+/**
+ * Given 'sec', extract 'nano', and
+ * returns 'nano' and the new 'sec'.
+ *
+ * Ex.
+ * sec_0 = 53.000_000_001_234
+ * sec_1 = 53.000_000_001
+ * nano = 456_000_000
+ *
+ * 'nano' is 1/1_000_000_000 of 'sec'.
+ *
+ * @public
+ * @function
+ * @param {Second} sec
+ * @returns {{ sec: Second, nano: NanoSecond }}
+ */
+export function nano_from_sec(sec = 0.0) {
+  const s = sec * NANOSECOND_UNIT;
+  const _int = Math.floor(s);
+  const _frac = fract(s);
+  const _sec = _int / NANOSECOND_UNIT;
+  const _nano = _frac * NANOSECOND_UNIT;
+
+  return {
+    sec: _sec,
+    nano: _nano,
+  };
+}
 
 /**
  * @typedef OverflowReturned

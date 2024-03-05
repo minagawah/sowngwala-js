@@ -16,6 +16,7 @@ export type AngleContext = {
     day_excess: Getter<DecimalDays>;
     to_naive_time: ToNaiveTime;
     calibrate: Calibrate;
+    print: () => void;
 };
 export type FromHMS = (h: Hour, m: Minute, s: Second) => AngleContext;
 export type ToNaiveTime = () => NaiveTimeContext;

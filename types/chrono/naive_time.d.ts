@@ -1,4 +1,5 @@
 export type NaiveTime = {
+    from_hms: FromHMS;
     from_hmsn: FromHMSNano;
 };
 export const NaiveTime: NaiveTime;
@@ -15,6 +16,8 @@ export type NaiveTimeContext = {
     nanosecond: Getter<NanoSecond>;
     day_excess: Getter<DecimalDays>;
     calibrate: Calibrate;
+    print: () => void;
 };
+export type FromHMS = (h: number, m: number, s: number) => NaiveTimeContext;
 export type FromHMSNano = (h: number, m: number, s: number, n: number) => NaiveTimeContext;
 export type Calibrate = () => number;

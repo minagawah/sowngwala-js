@@ -4,7 +4,10 @@
 
 import { is_leap_year } from './is_leap_year';
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateContext
+ * @type {import('../chrono/naive_date.js').NaiveDateContext}
+ */
 
 /**
  * Finds out the day number for the
@@ -14,19 +17,19 @@ import { is_leap_year } from './is_leap_year';
  * Original:
  * - sowngwala::time::day_number_from_generic_date
  *
- * @param {Moment} date
+ * @param {NaiveDateContext} date
  * @returns {number}
  */
 export function day_number_from_generic_date(date) {
   let tmp = is_leap_year(date.year()) ? 62.0 : 63.0;
 
-  // NOTE: 'month' is indexed in JS
-  let num = date.month() + 1;
+  let num = date.month();
+
   if (num <= 2.0) {
     num = Math.floor(((num - 1.0) * tmp) / 2.0);
   } else {
     num = Math.floor((num + 1.0) * 30.6) - tmp;
   }
-  // NOTE: 'day' in Rust is 'date' in JS
-  return num + date.date();
+
+  return num + date.day();
 }

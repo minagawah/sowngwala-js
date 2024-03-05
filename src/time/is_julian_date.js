@@ -2,7 +2,10 @@
  * @module sowngwala/time/is_julian_date
  */
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateContext
+ * @type {import('../chrono/naive_date.js').NaiveDateContext}
+ */
 
 /**
  * Checks if the given date is julian date.
@@ -12,7 +15,7 @@
  *
  * @public
  * @function
- * @param {Moment} date
+ * @param {NaiveDateContext} date
  * @returns {boolean}
  */
 export function is_julian_date(date) {
@@ -22,16 +25,13 @@ export function is_julian_date(date) {
   if (date.year() < 1582) {
     return true;
   }
-  // NOTE: 'month' is indexed in JS
-  if (date.month() + 1 > 10) {
+  if (date.month() > 10) {
     return false;
   }
-  // NOTE: 'month' is indexed in JS
-  if (date.month() + 1 < 10) {
+  if (date.month() < 10) {
     return true;
   }
-  // NOTE: 'day' in Rust is 'date' in JS different
-  if (date.date() > 14) {
+  if (date.day() > 14) {
     return false;
   }
   return true;

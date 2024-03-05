@@ -4,7 +4,10 @@
 
 import { NaiveTime } from '../chrono';
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * @typedef NaiveTimeContext
@@ -14,7 +17,7 @@ import { NaiveTime } from '../chrono';
 /**
  * @public
  * @function
- * @param {Moment} dt
+ * @param {NaiveDateTimeContext} dt
  * @returns {NaiveTimeContext}
  */
 export function naive_time_from_generic_datetime(dt) {
@@ -22,7 +25,6 @@ export function naive_time_from_generic_datetime(dt) {
     dt.hour(),
     dt.minute(),
     dt.second(),
-    // NOTE: 'Moment' does not have 'nanosecond'
-    dt.millisecond() * 1_000_000
+    dt.nanosecond()
   );
 }

@@ -26,5 +26,7 @@ import { angle_from_decimal_hours } from './angle_from_decimal_hours';
  * @returns {NaiveTimeContext}
  */
 export function naive_time_from_decimal_hours(dec) {
+  // NOTE:
+  // This will extract 'nano' from 'sec'.
   return angle_from_decimal_hours(dec).to_naive_time();
 }

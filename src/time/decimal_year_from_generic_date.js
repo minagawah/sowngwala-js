@@ -2,7 +2,11 @@
  * @module sowngwala/time/decimal_year_from_generic_date
  */
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateContext
+ * @type {import('../chrono/naive_date.js').NaiveDateContext}
+ */
+
 /** @typedef {import('../types.js').DecimalYears} DecimalYears */
 
 /**
@@ -27,12 +31,11 @@
  *
  * @public
  * @function
- * @param {Moment} date
+ * @param {NaiveDateContext} date
  * @returns {DecimalYears}
  */
 export function decimal_year_from_generic_date(date) {
   const year = date.year();
-  // NOTE: 'month' in JS is indexed
-  const month = date.month() + 1;
+  const month = date.month();
   return year + (month - 0.5) / 12.0;
 }

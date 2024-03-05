@@ -1,3 +1,4 @@
+export const NANOSECOND_UNIT: 1000000000;
 export const OFFSET_GMT: "+00:00";
 export const OFFSET_TOKYO: "+09:00";
 export const MYSQL_FORMAT: "YYYY-MM-DD HH:mm:ss";

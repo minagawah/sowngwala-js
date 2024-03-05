@@ -32,7 +32,10 @@
 
 import { decimal_year_from_generic_date } from './time';
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateContext
+ * @type {import('./chrono/naive_date.js').NaiveDateContext}
+ */
 
 /**
  * Before the year -500, calculate:
@@ -405,7 +408,7 @@ function get_after_ad2150(year) {
  *
  * @public
  * @function
- * @param {Moment} date
+ * @param {NaiveDateContext} date
  * @returns {number}
  */
 export function delta_t_from_generic_date(date) {

@@ -55,5 +55,15 @@ describe('A test suite on: utils.js', () => {
     // expect(quotient).toBe(-1.0);
     expect(remainder).toBeCloseTo(59.9, 0); // 1e-1
     expect(quotient).toBe(-2.0);
+
+    // This is used in 'gst_from_local'.
+    ({ remainder, quotient } = overflow(25, 24));
+    expect(remainder).toBe(1);
+    expect(quotient).toBe(1);
+
+    // This is used in 'gst_from_local'.
+    ({ remainder, quotient } = overflow(-1, 24));
+    expect(remainder).toBe(23);
+    expect(quotient).toBe(-1);
   });
 });

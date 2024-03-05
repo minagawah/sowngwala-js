@@ -6,3 +6,4 @@ export { sun_pos_ecliptic } from "./sun_pos_ecliptic";
 export { sun_pos_ecliptic_from_generic_date } from "./sun_pos_ecliptic_from_generic_date";
 export { sun_pos_equatorial } from "./sun_pos_equatorial";
 export { sun_pos_equatorial_from_generic_date } from "./sun_pos_equatorial_from_generic_date";
+export { sun_pos_horizontal } from "./sun_pos_horizontal";

@@ -9,7 +9,12 @@ import { julian_day_from_generic_date } from './julian_day_from_generic_date';
 import { decimal_hours_from_generic_time } from './decimal_hours_from_generic_time';
 import { naive_time_from_decimal_hours } from './naive_time_from_decimal_hours';
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
+
+/** @typedef {import('../types.js').DecimalDays} DecimalDays */
 
 /**
  * @typedef NaiveTimeContext
@@ -17,39 +22,26 @@ import { naive_time_from_decimal_hours } from './naive_time_from_decimal_hours';
  */
 
 /**
+ * @typedef UtcFromGstReturned
+ * @type {Object}
+ * @property {NaiveTimeContext} utc_time - UTC Time
+ * @property {DecimalDays} day_excess - Carry-over when exceeds 24 hours.
+ */
+
+/**
  * Given GST, returns UTC.
  *
  * Reference:
- * - (Peter Duffett-Smith, pp.18-19)
- * - sowngwala::time::utc_from_gst
+ * - Peter Duffett-Smith, pp.18-19
  *
- * Example:
- * ```rust
- * use chrono::Timelike;
- * use chrono::naive::{NaiveDateTime, NaiveDate, NaiveTime};
- * use sowngwala::time::utc_from_gst;
- *
- * let nanosecond: u32 = 230_000_000;
- * let gst: NaiveDateTime =
- *     NaiveDate::from_ymd(1980, 4, 22)
- *         .and_hms_nano(4, 40, 5, nanosecond);
- *
- * let utc = utc_from_gst(gst);
- * assert_eq!(utc.hour(), 14);
- * assert_eq!(utc.minute(), 36);
- * assert_eq!(utc.second(), 51); // 51.67040214530175
- * assert_eq!(
- *     utc.nanosecond(),
- *     670_402_145
- * );
- * ```
  * @public
  * @function
- * @param {Moment} gst
- * @returns {NaiveTimeContext}
+ * @see {@link: module:sowngwala/time/utc_from_gst}
+ * @param {NaiveDateTimeContext} gst
+ * @returns {UtcFromGstReturned}
  */
 export function utc_from_gst(gst) {
-  // Luckily, we only need date, not datetime.
+  // We only need date, not datetime.
   let jd = julian_day_from_generic_date(gst);
 
   let s = jd - 2_451_545.0;
@@ -60,21 +52,30 @@ export function utc_from_gst(gst) {
     2_400.051_336 * t +
     0.000_025_862 * t * t;
 
-  ({ quotient: t0 } = overflow(t0, 24.0));
+  let remainder = 0;
 
-  let decimal = decimal_hours_from_generic_time(
+  ({ remainder: t0 } = overflow(t0, 24.0));
+
+  let decimal_hours = decimal_hours_from_generic_time(
     NaiveTime.from_hmsn(
       gst.hour(),
       gst.minute(),
       gst.second(),
-      // NOTE: 'Moment' does not have 'nanosecond'
-      gst.millisecond() * 1_000_000
+      gst.nanosecond()
     )
   );
 
-  ({ quotient: decimal } = overflow(decimal - t0, 24.0));
+  decimal_hours -= t0;
 
-  return naive_time_from_decimal_hours(
-    decimal * 0.997_269_566_3
-  );
+  ({ remainder: decimal_hours } = overflow(
+    decimal_hours,
+    24.0
+  ));
+
+  decimal_hours *= 0.997_269_566_3;
+
+  return {
+    utc_time: naive_time_from_decimal_hours(decimal_hours),
+    day_excess: remainder,
+  };
 }

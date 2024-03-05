@@ -1,5 +1,5 @@
-export function sun_pos_equatorial(dt: Moment): SunPosEquatorialReturned;
-export type Moment = import('moment').Moment;
+export function sun_pos_equatorial(utc: NaiveDateTimeContext): SunPosEquatorialReturned;
+export type NaiveDateTimeContext = import('../chrono/naive_datetime.js').NaiveDateTimeContext;
 export type EcliCoordContext = import('../coords/ecliptic.js').EcliCoordContext;
 export type EquaCoordContext = import('../coords/equatorial.js').EquaCoordContext;
 export type SunPosEquatorialReturned = {

@@ -5,7 +5,10 @@
 import { fract } from '../utils';
 import { julian_day } from './julian_day';
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateContext
+ * @type {import('../chrono/naive_date.js').NaiveDateContext}
+ */
 
 /**
  * Finds day of the week out of
@@ -27,23 +30,21 @@ import { julian_day } from './julian_day';
  *
  * @public
  * @function
- * @param {Moment} dt
+ * @param {NaiveDateContext} date
  * @returns {number}
  */
-export function day_of_the_week(dt) {
+export function day_of_the_week(date) {
   // Rust implementation would be:
   // ----------------------------------
-  // dt.weekday().num_days_from_sunday()
+  // date.weekday().num_days_from_sunday()
   // // Sunday = 0
   // // Monday = 1
   // ----------------------------------
 
   let jd = julian_day(
-    dt.year(),
-    // NOTE: 'month' is indexed in JS
-    dt.month() + 1,
-    // NOTE: 'day' in Rust is 'date' in JS
-    dt.date()
+    date.year(),
+    date.month(),
+    date.day()
   );
   let a = (jd + 1.5) / 7.0;
 

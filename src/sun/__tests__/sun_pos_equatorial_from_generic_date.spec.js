@@ -1,14 +1,18 @@
-const moment = require('moment');
+const { NaiveDate } = require('../../chrono');
+const {
+  sun_pos_equatorial_from_generic_date,
+} = require('../index');
 
-const { sun_pos_equatorial } = require('../index');
-
-describe('A test suite for: sun/sun_pos_equatorial', () => {
-  test('sun_pos_equatorial', () => {
-    const utc = moment(Date.UTC(1988, 7 - 1, 27)).utc();
-    const { coord } = sun_pos_equatorial(utc);
+describe('A test suite for: sun/sun_pos_equatorial_from_generic_date', () => {
+  test('sun_pos_equatorial_from_generic_date', () => {
+    const date = NaiveDate.from_ymd(1988, 7, 27);
+    const { coord } =
+      sun_pos_equatorial_from_generic_date(date);
 
     const asc = coord.asc; // right ascension (α)
     const dec = coord.dec; // declination (δ)
+    // console.log('right ascension:', asc.print());
+    // console.log('declination:', dec.print());
 
     expect(asc.hour()).toBe(8);
     expect(asc.minute()).toBe(26);

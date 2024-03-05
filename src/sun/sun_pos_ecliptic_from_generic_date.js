@@ -2,9 +2,13 @@
  * @module sowngwala/sun/sun_pos_ecliptic_from_generic_date
  */
 
+import { NaiveDateTime } from '../chrono';
 import { sun_pos_ecliptic } from './sun_pos_ecliptic';
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateContext
+ * @type {import('../chrono/naive_date.js').NaiveDateContext}
+ */
 
 /**
  * @typedef SunPosEclipticFromGenericDateReturned
@@ -20,9 +24,17 @@ import { sun_pos_ecliptic } from './sun_pos_ecliptic';
  * and "longitude (λ)".
  * (Peter Duffett-Smith, p.91)
  *
- * See 'sun_pos_ecliptic' for that is
- * where the actual calculation are
- * to be carried out.
+ * Consider using
+ * 'sun_pos_ecliptic_from_generic_date'
+ * because it gives you accurate
+ * a result. In Peter Duffett-Smith's
+ * it takes only "date". Obviously,
+ * it does not take "time" into
+ * consideration. However, for
+ * 'sun_pos_ecliptic_from_generic_date'
+ * takes "datetime", it gives you
+ * more accurate result when you
+ * want a result for a specific time.
  *
  * Original:
  * - sowngwalla::sun::ecliptic_position_of_the_sun_from_generic_date
@@ -30,11 +42,17 @@ import { sun_pos_ecliptic } from './sun_pos_ecliptic';
  * @public
  * @function
  * @see {@link: module:sowngwala/sun/sun_pos_ecliptic}
- * @param {Moment} date - UTC date (w/o specific time)
+ * @param {NaiveDateContext} date - UTC date (w/o specific time)
  * @returns {SunPosEclipticFromGenericDateReturned}
  */
 export function sun_pos_ecliptic_from_generic_date(date) {
-  const dt = date;
-  dt.set({ hour: 0, minute: 0, second: 0 });
+  const dt = NaiveDateTime.from_ymd_hms(
+    date.year(),
+    date.month(),
+    date.day(),
+    0,
+    0,
+    0
+  );
   return sun_pos_ecliptic(dt);
 }

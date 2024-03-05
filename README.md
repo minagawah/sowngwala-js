@@ -35,21 +35,22 @@ the most popular demands would probably be the following 2:
 
 Whichever you wish to pursue, the program offers the corresponding 2 methods:
 
-- (Equatorial/Horizontal)  
+- (Equatorial or Horizontal)  
 [sun_pos_equatorial](src/sun/sun_pos_equatorial.js)
   - Usually for "Observation"
-  - You want the sun's position either in [Equatorial](src/coords/equatorial.js) or [Horizontal](src/coords/horizontal.js) coordinate system, so that you will get to know for which direction you should face toward to see the sun.
+  - You want the sun's position either in [Equatorial](src/coords/equatorial.js) or [Horizontal](src/coords/horizontal.js) coordinate system, so that you will get to know for which direction you should face toward to see the sun. Use [horizontal_from_equatorial](src/coords/horizontal_from_equatorial.js) to convert Equatorial to Horizontal.
 - (Ecliptic)  
 [sun_pos_ecliptic](src/sun/sun_pos_ecliptic.js)
   - Usually for "Astrology"
   - You want the sun's position in [Ecliptic](src/coords/ecliptic.js) coordinate system, so that you would get "latitude (β)" and "ongitude (λ)" for the given time and space.
 
-Since the steps for finding Equatorial position includes that of Ecliptic,
-we can only focus on Equatorial, and it should pretty much suffice the needs.
+Equatorial pretty much covers Ecliptic.
+So, as to illustrate the use of the library,
+it is sufficient if we talked about Equatorial only.  
+As a matter of fact, if you run [sun_pos_equatorial](src/sun/sun_pos_equatorial.js), it will not only return Equatorial, but also Ecliptic, too.
 
-Let's see how you can calculate **Equatorial** position of the sun.
-
-If you want **Horizontal** position of the sun, check out [src.check/check.js](src.check/check.js) which runs on [the demo page](https://tokyo800.jp/mina/sowngwala/), and it contains an example to find Horizontal position of the sun.
+Also, if you want to convert the Equatorial to the Horizontal, please refer to [src.check/check.js](src.check/check.js) for it demonstrate the usage. It also takes observer's latitude and longitude, and his/her LST (Local Sidereal Time).  
+(you can find it runnin in [the demo page](https://tokyo800.jp/mina/sowngwala/))
 
 ### (a) Runtime Usage
 
@@ -62,41 +63,37 @@ and you can use any of the method provided.
 <body>
 <script src="https://{YOUR_SERVER_PATH}/sowngwala-0.3.0.js"></script>
 <script type="text/javascript">
-import moment from 'moment';
-
 window.addEventListener('load', () => {
+  const { NaiveDateTime } = Sowngwala.chrono;
   const { sun_pos_equatorial } = Sowngwala.sun;
 
-  // You want to know the sun's position
-  // for July 1, 1988 in the  Equatorial
-  // coordinate system which is comprised
-  // of "right ascension (α)" and
-  // "declination (δ)".
+  // Find out the sun's
+  // Equatorial position
+  // for July 1, 1988 (UTC)
+  const utc = NaiveDateTime.from_ymd(
+    1988,
+    7,
+    27,
+  );
 
-  const utc = moment(Date.UTC(1988, 7 - 1, 27)).utc();
-  const { coord } = sun_pos_equatorial(utc);
+  const { coord } =
+    sun_pos_equatorial(utc);
 
-  const asc = coord.asc; // right ascension (α)
-  const dec = coord.dec; // declination (δ)
+  // right ascension (α)
+  const asc = coord.asc;
 
-  const asc_hms = `${asc.hour()}°${asc.minute()}'${asc.second()}"`;
-  const dec_hms = `${dec.hour()}°${dec.minute()}'${dec.second()}"`;
+  // declination (δ)
+  const dec = coord.dec;
 
-  console.log('asc:', asc_hms); // 8°26'4.0
-  console.log('dec:', dec_hms); // 19°12'42.5
-
-  // Usually, you may want to convert
-  // the position which is Equatorial
-  // to that of Horizontal because
-  // that is more relevant when
-  // observing the sky.
+  console.log('asc:', asc.print()); // 8°26'4.0
+  console.log('dec:', dec.print()); // 19°12'42.5
 });
 </script>
 </body>
 </html>
 ```
 
-As mentioned in the beginning, the above is for the Equatorial position, and it is advised that you check out [src.check/check.js](src.check/check.js) for it contains a full example of finding the Horizontal.
+As mentioned in the beginning, the above is for the Equatorial position, and it is advised that you check out [src.check/check.js](src.check/check.js) for it contains a full example of finding the Horizontal (which also illustrate the use of local standard time and observer's latitude and longitude).
 
 ### (b) For NPM Apps
 
@@ -115,15 +112,17 @@ Once installed, begin writing codes.
 Implementations are about the same as the one for the runtime.
 
 ```js
-import moment from 'moment';
-import { sun_pos_equatorial } from 'sowngwala';
+import {
+  NaiveDateTime,
+  sun_pos_equatorial,
+} from 'sowngwala';
 
 // Rest of the codes are
 // the same as the one
 // for the runtime...
 ```
 
-As mentioned, check out [src.check/check.js](src.check/check.js) for the Horizontal position.
+As mentioned, check out [src.check/check.js](src.check/check.js) for the Horizontal position (and of local standard time and observer's latitude and longitude).
 
 
 ### 3-1. Position of the Moon
@@ -133,10 +132,20 @@ If you wish the Ecliptic position,
 the method is available as well.
 
 ```js
-import moment from 'moment';
-import { moon_pos_equatorial } from 'sowngwala';
+import {
+  NaiveDateTime,
+  moon_pos_equatorial,
+} from 'sowngwala';
 
-const utc = moment(Date.UTC(1979, 2 - 1, 26, 16, 0, 0)).utc();
+const utc = NaiveDateTime.from_ymd_hms(
+  1979,
+  2,
+  26,
+  16,
+  0,
+  0
+);
+
 const coord = moon_pos_equatorial(utc);
 
 const asc = coord.asc; // right ascension (α)
@@ -293,9 +302,10 @@ Otherwise, we won't need such web related dependencies.
 - concurrently
 - ramda
 - moment
+- moment-timezone
 
 ```
-npm install --save core-js ramda moment;
+npm install --save core-js ramda moment moment-timezone;
 
 npm install --save-dev @babel/cli @babel/core \
   @babel/preset-env babel-jest babel-loader \

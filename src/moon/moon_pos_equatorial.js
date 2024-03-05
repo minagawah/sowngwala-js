@@ -5,7 +5,10 @@
 import { equatorial_from_ecliptic_with_generic_date } from '../coords';
 import { moon_pos_ecliptic } from './moon_pos_ecliptic';
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * @typedef EquaCoordContext
@@ -24,13 +27,12 @@ import { moon_pos_ecliptic } from './moon_pos_ecliptic';
  *
  * @public
  * @function
- * @param {Moment} dt
+ * @param {NaiveDateTimeContext} dt
  * @returns {EquaCoordContext}
  */
 export function moon_pos_equatorial(dt) {
-  // Later, for Rust, we want to convert
-  // datetime into date.
-  let date = dt;
+  let date = dt.date();
+
   const { coord } =
     equatorial_from_ecliptic_with_generic_date(
       moon_pos_ecliptic(dt),

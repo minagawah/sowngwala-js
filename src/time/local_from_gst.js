@@ -1,4 +1,7 @@
 /**
+ * NOTE:
+ * It does not exist in Rust version.
+ *
  * @module sowngwala/time/local_from_gst
  */
 

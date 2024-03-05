@@ -1,4 +1,7 @@
 /**
+ * NOTE:
+ * It does not exist in Rust version.
+ *
  * @module sowngwala/time/hour_angle_from_asc
  */
 
@@ -9,16 +12,21 @@ import { decimal_hours_from_angle } from './decimal_hours_from_angle';
 import { decimal_hours_from_naive_time } from './decimal_hours_from_naive_time';
 import { hms_from_decimal_hours } from './hms_from_decimal_hours';
 
-/** @typedef {import('moment').Moment} Moment */
+/** @typedef {import('../types.js').DecimalHours} DecimalHours */
 
 /**
- * @typedef AngleContext
- * @type {import('../coords/angle.js').AngleContext}
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
  */
 
 /**
  * @typedef NaiveTimeContext
  * @type {import('../chrono/naive_time.js').NaiveTimeContext}
+ */
+
+/**
+ * @typedef AngleContext
+ * @type {import('../coords/angle.js').AngleContext}
  */
 
 /**
@@ -28,27 +36,32 @@ import { hms_from_decimal_hours } from './hms_from_decimal_hours';
 
 /**
  * Given the date time in UTC, and
- * "right ascension (α)", returns
- * the hour angle in AngleContext.
- *
- * References:
- * - Peter Duffett-Smith, p.35
+ * "right ascension (α)", it will return
+ * the hour angle (H) as 'AngleContext'.
+ * (Peter Duffett-Smith, p.35)
  *
  * @public
  * @function
- * @param {Moment} utc
+ * @param {NaiveDateTimeContext} utc
  * @param {AngleContext} asc
  * @param {LongitudeContext} lng
  * @returns {AngleContext}
  */
 export function hour_angle_from_asc(utc, asc, lng) {
+  /** @type {NaiveTimeContext} */
   const gst = gst_from_utc(utc);
+
+  /** @type {NaiveTimeContext} */
   const lst = local_from_gst(gst, lng);
+
+  /** @type {DecimalHours} */
   const lst_hours = decimal_hours_from_naive_time(lst);
+
+  /** @type {DecimalHours} */
   const asc_decimal = decimal_hours_from_angle(asc);
 
-  let hour_angle = lst_hours;
-  hour_angle -= asc_decimal;
+  /** @type {DecimalHours} */
+  let hour_angle = lst_hours - asc_decimal;
 
   if (hour_angle < 0) {
     hour_angle += 24;

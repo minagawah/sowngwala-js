@@ -2,6 +2,8 @@
  * @module sowngwala/constants
  */
 
+export const NANOSECOND_UNIT = 1_000_000_000.0;
+
 export const OFFSET_GMT = '+00:00'; // Z (Greenwich)
 export const OFFSET_TOKYO = '+09:00'; // Z
 

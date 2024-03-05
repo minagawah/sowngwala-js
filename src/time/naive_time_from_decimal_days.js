@@ -3,7 +3,6 @@
  */
 
 import { fract } from '../utils';
-
 import { naive_time_from_decimal_hours } from './naive_time_from_decimal_hours';
 
 /** @typedef {import('../types.js').DecimalDays} DecimalDays */

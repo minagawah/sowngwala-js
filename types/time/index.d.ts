@@ -27,3 +27,5 @@ export { naive_time_from_decimal_hours } from "./naive_time_from_decimal_hours";
 export { naive_time_from_generic_datetime } from "./naive_time_from_generic_datetime";
 export { nano_from_second } from "./nano_from_second";
 export { utc_from_gst } from "./utc_from_gst";
+export { utc_from_local_geo } from "./utc_from_local_geo";
+export { utc_from_local } from "./utc_from_local";

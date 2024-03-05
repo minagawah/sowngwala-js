@@ -1,2 +1,2 @@
-export function naive_from_julian_day(jd: number): Moment;
-export type Moment = import('moment').Moment;
+export function naive_from_julian_day(jd: number): NaiveDateTimeContext;
+export type NaiveDateTimeContext = import('../chrono/naive_datetime.js').NaiveDateTimeContext;

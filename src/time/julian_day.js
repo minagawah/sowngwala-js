@@ -2,12 +2,9 @@
  * @module sowngwala/time/julian_day
  */
 
-import moment from 'moment';
-
 import { NUM_OF_DAYS_IN_A_YEAR } from '../constants';
+import { NaiveDate } from '../chrono';
 import { is_julian_date } from './is_julian_date';
-
-/** @typedef {import('moment').Moment} Moment */
 
 /** @typedef {import('../types.js').Year} Year */
 /** @typedef {import('../types.js').Month} Month */
@@ -29,7 +26,7 @@ import { is_julian_date } from './is_julian_date';
  * into `NaiveTime` already.
  *
  * References:
- * - (Peter Duffett-Smith, pp.6-7)
+ * - Peter Duffett-Smith, pp.6-7
  *
  * Original:
  * - sowngwala::time::julian_day
@@ -55,16 +52,7 @@ export function julian_day(year, month, day) {
   let c;
 
   if (
-    is_julian_date(
-      moment(
-        Date.UTC(
-          year,
-          // NOTE: 'month' is indexed in JS
-          month - 1,
-          day
-        )
-      ).utc()
-    )
+    is_julian_date(NaiveDate.from_ymd(year, month, day))
   ) {
     b = 0.0;
   } else {

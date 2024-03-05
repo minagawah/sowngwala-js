@@ -1,2 +1,2 @@
-export function julian_day_from_generic_date(date: Moment): number;
-export type Moment = import('moment').Moment;
+export function julian_day_from_generic_date(date: NaiveDateContext): number;
+export type NaiveDateContext = import('../chrono/naive_date.js').NaiveDateContext;

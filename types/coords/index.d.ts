@@ -9,4 +9,5 @@ export { mean_obliquity_of_the_ecliptic } from "./mean_obliquity_of_the_ecliptic
 export { HorizonCoord } from "./horizontal";
 export { horizontal_from_equatorial } from "./horizontal_from_equatorial";
 export { horizontal_from_equatorial_with_hour_angle } from "./horizontal_from_equatorial_with_hour_angle";
+export { approx_zone_from_geo, zone_format } from "./approx_zone_from_geo";
 export { Latitude, Longitude, GeoCoord } from "./geo";

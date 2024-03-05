@@ -5,7 +5,10 @@
 import { hour_angle_from_asc } from '../time';
 import { horizontal_from_equatorial_with_hour_angle } from './horizontal_from_equatorial_with_hour_angle';
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * @typedef AngleContext
@@ -35,34 +38,31 @@ import { horizontal_from_equatorial_with_hour_angle } from './horizontal_from_eq
  */
 
 /**
- * Using
- * 'horizontal_from_equatorial_with_hour_angle'
- * to easily carry out Equatorial to
- * Horizontal calculation.
- *
  * See
  * 'horizontal_from_equatorial_with_hour_angle'
- * for most of the calculations are
- * done there.
- 
- * Given the datetime in UTC, Equatorial
- * coordinate position (which consists
- * of "right ascension (α)" and
- * "declination (δ)"), and Observer's
- * Geo location (which consists of
-* "Longitude and Latitude). It will
- * first calculate "hour angle (H)",
- * which is passed down to
+ * for almost everything is done there.
+ * This is a wrapper for the above,
+ * only it carry out calculations for
+ * "hour angle (H)".
+ *
+ * From the given (1) datetime in UTC,
+ * (2) the Equatorial position (which
+ * consists of "right ascension (α)"
+ * and "declination (δ)"), and (3)
+ * observer's Geo location (which
+ * consists of "Longitude and Latitude),
+ * it will calculate "hour angle (H)",
+ * and is passed down to
  * 'horizontal_from_equatorial_with_hour_angle'
- * which returns the Horizontal
- * coordinate position.
- * (which consists of "azimuth (A)" and
- * "altitude (α)")
+ * which is the actual method to return
+ * the Horizontal position (which
+ * consists of "azimuth (A)" and
+ * "altitude (α)").
  *
  * @public
  * @function
  * @see {@link: module:sowngwala/coords.horizontal_from_equatorial_with_hour_angle}
- * @param {Moment} utc
+ * @param {NaiveDateTimeContext} utc
  * @param {EquaCoordContext} equa_coord
  * @param {GeoCoordContext} geo_coord - Observer's Geolocation
  * @returns {HorizontalFromEquatorialReturned}

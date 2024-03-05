@@ -1,5 +1,4 @@
-export function asc_from_hour_angle(utc: Moment, hour_angle: AngleContext, lng: LongitudeContext): AngleContext;
-export type Moment = import('moment').Moment;
+export function asc_from_hour_angle(utc: NaiveDateTimeContext, hour_angle: AngleContext, lng: LongitudeContext): AngleContext;
 export type AngleContext = import('../coords/angle.js').AngleContext;
-export type NaiveTimeContext = import('../chrono/naive_time.js').NaiveTimeContext;
+export type NaiveDateTimeContext = import('../chrono/naive_datetime.js').NaiveDateTimeContext;
 export type LongitudeContext = import('../coords/geo.js').LongitudeContext;

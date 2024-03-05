@@ -20,7 +20,10 @@ import {
   decimal_hours_from_angle,
 } from '../time';
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * @typedef EcliCoordContext
@@ -39,13 +42,11 @@ import {
  *
  * @public
  * @function
- * @param {Moment} dt
+ * @param {NaiveDateTimeContext} dt
  * @returns {EcliCoordContext}
  */
 export function moon_pos_ecliptic(dt) {
-  // Later, for Rust, we want to convert
-  // datetime into date.
-  let date = dt;
+  let date = dt.date();
 
   // [Step 1]
   // (Peter Duffett-Smith, p.144)
@@ -56,6 +57,7 @@ export function moon_pos_ecliptic(dt) {
   let angle = Angle.from_hms(
     dt.hour(),
     dt.minute(),
+    // TODO: Don't we need nanosecond?
     dt.second() + delta_t
   );
 

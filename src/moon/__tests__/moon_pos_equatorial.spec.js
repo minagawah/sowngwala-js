@@ -1,14 +1,18 @@
-const moment = require('moment');
-
+const { NaiveDateTime } = require('../../chrono');
 const { moon_pos_equatorial } = require('../index');
 
 describe('A test suite for: moon/moon_pos_equatorial', () => {
   test('moon_pos_equatorial', () => {
-    const utc = moment(
-      Date.UTC(1979, 2 - 1, 26, 16, 0, 0)
-    ).utc();
+    const dt = NaiveDateTime.from_ymd_hms(
+      1979,
+      2,
+      26,
+      16,
+      0,
+      0
+    );
 
-    let coord = moon_pos_equatorial(utc);
+    let coord = moon_pos_equatorial(dt);
 
     let asc = coord.asc;
     let dec = coord.dec;

@@ -39,9 +39,12 @@ export function decimal_hours_from_generic_time(t) {
   let hour = t.hour();
   let min = t.minute();
 
-  // This is a bit different from
-  // how it is calculated in
-  // Peter Duffett-Smith's book.
+  // NOTE:
+  // This is different from how
+  // it is calculated in Peter
+  // Duffett-Smith's book where
+  // the book does not take
+  // 'nanosecond' into consideration.
   let sec_0 = t.nanosecond() / 1_000_000_000;
   let sec = t.second() + sec_0;
   let dec = hour + (min + sec / 60.0) / 60.0;

@@ -1,4 +1,4 @@
-const moment = require('moment');
+const { NaiveDate } = require('../../chrono');
 
 const {
   day_number_from_generic_date,
@@ -8,10 +8,11 @@ describe('A test suite for: time/day_number_from_generic_date', () => {
   test('day_number_from_generic_date', () => {
     let date;
 
-    date = moment(Date.UTC(1985, 2 - 1, 17)).utc();
+    date = NaiveDate.from_ymd(1985, 2, 17);
     expect(day_number_from_generic_date(date)).toBe(48);
 
-    date = moment(Date.UTC(1988, 7 - 1, 27)).utc();
+    date = NaiveDate.from_ymd(1988, 7, 27);
+
     expect(day_number_from_generic_date(date)).toBe(209);
   });
 });

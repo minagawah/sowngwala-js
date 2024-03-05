@@ -1,2 +1,2 @@
-export function add_date(dt: Moment, days: number): Moment;
-export type Moment = import('moment').Moment;
+export function add_date(dt: NaiveDateTimeContext, days: number): NaiveDateTimeContext;
+export type NaiveDateTimeContext = import('../chrono/naive_datetime.js').NaiveDateTimeContext;

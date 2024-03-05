@@ -4,7 +4,7 @@ const { local_from_gst } = require('../local_from_gst');
 
 describe('A test suite for: time/local_from_gst', () => {
   test('local_from_gst', () => {
-    const gst = NaiveTime.from_hmsn(4, 40, 5.23, 0.0);
+    const gst = NaiveTime.from_hms(4, 40, 5.23);
     const lng = Longitude({ degrees: 64, bound: 'W' });
     const local = local_from_gst(gst, lng);
 

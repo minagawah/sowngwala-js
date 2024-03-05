@@ -9,16 +9,14 @@ import { decimal_hours_from_angle } from './decimal_hours_from_angle';
 import { decimal_hours_from_naive_time } from './decimal_hours_from_naive_time';
 import { hms_from_decimal_hours } from './hms_from_decimal_hours';
 
-/** @typedef {import('moment').Moment} Moment */
-
 /**
  * @typedef AngleContext
  * @type {import('../coords/angle.js').AngleContext}
  */
 
 /**
- * @typedef NaiveTimeContext
- * @type {import('../chrono/naive_time.js').NaiveTimeContext}
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
  */
 
 /**
@@ -27,16 +25,14 @@ import { hms_from_decimal_hours } from './hms_from_decimal_hours';
  */
 
 /**
- * Given the date time in UTC, and
+ * Given the datetime in UTC, and
  * the hour angle in AngleContext,
  * returns "right ascension (α)".
- *
- * References:
- * - Peter Duffett-Smith, p.35
+ * (Peter Duffett-Smith, p.35)
  *
  * @public
  * @function
- * @param {Moment} utc
+ * @param {NaiveDateTimeContext} utc
  * @param {AngleContext} hour_angle
  * @param {LongitudeContext} lng
  * @returns {AngleContext}
@@ -48,15 +44,15 @@ export function asc_from_hour_angle(utc, hour_angle, lng) {
   const hour_angle_decimal =
     decimal_hours_from_angle(hour_angle);
 
-  let hour_angle_0 = lst_hours;
-  hour_angle_0 -= hour_angle_decimal;
+  let hour_angle_1 = lst_hours;
+  hour_angle_1 -= hour_angle_decimal;
 
-  if (hour_angle_0 < 0) {
-    hour_angle_0 += 24;
+  if (hour_angle_1 < 0) {
+    hour_angle_1 += 24;
   }
 
   const { hour, min, sec } =
-    hms_from_decimal_hours(hour_angle_0);
+    hms_from_decimal_hours(hour_angle_1);
 
   return Angle.from_hms(hour, min, sec);
 }

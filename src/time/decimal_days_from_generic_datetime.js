@@ -5,14 +5,18 @@
 import { NaiveTime } from '../chrono';
 import { decimal_hours_from_naive_time } from './decimal_hours_from_naive_time';
 
-/** @typedef {import('moment').Moment} Moment */
 /** @typedef {import('../types.js').DecimalDays} DecimalDays */
+
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  *
  * @public
  * @function
- * @param {Moment} dt
+ * @param {NaiveDateTimeContext} dt
  * @returns {DecimalDays}
  */
 export function decimal_days_from_generic_datetime(dt) {
@@ -23,8 +27,7 @@ export function decimal_days_from_generic_datetime(dt) {
     0.0
   );
 
-  let decimal = decimal_hours_from_naive_time(naive);
+  let decimal_hours = decimal_hours_from_naive_time(naive);
 
-  // NOTE: 'day' in Rust is 'date' in JS
-  return dt.date() + decimal / 24.0;
+  return dt.day() + decimal_hours / 24.0;
 }

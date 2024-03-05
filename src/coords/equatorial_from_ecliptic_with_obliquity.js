@@ -18,28 +18,29 @@ import { EquaCoord } from '../coords';
 
 /**
  * It will onvert Ecliptic coordinate
- * position into the Equatorial
- * coordinate position.
+ * position into the Equatorial.
  * For the first argument, it takes
  * the Ecliptic coordinate position
  * which consists of "latitude (β)"
  * and "longitude (λ)".
  * For the second argument, it takes
  * "the obliquity of the ecliptic (ε)".
- * The returned Equatorial position
- * will consist of "right ascension
- * (α)" and "declination (δ)".
+ * As a result, it will return the
+ * Equatorial position which consists
+ * of "right ascension (α)" and
+ * "declination (δ)".
  * (Peter Duffett-Smith, pp.40-41)
  *
- * In general, you may want to rather
- * use
+ * In general, you may want to
+ * consider rather using:
  * 'equatorial_from_ecliptic_with_generic_date'
- * because you don't normally know
- * "obliquity (ε)" for the given date.
- * On the other hand,
+ * because it is likely that you are
+ * not aware of "obliquity (ε)".
+ * You want programs to calculate
+ * "obliquity (ε)" for you, and that
+ * is what
  * 'equatorial_from_ecliptic_with_generic_date'
- * will calculate  "obliquity (ε)"
- * for you.
+ * does for you.
  *
  * @public
  * @function
@@ -69,6 +70,7 @@ export function equatorial_from_ecliptic_with_obliquity(
 
   let decline_radians = Math.asin(decline_sin);
   let decline = to_degrees(decline_radians);
+  // console.log('decline:', decline);
 
   let y = lng_sin * oblique_cos - lat_tan * oblique_sin;
   let x = lng_cos;
@@ -80,6 +82,7 @@ export function equatorial_from_ecliptic_with_obliquity(
   let asc = to_degrees(Math.atan2(y, x));
   asc -= 360.0 * Math.floor(asc / 360.0);
   asc /= 15.0;
+  // console.log('asc:', asc);
 
   return EquaCoord({
     asc: angle_from_decimal_hours(asc),

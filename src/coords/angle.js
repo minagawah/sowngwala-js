@@ -35,6 +35,7 @@ import { NaiveTime } from '../chrono';
  * @property {Getter<DecimalDays>} day_excess
  * @property {ToNaiveTime} to_naive_time
  * @property {Calibrate} calibrate
+ * @property {function(): void} print
  */
 
 /**
@@ -96,9 +97,7 @@ export const Angle = Object.freeze({
  * @type {FromHMS}
  */
 function from_hms(h, m, s) {
-  const self = _from_hms(h, m, s);
-  // self.calibrate();
-  return self;
+  return _from_hms(h, m, s);
 }
 
 /**
@@ -141,6 +140,7 @@ function _from_hms(h, m, s) {
     day_excess: () => day_excess,
     to_naive_time,
     calibrate,
+    print: () => `${hour}°${min}'${sec}`,
   });
 
   /**
@@ -148,7 +148,9 @@ function _from_hms(h, m, s) {
    * @type {ToNaiveTime}
    */
   function to_naive_time() {
-    return NaiveTime.from_hmsn(hour, min, sec, 0.0);
+    // Note:
+    // 'from_hms' will extract 'nano' from 'sec'.
+    return NaiveTime.from_hms(hour, min, sec);
   }
 
   /**

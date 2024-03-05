@@ -1,5 +1,17 @@
 # Release Change Log
 
+## 0.6.0
+
+- No longer using 'moment' but 'NaiveDateTime'.
+- Adding local time related features.
+- More features for Horizontal system.
+- Added `chrono/naive_time.NaiveTime#from_hms`
+- Added `chrono/naive_date`
+- Added `chrono/naive_datetime`
+- Added `sun/sun_pos_horizontal`
+- Added `time/utc_from_local`
+- Added `time/utc_from_local_geo`
+
 ## 0.5.0
 
 - Added `coords/geo.GeoCoord`

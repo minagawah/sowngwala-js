@@ -4,31 +4,34 @@
 
 import { julian_day_from_generic_datetime } from '../time';
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
- * It is used in
+ * The method is used in
  * 'equatorial_from_ecliptic_with_generic_date'
- * for finding
- * "the obliquity of the ecliptic (ε)
- * which is the angle between the planes
- * of the equator and the ecliptic
- * from the given datetime.
+ * when it tries to find "obliquity of
+ * the ecliptic (ε)" which is the angle
+ * between the planes of the equator
+ * and the ecliptic.
  * (Peter Duffett-Smith, p.41)
  *
- * TODO:
- * The argument for Rust version does
- * not necessarily require specific
- * time, but for JS version, it takes
- * time into consideration.
+ * The Rust version only take "date"
+ * but we want to make it accurate
+ * so that it now takes "time" for
+ * this version.
  *
  * @public
  * @function
  * @see {@link: sowngwala/coords.equatorial_from_ecliptic_with_generic_date}
- * @param {Moment} dt
- * @returns {number} - Obliquity of the ecliptic (ε) (in degrees)
+ * @param {NaiveDateTimeContext} dt
+ * @returns {number} - Obliquity of the Ecliptic (ε) (in degrees)
  */
 export function mean_obliquity_of_the_ecliptic(dt) {
+  // Whereas the book only takes "date",
+  // see how it takes "time" as well.
   let jd = julian_day_from_generic_datetime(dt);
   jd -= 2_451_545.0; // January 1.5, 2000
 

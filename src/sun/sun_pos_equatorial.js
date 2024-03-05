@@ -5,7 +5,10 @@
 import { equatorial_from_ecliptic_with_generic_datetime } from '../coords';
 import { sun_pos_ecliptic } from './sun_pos_ecliptic';
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * @typedef EcliCoordContext
@@ -27,22 +30,27 @@ import { sun_pos_ecliptic } from './sun_pos_ecliptic';
  */
 
 /**
- * Given a specific 'dt' (datetime)
- * in UTC, it will return the Equatorial
- * position of the sun which consists
- * of "right ascension (α)" and
- * "declination (δ)".
+ * Given a datetime in UTC, it will
+ * return the Equatorial position of
+ * the sun (which consists of "right
+ * ascension (α)" and "declination (δ)".
  * (Peter Duffett-Smith, p.91)
  *
- * See 'sun_pos_ecliptic' for that is
- * where the actual calculations are
- * to be carried out.
+ * See 'sun_pos_ecliptic' for most of
+ * the calculations are done there.
  *
- * See, also
+ * Just as explained fully in
+ * 'sun_pos_ecliptic', the book does
+ * not take "time" into consideration
+ * but only "date". So,
+ * 'sun_pos_equatorial_from_generic_date'
+ * is the method which strictly follows
+ * the book, but the method provided
+ * here takes "time".
+ *
+ * Also, notice how
  * 'equatorial_from_ecliptic_with_generic_date'
- * for it converts the Ecliptic
- * coordinate position to that of
- * the Equatorial.
+ * converts the Ecliptic into Equatorial.
  *
  * Original:
  * - sonwgwalla::sun::equatorial_position_of_the_sun_from_generic_date
@@ -51,17 +59,25 @@ import { sun_pos_ecliptic } from './sun_pos_ecliptic';
  * @function
  * @see {@link: module:sowngwala/sun.sun_pos_ecliptic}
  * @see {@link: module:sowngwala/coords.equatorial_from_ecliptic_with_generic_datetime}
- * @param {Moment} dt - UTC datetime (for specific time as well)
+ * @param {NaiveDateTimeContext} utc - UTC datetime (for specific time as well)
  * @returns {SunPosEquatorialReturned}
  */
-export function sun_pos_equatorial(dt) {
+export function sun_pos_equatorial(utc) {
+  // In the book, we get the Equatorial
+  // from "date". However, we want to
+  // manage "time" as well.
   const { coord: _ecliptic, _mean_anom } =
-    sun_pos_ecliptic(dt);
+    sun_pos_ecliptic(utc);
 
+  // Same here. We want to take "time"
+  // into consideration. To be specific,
+  // we are passing "time" to
+  // 'mean_obliquity_of_the_ecliptic'
+  // so that we would improve accuracy.
   const { coord, _obliquity } =
     equatorial_from_ecliptic_with_generic_datetime(
       _ecliptic,
-      dt
+      utc
     );
 
   return {

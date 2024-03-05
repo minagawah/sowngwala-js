@@ -2,7 +2,12 @@
  * @module sowngwala/time/add_date
  */
 
-/** @typedef {import('moment').Moment} Moment */
+import { NaiveDateTime } from '../chrono';
+
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * References:
@@ -57,14 +62,15 @@
  *
  * @public
  * @function
- * @param {Moment} dt
+ * @param {NaiveDateTimeContext} dt
  * @param {number} days
- * @returns {Moment}
+ * @returns {NaiveDateTimeContext}
  */
 export function add_date(dt, days) {
   // Rust implementation would be:
   // ----------------------------------
   // dt + Duration::days(days)
   // ----------------------------------
-  return dt.add('days', days);
+  const added = dt.to_moment().add(days, 'days');
+  return NaiveDateTime.from_moment(added);
 }

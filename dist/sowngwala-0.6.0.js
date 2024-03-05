@@ -11,89 +11,6 @@
 return /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 3832:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   ECCENTRICITY_OF_MOON_ORBIT: () => (/* binding */ ECCENTRICITY_OF_MOON_ORBIT),
-/* harmony export */   ECCENTRICITY_OF_ORBIT: () => (/* binding */ ECCENTRICITY_OF_ORBIT),
-/* harmony export */   ECLIPTIC_LONGITUDE_AT_1990: () => (/* binding */ ECLIPTIC_LONGITUDE_AT_1990),
-/* harmony export */   ECLIPTIC_LONGITUDE_OF_PERIGEE: () => (/* binding */ ECLIPTIC_LONGITUDE_OF_PERIGEE),
-/* harmony export */   INCLINATION_OF_THE_MOON_ORBIT: () => (/* binding */ INCLINATION_OF_THE_MOON_ORBIT),
-/* harmony export */   ISO8601_FORMAT: () => (/* binding */ ISO8601_FORMAT),
-/* harmony export */   J2000: () => (/* binding */ J2000),
-/* harmony export */   MEAN_LONGITUDE_OF_PERIGEE_AT_THE_EPOCH: () => (/* binding */ MEAN_LONGITUDE_OF_PERIGEE_AT_THE_EPOCH),
-/* harmony export */   MEAN_LONGITUDE_OF_THE_NODE_AT_THE_EPOCH: () => (/* binding */ MEAN_LONGITUDE_OF_THE_NODE_AT_THE_EPOCH),
-/* harmony export */   MOON_ANGULAR_SIZE_AT_DISTANCE_A_FROM_THE_EARTH: () => (/* binding */ MOON_ANGULAR_SIZE_AT_DISTANCE_A_FROM_THE_EARTH),
-/* harmony export */   MOON_MEAN_LONGITUDE_AT_THE_EPOCH: () => (/* binding */ MOON_MEAN_LONGITUDE_AT_THE_EPOCH),
-/* harmony export */   MYSQL_FORMAT: () => (/* binding */ MYSQL_FORMAT),
-/* harmony export */   NUM_OF_DAYS_IN_A_YEAR: () => (/* binding */ NUM_OF_DAYS_IN_A_YEAR),
-/* harmony export */   OFFSET_GMT: () => (/* binding */ OFFSET_GMT),
-/* harmony export */   OFFSET_TOKYO: () => (/* binding */ OFFSET_TOKYO),
-/* harmony export */   PARALLAX_AT_DISTANCE_A_FROM_THE_EARTH: () => (/* binding */ PARALLAX_AT_DISTANCE_A_FROM_THE_EARTH),
-/* harmony export */   SEMI_MAJOR_AXIS_OF_MOON_ORBIT: () => (/* binding */ SEMI_MAJOR_AXIS_OF_MOON_ORBIT)
-/* harmony export */ });
-/**
- * @module sowngwala/constants
- */
-
-var OFFSET_GMT = '+00:00'; // Z (Greenwich)
-var OFFSET_TOKYO = '+09:00'; // Z
-
-var MYSQL_FORMAT = 'YYYY-MM-DD HH:mm:ss';
-var ISO8601_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ';
-var NUM_OF_DAYS_IN_A_YEAR = 365.25;
-
-// ------------------------------------
-// Sun
-// ------------------------------------
-
-/**
- * Sun's mean ecliptic longitude at
- * Jan. 0.0, 1990 which is represented
- * as "ε g" (Epsilon G) in the book.
- * This is the position it would have
- * had if it had been moving in
- * a circular orbit rather than
- * an eclipse.
- * (Peter Duffett-Smith, p.86)
- */
-var ECLIPTIC_LONGITUDE_AT_1990 = 279.403303; // ε g
-
-/**
- * This is the longitude of the sun
- * at perigree which is represented
- * as "ω bar g" (Omega bar G).
- * (Peter Duffett-Smith, p.86)
- */
-var ECLIPTIC_LONGITUDE_OF_PERIGEE = 282.768422; // ω bar g
-
-/**
- * This is the eccentricity of
- * the sun-earth orbit.
- * (Peter Duffett-Smith, p.86)
- */
-var ECCENTRICITY_OF_ORBIT = 0.016713;
-
-// ------------------------------------
-// Moon
-// ------------------------------------
-
-var MOON_MEAN_LONGITUDE_AT_THE_EPOCH = 318.351648; // l o
-var MEAN_LONGITUDE_OF_PERIGEE_AT_THE_EPOCH = 36.340410; // P o
-var MEAN_LONGITUDE_OF_THE_NODE_AT_THE_EPOCH = 318.510107; // N o
-var INCLINATION_OF_THE_MOON_ORBIT = 5.145396; // i
-var ECCENTRICITY_OF_MOON_ORBIT = 0.054900; // e
-var SEMI_MAJOR_AXIS_OF_MOON_ORBIT = 384401.0; // a
-var MOON_ANGULAR_SIZE_AT_DISTANCE_A_FROM_THE_EARTH = 0.5181; // θ o
-var PARALLAX_AT_DISTANCE_A_FROM_THE_EARTH = 0.9507; // π o
-
-var J2000 = 2451545.0;
-
-/***/ }),
-
 /***/ 5177:
 /***/ (function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
 
@@ -21547,6 +21464,1762 @@ webpackContext.id = 5358;
 })));
 
 
+/***/ }),
+
+/***/ 9306:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var isCallable = __webpack_require__(4901);
+var tryToString = __webpack_require__(6823);
+
+var $TypeError = TypeError;
+
+// `Assert: IsCallable(argument) is true`
+module.exports = function (argument) {
+  if (isCallable(argument)) return argument;
+  throw new $TypeError(tryToString(argument) + ' is not a function');
+};
+
+
+/***/ }),
+
+/***/ 8551:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var isObject = __webpack_require__(34);
+
+var $String = String;
+var $TypeError = TypeError;
+
+// `Assert: Type(argument) is Object`
+module.exports = function (argument) {
+  if (isObject(argument)) return argument;
+  throw new $TypeError($String(argument) + ' is not an object');
+};
+
+
+/***/ }),
+
+/***/ 9617:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var toIndexedObject = __webpack_require__(5397);
+var toAbsoluteIndex = __webpack_require__(5610);
+var lengthOfArrayLike = __webpack_require__(6198);
+
+// `Array.prototype.{ indexOf, includes }` methods implementation
+var createMethod = function (IS_INCLUDES) {
+  return function ($this, el, fromIndex) {
+    var O = toIndexedObject($this);
+    var length = lengthOfArrayLike(O);
+    if (length === 0) return !IS_INCLUDES && -1;
+    var index = toAbsoluteIndex(fromIndex, length);
+    var value;
+    // Array#includes uses SameValueZero equality algorithm
+    // eslint-disable-next-line no-self-compare -- NaN check
+    if (IS_INCLUDES && el !== el) while (length > index) {
+      value = O[index++];
+      // eslint-disable-next-line no-self-compare -- NaN check
+      if (value !== value) return true;
+    // Array#indexOf ignores holes, Array#includes - not
+    } else for (;length > index; index++) {
+      if ((IS_INCLUDES || index in O) && O[index] === el) return IS_INCLUDES || index || 0;
+    } return !IS_INCLUDES && -1;
+  };
+};
+
+module.exports = {
+  // `Array.prototype.includes` method
+  // https://tc39.es/ecma262/#sec-array.prototype.includes
+  includes: createMethod(true),
+  // `Array.prototype.indexOf` method
+  // https://tc39.es/ecma262/#sec-array.prototype.indexof
+  indexOf: createMethod(false)
+};
+
+
+/***/ }),
+
+/***/ 4576:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var uncurryThis = __webpack_require__(9504);
+
+var toString = uncurryThis({}.toString);
+var stringSlice = uncurryThis(''.slice);
+
+module.exports = function (it) {
+  return stringSlice(toString(it), 8, -1);
+};
+
+
+/***/ }),
+
+/***/ 6955:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var TO_STRING_TAG_SUPPORT = __webpack_require__(2140);
+var isCallable = __webpack_require__(4901);
+var classofRaw = __webpack_require__(4576);
+var wellKnownSymbol = __webpack_require__(8227);
+
+var TO_STRING_TAG = wellKnownSymbol('toStringTag');
+var $Object = Object;
+
+// ES3 wrong here
+var CORRECT_ARGUMENTS = classofRaw(function () { return arguments; }()) === 'Arguments';
+
+// fallback for IE11 Script Access Denied error
+var tryGet = function (it, key) {
+  try {
+    return it[key];
+  } catch (error) { /* empty */ }
+};
+
+// getting tag from ES6+ `Object.prototype.toString`
+module.exports = TO_STRING_TAG_SUPPORT ? classofRaw : function (it) {
+  var O, tag, result;
+  return it === undefined ? 'Undefined' : it === null ? 'Null'
+    // @@toStringTag case
+    : typeof (tag = tryGet(O = $Object(it), TO_STRING_TAG)) == 'string' ? tag
+    // builtinTag case
+    : CORRECT_ARGUMENTS ? classofRaw(O)
+    // ES3 arguments fallback
+    : (result = classofRaw(O)) === 'Object' && isCallable(O.callee) ? 'Arguments' : result;
+};
+
+
+/***/ }),
+
+/***/ 7740:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var hasOwn = __webpack_require__(9297);
+var ownKeys = __webpack_require__(5031);
+var getOwnPropertyDescriptorModule = __webpack_require__(7347);
+var definePropertyModule = __webpack_require__(4913);
+
+module.exports = function (target, source, exceptions) {
+  var keys = ownKeys(source);
+  var defineProperty = definePropertyModule.f;
+  var getOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    if (!hasOwn(target, key) && !(exceptions && hasOwn(exceptions, key))) {
+      defineProperty(target, key, getOwnPropertyDescriptor(source, key));
+    }
+  }
+};
+
+
+/***/ }),
+
+/***/ 6699:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var DESCRIPTORS = __webpack_require__(3724);
+var definePropertyModule = __webpack_require__(4913);
+var createPropertyDescriptor = __webpack_require__(6980);
+
+module.exports = DESCRIPTORS ? function (object, key, value) {
+  return definePropertyModule.f(object, key, createPropertyDescriptor(1, value));
+} : function (object, key, value) {
+  object[key] = value;
+  return object;
+};
+
+
+/***/ }),
+
+/***/ 6980:
+/***/ ((module) => {
+
+"use strict";
+
+module.exports = function (bitmap, value) {
+  return {
+    enumerable: !(bitmap & 1),
+    configurable: !(bitmap & 2),
+    writable: !(bitmap & 4),
+    value: value
+  };
+};
+
+
+/***/ }),
+
+/***/ 6840:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var isCallable = __webpack_require__(4901);
+var definePropertyModule = __webpack_require__(4913);
+var makeBuiltIn = __webpack_require__(283);
+var defineGlobalProperty = __webpack_require__(9433);
+
+module.exports = function (O, key, value, options) {
+  if (!options) options = {};
+  var simple = options.enumerable;
+  var name = options.name !== undefined ? options.name : key;
+  if (isCallable(value)) makeBuiltIn(value, name, options);
+  if (options.global) {
+    if (simple) O[key] = value;
+    else defineGlobalProperty(key, value);
+  } else {
+    try {
+      if (!options.unsafe) delete O[key];
+      else if (O[key]) simple = true;
+    } catch (error) { /* empty */ }
+    if (simple) O[key] = value;
+    else definePropertyModule.f(O, key, {
+      value: value,
+      enumerable: false,
+      configurable: !options.nonConfigurable,
+      writable: !options.nonWritable
+    });
+  } return O;
+};
+
+
+/***/ }),
+
+/***/ 9433:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var global = __webpack_require__(4475);
+
+// eslint-disable-next-line es/no-object-defineproperty -- safe
+var defineProperty = Object.defineProperty;
+
+module.exports = function (key, value) {
+  try {
+    defineProperty(global, key, { value: value, configurable: true, writable: true });
+  } catch (error) {
+    global[key] = value;
+  } return value;
+};
+
+
+/***/ }),
+
+/***/ 3724:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var fails = __webpack_require__(9039);
+
+// Detect IE8's incomplete defineProperty implementation
+module.exports = !fails(function () {
+  // eslint-disable-next-line es/no-object-defineproperty -- required for testing
+  return Object.defineProperty({}, 1, { get: function () { return 7; } })[1] !== 7;
+});
+
+
+/***/ }),
+
+/***/ 4055:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var global = __webpack_require__(4475);
+var isObject = __webpack_require__(34);
+
+var document = global.document;
+// typeof document.createElement is 'object' in old IE
+var EXISTS = isObject(document) && isObject(document.createElement);
+
+module.exports = function (it) {
+  return EXISTS ? document.createElement(it) : {};
+};
+
+
+/***/ }),
+
+/***/ 9392:
+/***/ ((module) => {
+
+"use strict";
+
+module.exports = typeof navigator != 'undefined' && String(navigator.userAgent) || '';
+
+
+/***/ }),
+
+/***/ 7388:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var global = __webpack_require__(4475);
+var userAgent = __webpack_require__(9392);
+
+var process = global.process;
+var Deno = global.Deno;
+var versions = process && process.versions || Deno && Deno.version;
+var v8 = versions && versions.v8;
+var match, version;
+
+if (v8) {
+  match = v8.split('.');
+  // in old Chrome, versions of V8 isn't V8 = Chrome / 10
+  // but their correct versions are not interesting for us
+  version = match[0] > 0 && match[0] < 4 ? 1 : +(match[0] + match[1]);
+}
+
+// BrowserFS NodeJS `process` polyfill incorrectly set `.v8` to `0.0`
+// so check `userAgent` even if `.v8` exists, but 0
+if (!version && userAgent) {
+  match = userAgent.match(/Edge\/(\d+)/);
+  if (!match || match[1] >= 74) {
+    match = userAgent.match(/Chrome\/(\d+)/);
+    if (match) version = +match[1];
+  }
+}
+
+module.exports = version;
+
+
+/***/ }),
+
+/***/ 8727:
+/***/ ((module) => {
+
+"use strict";
+
+// IE8- don't enum bug keys
+module.exports = [
+  'constructor',
+  'hasOwnProperty',
+  'isPrototypeOf',
+  'propertyIsEnumerable',
+  'toLocaleString',
+  'toString',
+  'valueOf'
+];
+
+
+/***/ }),
+
+/***/ 6518:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var global = __webpack_require__(4475);
+var getOwnPropertyDescriptor = (__webpack_require__(7347).f);
+var createNonEnumerableProperty = __webpack_require__(6699);
+var defineBuiltIn = __webpack_require__(6840);
+var defineGlobalProperty = __webpack_require__(9433);
+var copyConstructorProperties = __webpack_require__(7740);
+var isForced = __webpack_require__(2796);
+
+/*
+  options.target         - name of the target object
+  options.global         - target is the global object
+  options.stat           - export as static methods of target
+  options.proto          - export as prototype methods of target
+  options.real           - real prototype method for the `pure` version
+  options.forced         - export even if the native feature is available
+  options.bind           - bind methods to the target, required for the `pure` version
+  options.wrap           - wrap constructors to preventing global pollution, required for the `pure` version
+  options.unsafe         - use the simple assignment of property instead of delete + defineProperty
+  options.sham           - add a flag to not completely full polyfills
+  options.enumerable     - export as enumerable property
+  options.dontCallGetSet - prevent calling a getter on target
+  options.name           - the .name of the function if it does not match the key
+*/
+module.exports = function (options, source) {
+  var TARGET = options.target;
+  var GLOBAL = options.global;
+  var STATIC = options.stat;
+  var FORCED, target, key, targetProperty, sourceProperty, descriptor;
+  if (GLOBAL) {
+    target = global;
+  } else if (STATIC) {
+    target = global[TARGET] || defineGlobalProperty(TARGET, {});
+  } else {
+    target = global[TARGET] && global[TARGET].prototype;
+  }
+  if (target) for (key in source) {
+    sourceProperty = source[key];
+    if (options.dontCallGetSet) {
+      descriptor = getOwnPropertyDescriptor(target, key);
+      targetProperty = descriptor && descriptor.value;
+    } else targetProperty = target[key];
+    FORCED = isForced(GLOBAL ? key : TARGET + (STATIC ? '.' : '#') + key, options.forced);
+    // contained in target
+    if (!FORCED && targetProperty !== undefined) {
+      if (typeof sourceProperty == typeof targetProperty) continue;
+      copyConstructorProperties(sourceProperty, targetProperty);
+    }
+    // add a flag to not completely full polyfills
+    if (options.sham || (targetProperty && targetProperty.sham)) {
+      createNonEnumerableProperty(sourceProperty, 'sham', true);
+    }
+    defineBuiltIn(target, key, sourceProperty, options);
+  }
+};
+
+
+/***/ }),
+
+/***/ 9039:
+/***/ ((module) => {
+
+"use strict";
+
+module.exports = function (exec) {
+  try {
+    return !!exec();
+  } catch (error) {
+    return true;
+  }
+};
+
+
+/***/ }),
+
+/***/ 616:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var fails = __webpack_require__(9039);
+
+module.exports = !fails(function () {
+  // eslint-disable-next-line es/no-function-prototype-bind -- safe
+  var test = (function () { /* empty */ }).bind();
+  // eslint-disable-next-line no-prototype-builtins -- safe
+  return typeof test != 'function' || test.hasOwnProperty('prototype');
+});
+
+
+/***/ }),
+
+/***/ 9565:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var NATIVE_BIND = __webpack_require__(616);
+
+var call = Function.prototype.call;
+
+module.exports = NATIVE_BIND ? call.bind(call) : function () {
+  return call.apply(call, arguments);
+};
+
+
+/***/ }),
+
+/***/ 350:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var DESCRIPTORS = __webpack_require__(3724);
+var hasOwn = __webpack_require__(9297);
+
+var FunctionPrototype = Function.prototype;
+// eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
+var getDescriptor = DESCRIPTORS && Object.getOwnPropertyDescriptor;
+
+var EXISTS = hasOwn(FunctionPrototype, 'name');
+// additional protection from minified / mangled / dropped function names
+var PROPER = EXISTS && (function something() { /* empty */ }).name === 'something';
+var CONFIGURABLE = EXISTS && (!DESCRIPTORS || (DESCRIPTORS && getDescriptor(FunctionPrototype, 'name').configurable));
+
+module.exports = {
+  EXISTS: EXISTS,
+  PROPER: PROPER,
+  CONFIGURABLE: CONFIGURABLE
+};
+
+
+/***/ }),
+
+/***/ 9504:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var NATIVE_BIND = __webpack_require__(616);
+
+var FunctionPrototype = Function.prototype;
+var call = FunctionPrototype.call;
+var uncurryThisWithBind = NATIVE_BIND && FunctionPrototype.bind.bind(call, call);
+
+module.exports = NATIVE_BIND ? uncurryThisWithBind : function (fn) {
+  return function () {
+    return call.apply(fn, arguments);
+  };
+};
+
+
+/***/ }),
+
+/***/ 7751:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var global = __webpack_require__(4475);
+var isCallable = __webpack_require__(4901);
+
+var aFunction = function (argument) {
+  return isCallable(argument) ? argument : undefined;
+};
+
+module.exports = function (namespace, method) {
+  return arguments.length < 2 ? aFunction(global[namespace]) : global[namespace] && global[namespace][method];
+};
+
+
+/***/ }),
+
+/***/ 5966:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var aCallable = __webpack_require__(9306);
+var isNullOrUndefined = __webpack_require__(4117);
+
+// `GetMethod` abstract operation
+// https://tc39.es/ecma262/#sec-getmethod
+module.exports = function (V, P) {
+  var func = V[P];
+  return isNullOrUndefined(func) ? undefined : aCallable(func);
+};
+
+
+/***/ }),
+
+/***/ 4475:
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+
+var check = function (it) {
+  return it && it.Math === Math && it;
+};
+
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+module.exports =
+  // eslint-disable-next-line es/no-global-this -- safe
+  check(typeof globalThis == 'object' && globalThis) ||
+  check(typeof window == 'object' && window) ||
+  // eslint-disable-next-line no-restricted-globals -- safe
+  check(typeof self == 'object' && self) ||
+  check(typeof __webpack_require__.g == 'object' && __webpack_require__.g) ||
+  check(typeof this == 'object' && this) ||
+  // eslint-disable-next-line no-new-func -- fallback
+  (function () { return this; })() || Function('return this')();
+
+
+/***/ }),
+
+/***/ 9297:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var uncurryThis = __webpack_require__(9504);
+var toObject = __webpack_require__(8981);
+
+var hasOwnProperty = uncurryThis({}.hasOwnProperty);
+
+// `HasOwnProperty` abstract operation
+// https://tc39.es/ecma262/#sec-hasownproperty
+// eslint-disable-next-line es/no-object-hasown -- safe
+module.exports = Object.hasOwn || function hasOwn(it, key) {
+  return hasOwnProperty(toObject(it), key);
+};
+
+
+/***/ }),
+
+/***/ 421:
+/***/ ((module) => {
+
+"use strict";
+
+module.exports = {};
+
+
+/***/ }),
+
+/***/ 5917:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var DESCRIPTORS = __webpack_require__(3724);
+var fails = __webpack_require__(9039);
+var createElement = __webpack_require__(4055);
+
+// Thanks to IE8 for its funny defineProperty
+module.exports = !DESCRIPTORS && !fails(function () {
+  // eslint-disable-next-line es/no-object-defineproperty -- required for testing
+  return Object.defineProperty(createElement('div'), 'a', {
+    get: function () { return 7; }
+  }).a !== 7;
+});
+
+
+/***/ }),
+
+/***/ 7055:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var uncurryThis = __webpack_require__(9504);
+var fails = __webpack_require__(9039);
+var classof = __webpack_require__(4576);
+
+var $Object = Object;
+var split = uncurryThis(''.split);
+
+// fallback for non-array-like ES3 and non-enumerable old V8 strings
+module.exports = fails(function () {
+  // throws an error in rhino, see https://github.com/mozilla/rhino/issues/346
+  // eslint-disable-next-line no-prototype-builtins -- safe
+  return !$Object('z').propertyIsEnumerable(0);
+}) ? function (it) {
+  return classof(it) === 'String' ? split(it, '') : $Object(it);
+} : $Object;
+
+
+/***/ }),
+
+/***/ 3706:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var uncurryThis = __webpack_require__(9504);
+var isCallable = __webpack_require__(4901);
+var store = __webpack_require__(7629);
+
+var functionToString = uncurryThis(Function.toString);
+
+// this helper broken in `core-js@3.4.1-3.4.4`, so we can't use `shared` helper
+if (!isCallable(store.inspectSource)) {
+  store.inspectSource = function (it) {
+    return functionToString(it);
+  };
+}
+
+module.exports = store.inspectSource;
+
+
+/***/ }),
+
+/***/ 1181:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var NATIVE_WEAK_MAP = __webpack_require__(8622);
+var global = __webpack_require__(4475);
+var isObject = __webpack_require__(34);
+var createNonEnumerableProperty = __webpack_require__(6699);
+var hasOwn = __webpack_require__(9297);
+var shared = __webpack_require__(7629);
+var sharedKey = __webpack_require__(6119);
+var hiddenKeys = __webpack_require__(421);
+
+var OBJECT_ALREADY_INITIALIZED = 'Object already initialized';
+var TypeError = global.TypeError;
+var WeakMap = global.WeakMap;
+var set, get, has;
+
+var enforce = function (it) {
+  return has(it) ? get(it) : set(it, {});
+};
+
+var getterFor = function (TYPE) {
+  return function (it) {
+    var state;
+    if (!isObject(it) || (state = get(it)).type !== TYPE) {
+      throw new TypeError('Incompatible receiver, ' + TYPE + ' required');
+    } return state;
+  };
+};
+
+if (NATIVE_WEAK_MAP || shared.state) {
+  var store = shared.state || (shared.state = new WeakMap());
+  /* eslint-disable no-self-assign -- prototype methods protection */
+  store.get = store.get;
+  store.has = store.has;
+  store.set = store.set;
+  /* eslint-enable no-self-assign -- prototype methods protection */
+  set = function (it, metadata) {
+    if (store.has(it)) throw new TypeError(OBJECT_ALREADY_INITIALIZED);
+    metadata.facade = it;
+    store.set(it, metadata);
+    return metadata;
+  };
+  get = function (it) {
+    return store.get(it) || {};
+  };
+  has = function (it) {
+    return store.has(it);
+  };
+} else {
+  var STATE = sharedKey('state');
+  hiddenKeys[STATE] = true;
+  set = function (it, metadata) {
+    if (hasOwn(it, STATE)) throw new TypeError(OBJECT_ALREADY_INITIALIZED);
+    metadata.facade = it;
+    createNonEnumerableProperty(it, STATE, metadata);
+    return metadata;
+  };
+  get = function (it) {
+    return hasOwn(it, STATE) ? it[STATE] : {};
+  };
+  has = function (it) {
+    return hasOwn(it, STATE);
+  };
+}
+
+module.exports = {
+  set: set,
+  get: get,
+  has: has,
+  enforce: enforce,
+  getterFor: getterFor
+};
+
+
+/***/ }),
+
+/***/ 4901:
+/***/ ((module) => {
+
+"use strict";
+
+// https://tc39.es/ecma262/#sec-IsHTMLDDA-internal-slot
+var documentAll = typeof document == 'object' && document.all;
+
+// `IsCallable` abstract operation
+// https://tc39.es/ecma262/#sec-iscallable
+// eslint-disable-next-line unicorn/no-typeof-undefined -- required for testing
+module.exports = typeof documentAll == 'undefined' && documentAll !== undefined ? function (argument) {
+  return typeof argument == 'function' || argument === documentAll;
+} : function (argument) {
+  return typeof argument == 'function';
+};
+
+
+/***/ }),
+
+/***/ 2796:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var fails = __webpack_require__(9039);
+var isCallable = __webpack_require__(4901);
+
+var replacement = /#|\.prototype\./;
+
+var isForced = function (feature, detection) {
+  var value = data[normalize(feature)];
+  return value === POLYFILL ? true
+    : value === NATIVE ? false
+    : isCallable(detection) ? fails(detection)
+    : !!detection;
+};
+
+var normalize = isForced.normalize = function (string) {
+  return String(string).replace(replacement, '.').toLowerCase();
+};
+
+var data = isForced.data = {};
+var NATIVE = isForced.NATIVE = 'N';
+var POLYFILL = isForced.POLYFILL = 'P';
+
+module.exports = isForced;
+
+
+/***/ }),
+
+/***/ 4117:
+/***/ ((module) => {
+
+"use strict";
+
+// we can't use just `it == null` since of `document.all` special case
+// https://tc39.es/ecma262/#sec-IsHTMLDDA-internal-slot-aec
+module.exports = function (it) {
+  return it === null || it === undefined;
+};
+
+
+/***/ }),
+
+/***/ 34:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var isCallable = __webpack_require__(4901);
+
+module.exports = function (it) {
+  return typeof it == 'object' ? it !== null : isCallable(it);
+};
+
+
+/***/ }),
+
+/***/ 6395:
+/***/ ((module) => {
+
+"use strict";
+
+module.exports = false;
+
+
+/***/ }),
+
+/***/ 757:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var getBuiltIn = __webpack_require__(7751);
+var isCallable = __webpack_require__(4901);
+var isPrototypeOf = __webpack_require__(1625);
+var USE_SYMBOL_AS_UID = __webpack_require__(7040);
+
+var $Object = Object;
+
+module.exports = USE_SYMBOL_AS_UID ? function (it) {
+  return typeof it == 'symbol';
+} : function (it) {
+  var $Symbol = getBuiltIn('Symbol');
+  return isCallable($Symbol) && isPrototypeOf($Symbol.prototype, $Object(it));
+};
+
+
+/***/ }),
+
+/***/ 6198:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var toLength = __webpack_require__(8014);
+
+// `LengthOfArrayLike` abstract operation
+// https://tc39.es/ecma262/#sec-lengthofarraylike
+module.exports = function (obj) {
+  return toLength(obj.length);
+};
+
+
+/***/ }),
+
+/***/ 283:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var uncurryThis = __webpack_require__(9504);
+var fails = __webpack_require__(9039);
+var isCallable = __webpack_require__(4901);
+var hasOwn = __webpack_require__(9297);
+var DESCRIPTORS = __webpack_require__(3724);
+var CONFIGURABLE_FUNCTION_NAME = (__webpack_require__(350).CONFIGURABLE);
+var inspectSource = __webpack_require__(3706);
+var InternalStateModule = __webpack_require__(1181);
+
+var enforceInternalState = InternalStateModule.enforce;
+var getInternalState = InternalStateModule.get;
+var $String = String;
+// eslint-disable-next-line es/no-object-defineproperty -- safe
+var defineProperty = Object.defineProperty;
+var stringSlice = uncurryThis(''.slice);
+var replace = uncurryThis(''.replace);
+var join = uncurryThis([].join);
+
+var CONFIGURABLE_LENGTH = DESCRIPTORS && !fails(function () {
+  return defineProperty(function () { /* empty */ }, 'length', { value: 8 }).length !== 8;
+});
+
+var TEMPLATE = String(String).split('String');
+
+var makeBuiltIn = module.exports = function (value, name, options) {
+  if (stringSlice($String(name), 0, 7) === 'Symbol(') {
+    name = '[' + replace($String(name), /^Symbol\(([^)]*)\).*$/, '$1') + ']';
+  }
+  if (options && options.getter) name = 'get ' + name;
+  if (options && options.setter) name = 'set ' + name;
+  if (!hasOwn(value, 'name') || (CONFIGURABLE_FUNCTION_NAME && value.name !== name)) {
+    if (DESCRIPTORS) defineProperty(value, 'name', { value: name, configurable: true });
+    else value.name = name;
+  }
+  if (CONFIGURABLE_LENGTH && options && hasOwn(options, 'arity') && value.length !== options.arity) {
+    defineProperty(value, 'length', { value: options.arity });
+  }
+  try {
+    if (options && hasOwn(options, 'constructor') && options.constructor) {
+      if (DESCRIPTORS) defineProperty(value, 'prototype', { writable: false });
+    // in V8 ~ Chrome 53, prototypes of some methods, like `Array.prototype.values`, are non-writable
+    } else if (value.prototype) value.prototype = undefined;
+  } catch (error) { /* empty */ }
+  var state = enforceInternalState(value);
+  if (!hasOwn(state, 'source')) {
+    state.source = join(TEMPLATE, typeof name == 'string' ? name : '');
+  } return value;
+};
+
+// add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
+// eslint-disable-next-line no-extend-native -- required
+Function.prototype.toString = makeBuiltIn(function toString() {
+  return isCallable(this) && getInternalState(this).source || inspectSource(this);
+}, 'toString');
+
+
+/***/ }),
+
+/***/ 741:
+/***/ ((module) => {
+
+"use strict";
+
+var ceil = Math.ceil;
+var floor = Math.floor;
+
+// `Math.trunc` method
+// https://tc39.es/ecma262/#sec-math.trunc
+// eslint-disable-next-line es/no-math-trunc -- safe
+module.exports = Math.trunc || function trunc(x) {
+  var n = +x;
+  return (n > 0 ? floor : ceil)(n);
+};
+
+
+/***/ }),
+
+/***/ 4913:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+var DESCRIPTORS = __webpack_require__(3724);
+var IE8_DOM_DEFINE = __webpack_require__(5917);
+var V8_PROTOTYPE_DEFINE_BUG = __webpack_require__(8686);
+var anObject = __webpack_require__(8551);
+var toPropertyKey = __webpack_require__(6969);
+
+var $TypeError = TypeError;
+// eslint-disable-next-line es/no-object-defineproperty -- safe
+var $defineProperty = Object.defineProperty;
+// eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
+var $getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+var ENUMERABLE = 'enumerable';
+var CONFIGURABLE = 'configurable';
+var WRITABLE = 'writable';
+
+// `Object.defineProperty` method
+// https://tc39.es/ecma262/#sec-object.defineproperty
+exports.f = DESCRIPTORS ? V8_PROTOTYPE_DEFINE_BUG ? function defineProperty(O, P, Attributes) {
+  anObject(O);
+  P = toPropertyKey(P);
+  anObject(Attributes);
+  if (typeof O === 'function' && P === 'prototype' && 'value' in Attributes && WRITABLE in Attributes && !Attributes[WRITABLE]) {
+    var current = $getOwnPropertyDescriptor(O, P);
+    if (current && current[WRITABLE]) {
+      O[P] = Attributes.value;
+      Attributes = {
+        configurable: CONFIGURABLE in Attributes ? Attributes[CONFIGURABLE] : current[CONFIGURABLE],
+        enumerable: ENUMERABLE in Attributes ? Attributes[ENUMERABLE] : current[ENUMERABLE],
+        writable: false
+      };
+    }
+  } return $defineProperty(O, P, Attributes);
+} : $defineProperty : function defineProperty(O, P, Attributes) {
+  anObject(O);
+  P = toPropertyKey(P);
+  anObject(Attributes);
+  if (IE8_DOM_DEFINE) try {
+    return $defineProperty(O, P, Attributes);
+  } catch (error) { /* empty */ }
+  if ('get' in Attributes || 'set' in Attributes) throw new $TypeError('Accessors not supported');
+  if ('value' in Attributes) O[P] = Attributes.value;
+  return O;
+};
+
+
+/***/ }),
+
+/***/ 7347:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+var DESCRIPTORS = __webpack_require__(3724);
+var call = __webpack_require__(9565);
+var propertyIsEnumerableModule = __webpack_require__(8773);
+var createPropertyDescriptor = __webpack_require__(6980);
+var toIndexedObject = __webpack_require__(5397);
+var toPropertyKey = __webpack_require__(6969);
+var hasOwn = __webpack_require__(9297);
+var IE8_DOM_DEFINE = __webpack_require__(5917);
+
+// eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
+var $getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+
+// `Object.getOwnPropertyDescriptor` method
+// https://tc39.es/ecma262/#sec-object.getownpropertydescriptor
+exports.f = DESCRIPTORS ? $getOwnPropertyDescriptor : function getOwnPropertyDescriptor(O, P) {
+  O = toIndexedObject(O);
+  P = toPropertyKey(P);
+  if (IE8_DOM_DEFINE) try {
+    return $getOwnPropertyDescriptor(O, P);
+  } catch (error) { /* empty */ }
+  if (hasOwn(O, P)) return createPropertyDescriptor(!call(propertyIsEnumerableModule.f, O, P), O[P]);
+};
+
+
+/***/ }),
+
+/***/ 8480:
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+var internalObjectKeys = __webpack_require__(1828);
+var enumBugKeys = __webpack_require__(8727);
+
+var hiddenKeys = enumBugKeys.concat('length', 'prototype');
+
+// `Object.getOwnPropertyNames` method
+// https://tc39.es/ecma262/#sec-object.getownpropertynames
+// eslint-disable-next-line es/no-object-getownpropertynames -- safe
+exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
+  return internalObjectKeys(O, hiddenKeys);
+};
+
+
+/***/ }),
+
+/***/ 3717:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+// eslint-disable-next-line es/no-object-getownpropertysymbols -- safe
+exports.f = Object.getOwnPropertySymbols;
+
+
+/***/ }),
+
+/***/ 1625:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var uncurryThis = __webpack_require__(9504);
+
+module.exports = uncurryThis({}.isPrototypeOf);
+
+
+/***/ }),
+
+/***/ 1828:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var uncurryThis = __webpack_require__(9504);
+var hasOwn = __webpack_require__(9297);
+var toIndexedObject = __webpack_require__(5397);
+var indexOf = (__webpack_require__(9617).indexOf);
+var hiddenKeys = __webpack_require__(421);
+
+var push = uncurryThis([].push);
+
+module.exports = function (object, names) {
+  var O = toIndexedObject(object);
+  var i = 0;
+  var result = [];
+  var key;
+  for (key in O) !hasOwn(hiddenKeys, key) && hasOwn(O, key) && push(result, key);
+  // Don't enum bug & hidden keys
+  while (names.length > i) if (hasOwn(O, key = names[i++])) {
+    ~indexOf(result, key) || push(result, key);
+  }
+  return result;
+};
+
+
+/***/ }),
+
+/***/ 8773:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+var $propertyIsEnumerable = {}.propertyIsEnumerable;
+// eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
+var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+
+// Nashorn ~ JDK8 bug
+var NASHORN_BUG = getOwnPropertyDescriptor && !$propertyIsEnumerable.call({ 1: 2 }, 1);
+
+// `Object.prototype.propertyIsEnumerable` method implementation
+// https://tc39.es/ecma262/#sec-object.prototype.propertyisenumerable
+exports.f = NASHORN_BUG ? function propertyIsEnumerable(V) {
+  var descriptor = getOwnPropertyDescriptor(this, V);
+  return !!descriptor && descriptor.enumerable;
+} : $propertyIsEnumerable;
+
+
+/***/ }),
+
+/***/ 4270:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var call = __webpack_require__(9565);
+var isCallable = __webpack_require__(4901);
+var isObject = __webpack_require__(34);
+
+var $TypeError = TypeError;
+
+// `OrdinaryToPrimitive` abstract operation
+// https://tc39.es/ecma262/#sec-ordinarytoprimitive
+module.exports = function (input, pref) {
+  var fn, val;
+  if (pref === 'string' && isCallable(fn = input.toString) && !isObject(val = call(fn, input))) return val;
+  if (isCallable(fn = input.valueOf) && !isObject(val = call(fn, input))) return val;
+  if (pref !== 'string' && isCallable(fn = input.toString) && !isObject(val = call(fn, input))) return val;
+  throw new $TypeError("Can't convert object to primitive value");
+};
+
+
+/***/ }),
+
+/***/ 5031:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var getBuiltIn = __webpack_require__(7751);
+var uncurryThis = __webpack_require__(9504);
+var getOwnPropertyNamesModule = __webpack_require__(8480);
+var getOwnPropertySymbolsModule = __webpack_require__(3717);
+var anObject = __webpack_require__(8551);
+
+var concat = uncurryThis([].concat);
+
+// all object keys, includes non-enumerable and symbols
+module.exports = getBuiltIn('Reflect', 'ownKeys') || function ownKeys(it) {
+  var keys = getOwnPropertyNamesModule.f(anObject(it));
+  var getOwnPropertySymbols = getOwnPropertySymbolsModule.f;
+  return getOwnPropertySymbols ? concat(keys, getOwnPropertySymbols(it)) : keys;
+};
+
+
+/***/ }),
+
+/***/ 7979:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var anObject = __webpack_require__(8551);
+
+// `RegExp.prototype.flags` getter implementation
+// https://tc39.es/ecma262/#sec-get-regexp.prototype.flags
+module.exports = function () {
+  var that = anObject(this);
+  var result = '';
+  if (that.hasIndices) result += 'd';
+  if (that.global) result += 'g';
+  if (that.ignoreCase) result += 'i';
+  if (that.multiline) result += 'm';
+  if (that.dotAll) result += 's';
+  if (that.unicode) result += 'u';
+  if (that.unicodeSets) result += 'v';
+  if (that.sticky) result += 'y';
+  return result;
+};
+
+
+/***/ }),
+
+/***/ 1034:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var call = __webpack_require__(9565);
+var hasOwn = __webpack_require__(9297);
+var isPrototypeOf = __webpack_require__(1625);
+var regExpFlags = __webpack_require__(7979);
+
+var RegExpPrototype = RegExp.prototype;
+
+module.exports = function (R) {
+  var flags = R.flags;
+  return flags === undefined && !('flags' in RegExpPrototype) && !hasOwn(R, 'flags') && isPrototypeOf(RegExpPrototype, R)
+    ? call(regExpFlags, R) : flags;
+};
+
+
+/***/ }),
+
+/***/ 7750:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var isNullOrUndefined = __webpack_require__(4117);
+
+var $TypeError = TypeError;
+
+// `RequireObjectCoercible` abstract operation
+// https://tc39.es/ecma262/#sec-requireobjectcoercible
+module.exports = function (it) {
+  if (isNullOrUndefined(it)) throw new $TypeError("Can't call method on " + it);
+  return it;
+};
+
+
+/***/ }),
+
+/***/ 6119:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var shared = __webpack_require__(5745);
+var uid = __webpack_require__(3392);
+
+var keys = shared('keys');
+
+module.exports = function (key) {
+  return keys[key] || (keys[key] = uid(key));
+};
+
+
+/***/ }),
+
+/***/ 7629:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var IS_PURE = __webpack_require__(6395);
+var globalThis = __webpack_require__(4475);
+var defineGlobalProperty = __webpack_require__(9433);
+
+var SHARED = '__core-js_shared__';
+var store = module.exports = globalThis[SHARED] || defineGlobalProperty(SHARED, {});
+
+(store.versions || (store.versions = [])).push({
+  version: '3.36.0',
+  mode: IS_PURE ? 'pure' : 'global',
+  copyright: '© 2014-2024 Denis Pushkarev (zloirock.ru)',
+  license: 'https://github.com/zloirock/core-js/blob/v3.36.0/LICENSE',
+  source: 'https://github.com/zloirock/core-js'
+});
+
+
+/***/ }),
+
+/***/ 5745:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var store = __webpack_require__(7629);
+
+module.exports = function (key, value) {
+  return store[key] || (store[key] = value || {});
+};
+
+
+/***/ }),
+
+/***/ 3063:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+// https://github.com/zloirock/core-js/issues/280
+var userAgent = __webpack_require__(9392);
+
+module.exports = /Version\/10(?:\.\d+){1,2}(?: [\w./]+)?(?: Mobile\/\w+)? Safari\//.test(userAgent);
+
+
+/***/ }),
+
+/***/ 533:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+// https://github.com/tc39/proposal-string-pad-start-end
+var uncurryThis = __webpack_require__(9504);
+var toLength = __webpack_require__(8014);
+var toString = __webpack_require__(655);
+var $repeat = __webpack_require__(2333);
+var requireObjectCoercible = __webpack_require__(7750);
+
+var repeat = uncurryThis($repeat);
+var stringSlice = uncurryThis(''.slice);
+var ceil = Math.ceil;
+
+// `String.prototype.{ padStart, padEnd }` methods implementation
+var createMethod = function (IS_END) {
+  return function ($this, maxLength, fillString) {
+    var S = toString(requireObjectCoercible($this));
+    var intMaxLength = toLength(maxLength);
+    var stringLength = S.length;
+    var fillStr = fillString === undefined ? ' ' : toString(fillString);
+    var fillLen, stringFiller;
+    if (intMaxLength <= stringLength || fillStr === '') return S;
+    fillLen = intMaxLength - stringLength;
+    stringFiller = repeat(fillStr, ceil(fillLen / fillStr.length));
+    if (stringFiller.length > fillLen) stringFiller = stringSlice(stringFiller, 0, fillLen);
+    return IS_END ? S + stringFiller : stringFiller + S;
+  };
+};
+
+module.exports = {
+  // `String.prototype.padStart` method
+  // https://tc39.es/ecma262/#sec-string.prototype.padstart
+  start: createMethod(false),
+  // `String.prototype.padEnd` method
+  // https://tc39.es/ecma262/#sec-string.prototype.padend
+  end: createMethod(true)
+};
+
+
+/***/ }),
+
+/***/ 2333:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var toIntegerOrInfinity = __webpack_require__(1291);
+var toString = __webpack_require__(655);
+var requireObjectCoercible = __webpack_require__(7750);
+
+var $RangeError = RangeError;
+
+// `String.prototype.repeat` method implementation
+// https://tc39.es/ecma262/#sec-string.prototype.repeat
+module.exports = function repeat(count) {
+  var str = toString(requireObjectCoercible(this));
+  var result = '';
+  var n = toIntegerOrInfinity(count);
+  if (n < 0 || n === Infinity) throw new $RangeError('Wrong number of repetitions');
+  for (;n > 0; (n >>>= 1) && (str += str)) if (n & 1) result += str;
+  return result;
+};
+
+
+/***/ }),
+
+/***/ 4495:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+/* eslint-disable es/no-symbol -- required for testing */
+var V8_VERSION = __webpack_require__(7388);
+var fails = __webpack_require__(9039);
+var global = __webpack_require__(4475);
+
+var $String = global.String;
+
+// eslint-disable-next-line es/no-object-getownpropertysymbols -- required for testing
+module.exports = !!Object.getOwnPropertySymbols && !fails(function () {
+  var symbol = Symbol('symbol detection');
+  // Chrome 38 Symbol has incorrect toString conversion
+  // `get-own-property-symbols` polyfill symbols converted to object are not Symbol instances
+  // nb: Do not call `String` directly to avoid this being optimized out to `symbol+''` which will,
+  // of course, fail.
+  return !$String(symbol) || !(Object(symbol) instanceof Symbol) ||
+    // Chrome 38-40 symbols are not inherited from DOM collections prototypes to instances
+    !Symbol.sham && V8_VERSION && V8_VERSION < 41;
+});
+
+
+/***/ }),
+
+/***/ 5610:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var toIntegerOrInfinity = __webpack_require__(1291);
+
+var max = Math.max;
+var min = Math.min;
+
+// Helper for a popular repeating case of the spec:
+// Let integer be ? ToInteger(index).
+// If integer < 0, let result be max((length + integer), 0); else let result be min(integer, length).
+module.exports = function (index, length) {
+  var integer = toIntegerOrInfinity(index);
+  return integer < 0 ? max(integer + length, 0) : min(integer, length);
+};
+
+
+/***/ }),
+
+/***/ 5397:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+// toObject with fallback for non-array-like ES3 strings
+var IndexedObject = __webpack_require__(7055);
+var requireObjectCoercible = __webpack_require__(7750);
+
+module.exports = function (it) {
+  return IndexedObject(requireObjectCoercible(it));
+};
+
+
+/***/ }),
+
+/***/ 1291:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var trunc = __webpack_require__(741);
+
+// `ToIntegerOrInfinity` abstract operation
+// https://tc39.es/ecma262/#sec-tointegerorinfinity
+module.exports = function (argument) {
+  var number = +argument;
+  // eslint-disable-next-line no-self-compare -- NaN check
+  return number !== number || number === 0 ? 0 : trunc(number);
+};
+
+
+/***/ }),
+
+/***/ 8014:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var toIntegerOrInfinity = __webpack_require__(1291);
+
+var min = Math.min;
+
+// `ToLength` abstract operation
+// https://tc39.es/ecma262/#sec-tolength
+module.exports = function (argument) {
+  var len = toIntegerOrInfinity(argument);
+  return len > 0 ? min(len, 0x1FFFFFFFFFFFFF) : 0; // 2 ** 53 - 1 == 9007199254740991
+};
+
+
+/***/ }),
+
+/***/ 8981:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var requireObjectCoercible = __webpack_require__(7750);
+
+var $Object = Object;
+
+// `ToObject` abstract operation
+// https://tc39.es/ecma262/#sec-toobject
+module.exports = function (argument) {
+  return $Object(requireObjectCoercible(argument));
+};
+
+
+/***/ }),
+
+/***/ 2777:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var call = __webpack_require__(9565);
+var isObject = __webpack_require__(34);
+var isSymbol = __webpack_require__(757);
+var getMethod = __webpack_require__(5966);
+var ordinaryToPrimitive = __webpack_require__(4270);
+var wellKnownSymbol = __webpack_require__(8227);
+
+var $TypeError = TypeError;
+var TO_PRIMITIVE = wellKnownSymbol('toPrimitive');
+
+// `ToPrimitive` abstract operation
+// https://tc39.es/ecma262/#sec-toprimitive
+module.exports = function (input, pref) {
+  if (!isObject(input) || isSymbol(input)) return input;
+  var exoticToPrim = getMethod(input, TO_PRIMITIVE);
+  var result;
+  if (exoticToPrim) {
+    if (pref === undefined) pref = 'default';
+    result = call(exoticToPrim, input, pref);
+    if (!isObject(result) || isSymbol(result)) return result;
+    throw new $TypeError("Can't convert object to primitive value");
+  }
+  if (pref === undefined) pref = 'number';
+  return ordinaryToPrimitive(input, pref);
+};
+
+
+/***/ }),
+
+/***/ 6969:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var toPrimitive = __webpack_require__(2777);
+var isSymbol = __webpack_require__(757);
+
+// `ToPropertyKey` abstract operation
+// https://tc39.es/ecma262/#sec-topropertykey
+module.exports = function (argument) {
+  var key = toPrimitive(argument, 'string');
+  return isSymbol(key) ? key : key + '';
+};
+
+
+/***/ }),
+
+/***/ 2140:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var wellKnownSymbol = __webpack_require__(8227);
+
+var TO_STRING_TAG = wellKnownSymbol('toStringTag');
+var test = {};
+
+test[TO_STRING_TAG] = 'z';
+
+module.exports = String(test) === '[object z]';
+
+
+/***/ }),
+
+/***/ 655:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var classof = __webpack_require__(6955);
+
+var $String = String;
+
+module.exports = function (argument) {
+  if (classof(argument) === 'Symbol') throw new TypeError('Cannot convert a Symbol value to a string');
+  return $String(argument);
+};
+
+
+/***/ }),
+
+/***/ 6823:
+/***/ ((module) => {
+
+"use strict";
+
+var $String = String;
+
+module.exports = function (argument) {
+  try {
+    return $String(argument);
+  } catch (error) {
+    return 'Object';
+  }
+};
+
+
+/***/ }),
+
+/***/ 3392:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var uncurryThis = __webpack_require__(9504);
+
+var id = 0;
+var postfix = Math.random();
+var toString = uncurryThis(1.0.toString);
+
+module.exports = function (key) {
+  return 'Symbol(' + (key === undefined ? '' : key) + ')_' + toString(++id + postfix, 36);
+};
+
+
+/***/ }),
+
+/***/ 7040:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+/* eslint-disable es/no-symbol -- required for testing */
+var NATIVE_SYMBOL = __webpack_require__(4495);
+
+module.exports = NATIVE_SYMBOL
+  && !Symbol.sham
+  && typeof Symbol.iterator == 'symbol';
+
+
+/***/ }),
+
+/***/ 8686:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var DESCRIPTORS = __webpack_require__(3724);
+var fails = __webpack_require__(9039);
+
+// V8 ~ Chrome 36-
+// https://bugs.chromium.org/p/v8/issues/detail?id=3334
+module.exports = DESCRIPTORS && fails(function () {
+  // eslint-disable-next-line es/no-object-defineproperty -- required for testing
+  return Object.defineProperty(function () { /* empty */ }, 'prototype', {
+    value: 42,
+    writable: false
+  }).prototype !== 42;
+});
+
+
+/***/ }),
+
+/***/ 8622:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var global = __webpack_require__(4475);
+var isCallable = __webpack_require__(4901);
+
+var WeakMap = global.WeakMap;
+
+module.exports = isCallable(WeakMap) && /native code/.test(String(WeakMap));
+
+
+/***/ }),
+
+/***/ 8227:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var global = __webpack_require__(4475);
+var shared = __webpack_require__(5745);
+var hasOwn = __webpack_require__(9297);
+var uid = __webpack_require__(3392);
+var NATIVE_SYMBOL = __webpack_require__(4495);
+var USE_SYMBOL_AS_UID = __webpack_require__(7040);
+
+var Symbol = global.Symbol;
+var WellKnownSymbolsStore = shared('wks');
+var createWellKnownSymbol = USE_SYMBOL_AS_UID ? Symbol['for'] || Symbol : Symbol && Symbol.withoutSetter || uid;
+
+module.exports = function (name) {
+  if (!hasOwn(WellKnownSymbolsStore, name)) {
+    WellKnownSymbolsStore[name] = NATIVE_SYMBOL && hasOwn(Symbol, name)
+      ? Symbol[name]
+      : createWellKnownSymbol('Symbol.' + name);
+  } return WellKnownSymbolsStore[name];
+};
+
+
+/***/ }),
+
+/***/ 8781:
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var PROPER_FUNCTION_NAME = (__webpack_require__(350).PROPER);
+var defineBuiltIn = __webpack_require__(6840);
+var anObject = __webpack_require__(8551);
+var $toString = __webpack_require__(655);
+var fails = __webpack_require__(9039);
+var getRegExpFlags = __webpack_require__(1034);
+
+var TO_STRING = 'toString';
+var RegExpPrototype = RegExp.prototype;
+var nativeToString = RegExpPrototype[TO_STRING];
+
+var NOT_GENERIC = fails(function () { return nativeToString.call({ source: 'a', flags: 'b' }) !== '/a/b'; });
+// FF44- RegExp#toString has a wrong name
+var INCORRECT_NAME = PROPER_FUNCTION_NAME && nativeToString.name !== TO_STRING;
+
+// `RegExp.prototype.toString` method
+// https://tc39.es/ecma262/#sec-regexp.prototype.tostring
+if (NOT_GENERIC || INCORRECT_NAME) {
+  defineBuiltIn(RegExpPrototype, TO_STRING, function toString() {
+    var R = anObject(this);
+    var pattern = $toString(R.source);
+    var flags = $toString(getRegExpFlags(R));
+    return '/' + pattern + '/' + flags;
+  }, { unsafe: true });
+}
+
+
+/***/ }),
+
+/***/ 8156:
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var $ = __webpack_require__(6518);
+var $padStart = (__webpack_require__(533).start);
+var WEBKIT_BUG = __webpack_require__(3063);
+
+// `String.prototype.padStart` method
+// https://tc39.es/ecma262/#sec-string.prototype.padstart
+$({ target: 'String', proto: true, forced: WEBKIT_BUG }, {
+  padStart: function padStart(maxLength /* , fillString = ' ' */) {
+    return $padStart(this, maxLength, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
+
+
 /***/ })
 
 /******/ 	});
@@ -21603,6 +23276,18 @@ webpackContext.id = 5358;
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
@@ -21638,7 +23323,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  NaiveTime: () => (/* reexport */ chrono_namespaceObject),
+  chrono: () => (/* reexport */ chrono_namespaceObject),
   coords: () => (/* reexport */ coords_namespaceObject),
   moon: () => (/* reexport */ moon_namespaceObject),
   sun: () => (/* reexport */ sun_namespaceObject),
@@ -21656,13 +23341,15 @@ __webpack_require__.d(coords_namespaceObject, {
   HorizonCoord: () => (HorizonCoord),
   Latitude: () => (Latitude),
   Longitude: () => (Longitude),
+  approx_zone_from_geo: () => (approx_zone_from_geo),
   equatorial_from_ecliptic_with_generic_date: () => (equatorial_from_ecliptic_with_generic_date),
   equatorial_from_ecliptic_with_generic_datetime: () => (equatorial_from_ecliptic_with_generic_datetime),
   equatorial_from_ecliptic_with_obliquity: () => (equatorial_from_ecliptic_with_obliquity),
   find_kepler: () => (find_kepler),
   horizontal_from_equatorial: () => (horizontal_from_equatorial),
   horizontal_from_equatorial_with_hour_angle: () => (horizontal_from_equatorial_with_hour_angle),
-  mean_obliquity_of_the_ecliptic: () => (mean_obliquity_of_the_ecliptic)
+  mean_obliquity_of_the_ecliptic: () => (mean_obliquity_of_the_ecliptic),
+  zone_format: () => (zone_format)
 });
 
 // NAMESPACE OBJECT: ./src/time/index.js
@@ -21697,13 +23384,17 @@ __webpack_require__.d(time_namespaceObject, {
   naive_time_from_decimal_hours: () => (naive_time_from_decimal_hours),
   naive_time_from_generic_datetime: () => (naive_time_from_generic_datetime),
   nano_from_second: () => (nano_from_second),
-  utc_from_gst: () => (utc_from_gst)
+  utc_from_gst: () => (utc_from_gst),
+  utc_from_local: () => (utc_from_local),
+  utc_from_local_geo: () => (utc_from_local_geo)
 });
 
 // NAMESPACE OBJECT: ./src/chrono/index.js
 var chrono_namespaceObject = {};
 __webpack_require__.r(chrono_namespaceObject);
 __webpack_require__.d(chrono_namespaceObject, {
+  NaiveDate: () => (NaiveDate),
+  NaiveDateTime: () => (NaiveDateTime),
   NaiveTime: () => (NaiveTime)
 });
 
@@ -21718,7 +23409,8 @@ __webpack_require__.d(sun_namespaceObject, {
   sun_pos_ecliptic: () => (sun_pos_ecliptic),
   sun_pos_ecliptic_from_generic_date: () => (sun_pos_ecliptic_from_generic_date),
   sun_pos_equatorial: () => (sun_pos_equatorial),
-  sun_pos_equatorial_from_generic_date: () => (sun_pos_equatorial_from_generic_date)
+  sun_pos_equatorial_from_generic_date: () => (sun_pos_equatorial_from_generic_date),
+  sun_pos_horizontal: () => (sun_pos_horizontal)
 });
 
 // NAMESPACE OBJECT: ./src/moon/index.js
@@ -21729,12 +23421,414 @@ __webpack_require__.d(moon_namespaceObject, {
   moon_pos_equatorial: () => (moon_pos_equatorial)
 });
 
+// EXTERNAL MODULE: ./node_modules/moment/moment.js
+var moment = __webpack_require__(5093);
+var moment_default = /*#__PURE__*/__webpack_require__.n(moment);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.regexp.to-string.js
+var es_regexp_to_string = __webpack_require__(8781);
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es.string.pad-start.js
+var es_string_pad_start = __webpack_require__(8156);
+;// CONCATENATED MODULE: ./src/constants.js
+/**
+ * @module sowngwala/constants
+ */
+
+var NANOSECOND_UNIT = 1000000000.0;
+var OFFSET_GMT = '+00:00'; // Z (Greenwich)
+var OFFSET_TOKYO = '+09:00'; // Z
+
+var MYSQL_FORMAT = 'YYYY-MM-DD HH:mm:ss';
+var ISO8601_FORMAT = 'YYYY-MM-DDTHH:mm:ssZ';
+var NUM_OF_DAYS_IN_A_YEAR = 365.25;
+
+// ------------------------------------
+// Sun
+// ------------------------------------
+
+/**
+ * Sun's mean ecliptic longitude at
+ * Jan. 0.0, 1990 which is represented
+ * as "ε g" (Epsilon G) in the book.
+ * This is the position it would have
+ * had if it had been moving in
+ * a circular orbit rather than
+ * an eclipse.
+ * (Peter Duffett-Smith, p.86)
+ */
+var ECLIPTIC_LONGITUDE_AT_1990 = 279.403303; // ε g
+
+/**
+ * This is the longitude of the sun
+ * at perigree which is represented
+ * as "ω bar g" (Omega bar G).
+ * (Peter Duffett-Smith, p.86)
+ */
+var ECLIPTIC_LONGITUDE_OF_PERIGEE = 282.768422; // ω bar g
+
+/**
+ * This is the eccentricity of
+ * the sun-earth orbit.
+ * (Peter Duffett-Smith, p.86)
+ */
+var ECCENTRICITY_OF_ORBIT = 0.016713;
+
+// ------------------------------------
+// Moon
+// ------------------------------------
+
+var MOON_MEAN_LONGITUDE_AT_THE_EPOCH = 318.351648; // l o
+var MEAN_LONGITUDE_OF_PERIGEE_AT_THE_EPOCH = 36.340410; // P o
+var MEAN_LONGITUDE_OF_THE_NODE_AT_THE_EPOCH = 318.510107; // N o
+var INCLINATION_OF_THE_MOON_ORBIT = 5.145396; // i
+var ECCENTRICITY_OF_MOON_ORBIT = 0.054900; // e
+var SEMI_MAJOR_AXIS_OF_MOON_ORBIT = 384401.0; // a
+var MOON_ANGULAR_SIZE_AT_DISTANCE_A_FROM_THE_EARTH = 0.5181; // θ o
+var PARALLAX_AT_DISTANCE_A_FROM_THE_EARTH = 0.9507; // π o
+
+var J2000 = 2451545.0;
+;// CONCATENATED MODULE: ./src/utils.js
+
+
+/**
+ * @module sowngwala/utils
+ */
+
+
+
+/** @typedef {import('moment').Moment} Moment */
+/** @typedef {import('./types.js').Second} Second */
+/** @typedef {import('./types.js').NanoSecond} NanoSecond */
+
+var noop = () => {};
+var pad = function pad() {
+  var n = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+  var digits = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
+  return n.toString().padStart(digits, '0');
+};
+
+/**
+ * JS has '-0' and '+0' which
+ * is called "signed zeros".
+ * We can make it unsigned by
+ * doing 'value | 0'.
+ * @public
+ * @function
+ * @param {number} value
+ * @returns {number}
+ */
+var unsigned_zero = value => Object.is(value, -0) || Object.is(value, +0) ? value | 0 : value;
+
+/**
+ * Given 'sec', extract 'nano', and
+ * returns 'nano' and the new 'sec'.
+ *
+ * Ex.
+ * sec_0 = 53.000_000_001_234
+ * sec_1 = 53.000_000_001
+ * nano = 456_000_000
+ *
+ * 'nano' is 1/1_000_000_000 of 'sec'.
+ *
+ * @public
+ * @function
+ * @param {Second} sec
+ * @returns {{ sec: Second, nano: NanoSecond }}
+ */
+function nano_from_sec() {
+  var sec = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0.0;
+  var s = sec * NANOSECOND_UNIT;
+  var _int = Math.floor(s);
+  var _frac = fract(s);
+  var _sec = _int / NANOSECOND_UNIT;
+  var _nano = _frac * NANOSECOND_UNIT;
+  return {
+    sec: _sec,
+    nano: _nano
+  };
+}
+
+/**
+ * @typedef OverflowReturned
+ * @type {Object}
+ * @property {number} remainder - Value after the calculation.
+ * @property {number} quotient - Value denoting how much did the value exceed.
+ */
+
+/**
+ * Checks if the given value exceeds
+ * the given target value.
+ *
+ * Original:
+ * - sowngwala::time::carry_over
+ *
+ * @public
+ * @function
+ * @param {number} value - Value you want to check.
+ * @param {number} base - Max/min for 'value' to carry over when exceeded.
+ * @return {OverflowReturned}
+ */
+function overflow(value, base) {
+  var remainder = value % base;
+  var divisible = value - remainder;
+  var quotient = divisible / base;
+
+  // Say, we had -1.0 for
+  // 'sec' which is invalid
+  // for 'sec'. So, we want
+  // to decrease 'min' by 1,
+  // and will now have 59
+  // for 'sec'.
+  //
+  // Say, we had 0°0'-1" for
+  // an angle. Again, -1 is
+  // invalid for 'sec'.
+  // For this, we would return
+  // -1 for 'day_access' and
+  // the new angle will now
+  // become 23°59'59".
+
+  if (remainder < 0.0) {
+    remainder += base;
+    quotient -= 1;
+  }
+  remainder = unsigned_zero(remainder);
+  quotient = unsigned_zero(quotient);
+  return {
+    quotient,
+    remainder
+  };
+}
+
+/**
+ * Returns the fractional
+ * part of the given number.
+ * Ex.
+ * 2.345 --> 0.345
+ * @public
+ * @function
+ * @param {number} value
+ * @returns {number}
+ */
+var fract = value => value - Math.floor(value);
+
+/**
+ * @public
+ * @function
+ * @param {number} rad
+ * @returns {number}
+ */
+var to_degrees = rad => rad * (180 / Math.PI);
+
+/**
+ * @public
+ * @function
+ * @param {number} deg
+ * @returns {number}
+ */
+var to_radians = deg => deg * (Math.PI / 180);
+
+/**
+ * @typedef StopperContext
+ * @type {Object}
+ * @property {function(): number} get_count
+ * @property {function(): number} check
+ */
+
+/**
+ * @public
+ * @function
+ * @param {Object} [options={}]
+ * @param {number} [options.limit=1000]
+ * @return {StopperContext}
+ */
+function make_stopper() {
+  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var {
+    limit = 1000
+  } = options;
+  var cnt = 0;
+  return {
+    get_count: () => cnt,
+    check: () => {
+      if (cnt > limit) throw new Error("The loop exceeded ".concat(limit, " times"));
+      cnt++;
+      return cnt;
+    }
+  };
+}
+
+/**
+ * @typedef LoggerContext
+ * @type {Object}
+ * @property {function(string): void} logger
+ * @property {function(): void} logger_title
+ */
+
+/**
+ * @public
+ * @function
+ * @param {string} mod
+ * @param {string} func
+ * @param {boolean} [out=false]
+ * @returns {LoggerContext}
+ */
+var make_logger = function make_logger(mod, func) {
+  var out = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  /**
+   * @private
+   * @function
+   * @param {string} s
+   * @param {*} v
+   */
+  var aux = (s, v) => {
+    out ? console.log("[".concat(mod, "] ").concat(s), v) : noop();
+  };
+  return {
+    logger: msg => {
+      aux("(".concat(func, ") ").concat(msg));
+    },
+    logger_title: () => {
+      aux("++++ ".concat(func));
+    }
+  };
+};
+;// CONCATENATED MODULE: ./src/chrono/naive_date.js
+/**
+ * @module chrono/naive_date
+ */
+
+
+
+/** @typedef {import('moment').Moment} Moment */
+
+/** @typedef {import('../types.js').Year} Year */
+/** @typedef {import('../types.js').Day} Day */
+/** @typedef {import('../types.js').Month} Month */
+
+/**
+ * @template T
+ * @typedef Getter
+ * @type {function(): T}
+ */
+
+/**
+ * A context (or an instance)
+ * to be created.
+ *
+ * @typedef NaiveDateContext
+ * @type {Object}
+ * @property {Getter<Year>} year
+ * @property {Getter<Month>} month
+ * @property {Getter<Day>} day
+ * @property {Getter<Moment>} to_moment
+ * @property {function(): void} print
+ */
+
+/**
+ * A publicly exposed object
+ * containing a static method.
+ *
+ * @typedef NaiveDate
+ * @type {Object}
+ * @property {FromMoment} from_moment
+ * @property {FromYMD} from_ymd
+ */
+
+/**
+ * @callback FromMoment
+ * @param {Moment} dt
+ * @returns {NaiveDateContext}
+ */
+
+/**
+ * @callback FromYMD
+ * @param {Year} y
+ * @param {Month} m
+ * @param {Day} d
+ * @returns {NaiveDateContext}
+ */
+
+/**
+ * @public
+ * @type {NaiveDate}
+ */
+var NaiveDate = Object.freeze({
+  from_moment,
+  from_ymd
+});
+
+/**
+ * @public
+ * @static
+ * @type {FromMoment}
+ */
+function from_moment(dt) {
+  return _from_ymd(dt.year(), dt.month() + 1, dt.date() // NOTE
+  );
+}
+
+/**
+ * @public
+ * @static
+ * @type {FromYMD}
+ */
+function from_ymd(y, m, d) {
+  return _from_ymd(y, m, d);
+}
+
+/**
+ * @private
+ * @type {FromYMD}
+ */
+function _from_ymd(y, m, d) {
+  /**
+   * @private
+   * @type {Year}
+   */
+  var _year = y;
+
+  /**
+   * @private
+   * @type {Month}
+   */
+  var _month = m;
+
+  /**
+   * @private
+   * @type {Day}
+   */
+  var _day = d;
+
+  /**
+   * @protected
+   * @type {NaiveDateContext}
+   */
+  return Object.freeze({
+    year: () => _year,
+    month: () => _month,
+    day: () => _day,
+    to_moment,
+    print: () => "".concat(pad(_year), "-").concat(pad(_month), "-").concat(pad(_day))
+  });
+
+  /**
+   * @returns {Moment}
+   */
+  function to_moment() {
+    return moment_default()(Date.UTC(_year, _month - 1, _day)).utc();
+  }
+}
 ;// CONCATENATED MODULE: ./src/time/add_date.js
 /**
  * @module sowngwala/time/add_date
  */
 
-/** @typedef {import('moment').Moment} Moment */
+
+
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * References:
@@ -21789,16 +23883,58 @@ __webpack_require__.d(moon_namespaceObject, {
  *
  * @public
  * @function
- * @param {Moment} dt
+ * @param {NaiveDateTimeContext} dt
  * @param {number} days
- * @returns {Moment}
+ * @returns {NaiveDateTimeContext}
  */
 function add_date(dt, days) {
   // Rust implementation would be:
   // ----------------------------------
   // dt + Duration::days(days)
   // ----------------------------------
-  return dt.add('days', days);
+  var added = dt.to_moment().add(days, 'days');
+  return NaiveDateTime.from_moment(added);
+}
+;// CONCATENATED MODULE: ./src/coords/approx_zone_from_geo.js
+/**
+ * @module sowngwala/coords/approx_zone_from_geo
+ */
+
+
+
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
+
+/**
+ * @typedef GeoCoordContext
+ * @type {import('./geo.js').GeoCoordContext}
+ */
+
+/**
+ * @param {NaiveDateTimeContext} local
+ * @param {GeoCoordContext} geo
+ * @returns {number}
+ */
+function approx_zone_from_geo(local, geo) {
+  var lat = geo.lat.degrees;
+  var lng = geo.lng.degrees;
+  var decimal_hours = Math.floor(lng / 15.0);
+  var offset = decimal_hours >= 12.0 ? decimal_hours - 12.0 : decimal_hours;
+  var lst = (-0.0069 + to_radians(lat) * 0.00007) % 24.0;
+  return Math.round(offset + lst);
+}
+
+/**
+ * @public
+ * @function
+ * @param {number} zone
+ * @returns {string}
+ */
+function zone_format(zone) {
+  var sign = zone >= 0 ? '+' : '';
+  return "".concat(sign).concat(pad(zone), ":00");
 }
 ;// CONCATENATED MODULE: ./src/coords/angle.js
 /**
@@ -21838,6 +23974,7 @@ function add_date(dt, days) {
  * @property {Getter<DecimalDays>} day_excess
  * @property {ToNaiveTime} to_naive_time
  * @property {Calibrate} calibrate
+ * @property {function(): void} print
  */
 
 /**
@@ -21899,9 +24036,7 @@ var Angle = Object.freeze({
  * @type {FromHMS}
  */
 function from_hms(h, m, s) {
-  var self = _from_hms(h, m, s);
-  // self.calibrate();
-  return self;
+  return _from_hms(h, m, s);
 }
 
 /**
@@ -21943,7 +24078,8 @@ function _from_hms(h, m, s) {
     second: () => sec,
     day_excess: () => _day_excess,
     to_naive_time,
-    calibrate
+    calibrate,
+    print: () => "".concat(_hour, "\xB0").concat(min, "'").concat(sec)
   });
 
   /**
@@ -21951,7 +24087,9 @@ function _from_hms(h, m, s) {
    * @type {ToNaiveTime}
    */
   function to_naive_time() {
-    return NaiveTime.from_hmsn(_hour, min, sec, 0.0);
+    // Note:
+    // 'from_hms' will extract 'nano' from 'sec'.
+    return NaiveTime.from_hms(_hour, min, sec);
   }
 
   /**
@@ -22633,172 +24771,6 @@ var EquaCoord = _ref => {
     dec
   };
 };
-;// CONCATENATED MODULE: ./src/utils.js
-/**
- * @module sowngwala/utils
- */
-
-/** @typedef {import('moment').Moment} Moment */
-
-var noop = () => {};
-
-/**
- * JS has '-0' and '+0' which
- * is called "signed zeros".
- * We can make it unsigned by
- * doing 'value | 0'.
- * @public
- * @function
- * @param {number} value
- * @returns {number}
- */
-var unsigned_zero = value => Object.is(value, -0) || Object.is(value, +0) ? value | 0 : value;
-
-/**
- * @typedef OverflowReturned
- * @type {Object}
- * @property {number} remainder - Value after the calculation.
- * @property {number} quotient - Value denoting how much did the value exceed.
- */
-
-/**
- * Checks if the given value exceeds
- * the given target value.
- *
- * Original:
- * - sowngwala::time::carry_over
- *
- * @public
- * @function
- * @param {number} value - Value you want to check.
- * @param {number} base - Max/min for 'value' to carry over when exceeded.
- * @return {OverflowReturned}
- */
-function overflow(value, base) {
-  var remainder = value % base;
-  var divisible = value - remainder;
-  var quotient = divisible / base;
-
-  // Say, we had -1.0 for
-  // 'sec' which is invalid
-  // for 'sec'. So, we want
-  // to decrease 'min' by 1,
-  // and will now have 59
-  // for 'sec'.
-  //
-  // Say, we had 0°0'-1" for
-  // an angle. Again, -1 is
-  // invalid for 'sec'.
-  // For this, we would return
-  // -1 for 'day_access' and
-  // the new angle will now
-  // become 23°59'59".
-
-  if (remainder < 0.0) {
-    remainder += base;
-    quotient -= 1;
-  }
-  remainder = unsigned_zero(remainder);
-  quotient = unsigned_zero(quotient);
-  return {
-    quotient,
-    remainder
-  };
-}
-
-/**
- * Returns the fractional
- * part of the given number.
- * Ex.
- * 2.345 --> 0.345
- * @public
- * @function
- * @param {number} value
- * @returns {number}
- */
-var fract = value => value - Math.floor(value);
-
-/**
- * @public
- * @function
- * @param {number} rad
- * @returns {number}
- */
-var to_degrees = rad => rad * (180 / Math.PI);
-
-/**
- * @public
- * @function
- * @param {number} deg
- * @returns {number}
- */
-var to_radians = deg => deg * (Math.PI / 180);
-
-/**
- * @typedef StopperContext
- * @type {Object}
- * @property {function(): number} get_count
- * @property {function(): number} check
- */
-
-/**
- * @public
- * @function
- * @param {Object} [options={}]
- * @param {number} [options.limit=1000]
- * @return {StopperContext}
- */
-function make_stopper() {
-  var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var {
-    limit = 1000
-  } = options;
-  var cnt = 0;
-  return {
-    get_count: () => cnt,
-    check: () => {
-      if (cnt > limit) throw new Error("The loop exceeded ".concat(limit, " times"));
-      cnt++;
-      return cnt;
-    }
-  };
-}
-
-/**
- * @typedef LoggerContext
- * @type {Object}
- * @property {function(string): void} logger
- * @property {function(): void} logger_title
- */
-
-/**
- * @public
- * @function
- * @param {string} mod
- * @param {string} func
- * @param {boolean} [out=false]
- * @returns {LoggerContext}
- */
-var make_logger = function make_logger(mod, func) {
-  var out = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-  /**
-   * @private
-   * @function
-   * @param {string} s
-   * @param {*} v
-   */
-  var aux = (s, v) => {
-    out ? console.log("[".concat(mod, "] ").concat(s), v) : noop();
-  };
-  return {
-    logger: msg => {
-      aux("(".concat(func, ") ").concat(msg));
-    },
-    logger_title: () => {
-      aux("++++ ".concat(func));
-    }
-  };
-};
 ;// CONCATENATED MODULE: ./src/coords/equatorial_from_ecliptic_with_obliquity.js
 /**
  * @module sowngwala/coords/equatorial_from_ecliptic_with_obliquity
@@ -22820,28 +24792,29 @@ var make_logger = function make_logger(mod, func) {
 
 /**
  * It will onvert Ecliptic coordinate
- * position into the Equatorial
- * coordinate position.
+ * position into the Equatorial.
  * For the first argument, it takes
  * the Ecliptic coordinate position
  * which consists of "latitude (β)"
  * and "longitude (λ)".
  * For the second argument, it takes
  * "the obliquity of the ecliptic (ε)".
- * The returned Equatorial position
- * will consist of "right ascension
- * (α)" and "declination (δ)".
+ * As a result, it will return the
+ * Equatorial position which consists
+ * of "right ascension (α)" and
+ * "declination (δ)".
  * (Peter Duffett-Smith, pp.40-41)
  *
- * In general, you may want to rather
- * use
+ * In general, you may want to
+ * consider rather using:
  * 'equatorial_from_ecliptic_with_generic_date'
- * because you don't normally know
- * "obliquity (ε)" for the given date.
- * On the other hand,
+ * because it is likely that you are
+ * not aware of "obliquity (ε)".
+ * You want programs to calculate
+ * "obliquity (ε)" for you, and that
+ * is what
  * 'equatorial_from_ecliptic_with_generic_date'
- * will calculate  "obliquity (ε)"
- * for you.
+ * does for you.
  *
  * @public
  * @function
@@ -22864,6 +24837,8 @@ function equatorial_from_ecliptic_with_obliquity(coord, oblique) {
   var decline_sin = lat_sin * oblique_cos + lat_cos * oblique_sin * lng_sin;
   var decline_radians = Math.asin(decline_sin);
   var decline = to_degrees(decline_radians);
+  // console.log('decline:', decline);
+
   var y = lng_sin * oblique_cos - lat_tan * oblique_sin;
   var x = lng_cos;
 
@@ -22874,6 +24849,8 @@ function equatorial_from_ecliptic_with_obliquity(coord, oblique) {
   var asc = to_degrees(Math.atan2(y, x));
   asc -= 360.0 * Math.floor(asc / 360.0);
   asc /= 15.0;
+  // console.log('asc:', asc);
+
   return EquaCoord({
     asc: angle_from_decimal_hours(asc),
     dec: angle_from_decimal_hours(decline)
@@ -22886,31 +24863,34 @@ function equatorial_from_ecliptic_with_obliquity(coord, oblique) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
- * It is used in
+ * The method is used in
  * 'equatorial_from_ecliptic_with_generic_date'
- * for finding
- * "the obliquity of the ecliptic (ε)
- * which is the angle between the planes
- * of the equator and the ecliptic
- * from the given datetime.
+ * when it tries to find "obliquity of
+ * the ecliptic (ε)" which is the angle
+ * between the planes of the equator
+ * and the ecliptic.
  * (Peter Duffett-Smith, p.41)
  *
- * TODO:
- * The argument for Rust version does
- * not necessarily require specific
- * time, but for JS version, it takes
- * time into consideration.
+ * The Rust version only take "date"
+ * but we want to make it accurate
+ * so that it now takes "time" for
+ * this version.
  *
  * @public
  * @function
  * @see {@link: sowngwala/coords.equatorial_from_ecliptic_with_generic_date}
- * @param {Moment} dt
- * @returns {number} - Obliquity of the ecliptic (ε) (in degrees)
+ * @param {NaiveDateTimeContext} dt
+ * @returns {number} - Obliquity of the Ecliptic (ε) (in degrees)
  */
 function mean_obliquity_of_the_ecliptic(dt) {
+  // Whereas the book only takes "date",
+  // see how it takes "time" as well.
   var jd = julian_day_from_generic_datetime(dt);
   jd -= 2451545.0; // January 1.5, 2000
 
@@ -22927,7 +24907,10 @@ function mean_obliquity_of_the_ecliptic(dt) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * @typedef EcliCoordContext
@@ -22947,26 +24930,43 @@ function mean_obliquity_of_the_ecliptic(dt) {
  */
 
 /**
- * Converts the Ecliptic coordinate
- * position into that of the Equatorial.
- * See 'equatorial_from_ecliptic' for
- * actual calculations.
+ * It will convert the Ecliptic position
+ * into that of the Equatorial.
  * (Peter Duffett-Smith, pp.40-41)
  *
- * Also, notice how it automatically
- * calculates for "obliquity of the
- * ecliptic (ε)" from the given date.
+ * Notice, also, how it calculates
+ * "obliquity of the ecliptic (ε)"
+ * automatically from the given date.
+ *
+ * See
+ * 'equatorial_from_ecliptic'
+ * for it has the actual calculations.
+ *
+ * In Rust version, it only takes
+ * "date". However, we want to also
+ * take "time" into consideration.
+ * Hence, introducing this method
+ * in JS version. It will become
+ * a matter when we attempt to calculate
+ * the mean obliquity. For this,
+ * instead of passing only "date",
+ * we are passing "datetime".
+ *
+ * Original:
+ * - sowngwala::coords::equatorial_from_ecliptic_with_generic_date
  *
  * @public
  * @function
  * @see {@link: module:sowngwala/coords/equatorial_from_ecliptic}
  * @param {EcliCoordContext} coord
- * @param {Moment} dt
+ * @param {NaiveDateTimeContext} dt
  * @returns {EquatorialFromEclipticWithGenericDateTimeReturned}
  */
 function equatorial_from_ecliptic_with_generic_datetime(coord, dt) {
   // This is in degrees, not radians.
   var _obliquity = mean_obliquity_of_the_ecliptic(dt);
+  // console.log('mean_obliquity:', _obliquity);
+
   var equatorial = equatorial_from_ecliptic_with_obliquity(coord, _obliquity);
   return {
     coord: equatorial,
@@ -22980,7 +24980,11 @@ function equatorial_from_ecliptic_with_generic_datetime(coord, dt) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
+
+/**
+ * @typedef NaiveDateContext
+ * @type {import('../chrono/naive_date.js').NaiveDateContext}
+ */
 
 /**
  * @typedef EcliCoordContext
@@ -22995,26 +24999,22 @@ function equatorial_from_ecliptic_with_generic_datetime(coord, dt) {
 /**
  * See
  * 'equatorial_from_ecliptic_with_generic_datetime'
- * for details.
+ *
+ * In Rust version, it only takes "date".
+ *
+ * Original:
+ * - sowngwala::coords::equatorial_from_ecliptic_with_generic_date
  *
  * @public
  * @function
  * @see {@link: module:sowngwala/coords/equatorial_from_ecliptic_with_generic_datetime}
  * @param {EcliCoordContext} coord
- * @param {Moment} date
+ * @param {NaiveDateContext} date
  * @returns {EquatorialFromEclipticWithGenericDateReturned}
  */
 function equatorial_from_ecliptic_with_generic_date(coord, date) {
-  var dt = date;
-  dt.set({
-    hour: 0,
-    minute: 0,
-    second: 0
-  });
-  return equatorial_from_ecliptic_with_generic_datetime(coord, dt);
+  return equatorial_from_ecliptic_with_generic_datetime(coord, NaiveDateTime.from_date(date));
 }
-// EXTERNAL MODULE: ./src/constants.js
-var constants = __webpack_require__(3832);
 ;// CONCATENATED MODULE: ./src/coords/find_kepler.js
 /**
  * @module sowngwala/coords/find_kepler
@@ -23072,9 +25072,9 @@ function find_kepler(mean_anom) {
  */
 function _kepler_aux(mean_anom, ecc, counter) {
   if (counter > 1000) throw new Error('Dude, this is insane...');
-  var delta = ecc - constants.ECCENTRICITY_OF_ORBIT * Math.sin(ecc) - mean_anom;
+  var delta = ecc - ECCENTRICITY_OF_ORBIT * Math.sin(ecc) - mean_anom;
   if (Math.abs(delta) > KEPLER_ACCURACY) {
-    var delta_e = delta / (1.0 - constants.ECCENTRICITY_OF_ORBIT * Math.cos(ecc));
+    var delta_e = delta / (1.0 - ECCENTRICITY_OF_ORBIT * Math.cos(ecc));
     return _kepler_aux(mean_anom, ecc - delta_e, counter + 1);
   }
   return ecc;
@@ -23249,8 +25249,6 @@ var HorizonCoord = _ref => {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
-
 /**
  * @typedef AngleContext
  * @type {import('./angle.js').AngleContext}
@@ -23323,7 +25321,10 @@ function horizontal_from_equatorial_with_hour_angle(hour_angle, dec, lat) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * @typedef AngleContext
@@ -23353,34 +25354,31 @@ function horizontal_from_equatorial_with_hour_angle(hour_angle, dec, lat) {
  */
 
 /**
- * Using
- * 'horizontal_from_equatorial_with_hour_angle'
- * to easily carry out Equatorial to
- * Horizontal calculation.
- *
  * See
  * 'horizontal_from_equatorial_with_hour_angle'
- * for most of the calculations are
- * done there.
- 
- * Given the datetime in UTC, Equatorial
- * coordinate position (which consists
- * of "right ascension (α)" and
- * "declination (δ)"), and Observer's
- * Geo location (which consists of
-* "Longitude and Latitude). It will
- * first calculate "hour angle (H)",
- * which is passed down to
+ * for almost everything is done there.
+ * This is a wrapper for the above,
+ * only it carry out calculations for
+ * "hour angle (H)".
+ *
+ * From the given (1) datetime in UTC,
+ * (2) the Equatorial position (which
+ * consists of "right ascension (α)"
+ * and "declination (δ)"), and (3)
+ * observer's Geo location (which
+ * consists of "Longitude and Latitude),
+ * it will calculate "hour angle (H)",
+ * and is passed down to
  * 'horizontal_from_equatorial_with_hour_angle'
- * which returns the Horizontal
- * coordinate position.
- * (which consists of "azimuth (A)" and
- * "altitude (α)")
+ * which is the actual method to return
+ * the Horizontal position (which
+ * consists of "azimuth (A)" and
+ * "altitude (α)").
  *
  * @public
  * @function
  * @see {@link: module:sowngwala/coords.horizontal_from_equatorial_with_hour_angle}
- * @param {Moment} utc
+ * @param {NaiveDateTimeContext} utc
  * @param {EquaCoordContext} equa_coord
  * @param {GeoCoordContext} geo_coord - Observer's Geolocation
  * @returns {HorizontalFromEquatorialReturned}
@@ -23403,6 +25401,7 @@ function horizontal_from_equatorial(utc, equa_coord, geo_coord) {
 /**
  * @module sowngwala/coords
  */
+
 
 
 
@@ -23532,23 +25531,26 @@ function decimal_hours_from_generic_time(t) {
   var hour = t.hour();
   var min = t.minute();
 
-  // This is a bit different from
-  // how it is calculated in
-  // Peter Duffett-Smith's book.
+  // NOTE:
+  // This is different from how
+  // it is calculated in Peter
+  // Duffett-Smith's book where
+  // the book does not take
+  // 'nanosecond' into consideration.
   var sec_0 = t.nanosecond() / 1000000000;
   var sec = t.second() + sec_0;
   var dec = hour + (min + sec / 60.0) / 60.0;
   return hour < 0.0 || min < 0.0 || sec < 0.0 ? -dec : dec;
 }
-// EXTERNAL MODULE: ./node_modules/moment/moment.js
-var moment = __webpack_require__(5093);
-var moment_default = /*#__PURE__*/__webpack_require__.n(moment);
 ;// CONCATENATED MODULE: ./src/time/is_julian_date.js
 /**
  * @module sowngwala/time/is_julian_date
  */
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateContext
+ * @type {import('../chrono/naive_date.js').NaiveDateContext}
+ */
 
 /**
  * Checks if the given date is julian date.
@@ -23558,7 +25560,7 @@ var moment_default = /*#__PURE__*/__webpack_require__.n(moment);
  *
  * @public
  * @function
- * @param {Moment} date
+ * @param {NaiveDateContext} date
  * @returns {boolean}
  */
 function is_julian_date(date) {
@@ -23568,16 +25570,13 @@ function is_julian_date(date) {
   if (date.year() < 1582) {
     return true;
   }
-  // NOTE: 'month' is indexed in JS
-  if (date.month() + 1 > 10) {
+  if (date.month() > 10) {
     return false;
   }
-  // NOTE: 'month' is indexed in JS
-  if (date.month() + 1 < 10) {
+  if (date.month() < 10) {
     return true;
   }
-  // NOTE: 'day' in Rust is 'date' in JS different
-  if (date.date() > 14) {
+  if (date.day() > 14) {
     return false;
   }
   return true;
@@ -23590,8 +25589,6 @@ function is_julian_date(date) {
 
 
 
-
-/** @typedef {import('moment').Moment} Moment */
 
 /** @typedef {import('../types.js').Year} Year */
 /** @typedef {import('../types.js').Month} Month */
@@ -23613,7 +25610,7 @@ function is_julian_date(date) {
  * into `NaiveTime` already.
  *
  * References:
- * - (Peter Duffett-Smith, pp.6-7)
+ * - Peter Duffett-Smith, pp.6-7
  *
  * Original:
  * - sowngwala::time::julian_day
@@ -23635,18 +25632,16 @@ function julian_day(year, month, day) {
   }
   var b;
   var c;
-  if (is_julian_date(moment_default()(Date.UTC(year,
-  // NOTE: 'month' is indexed in JS
-  month - 1, day)).utc())) {
+  if (is_julian_date(NaiveDate.from_ymd(year, month, day))) {
     b = 0.0;
   } else {
     var a = Math.floor(y / 100.0);
     b = 2.0 - a + Math.floor(a / 4.0);
   }
   if (y < 0.0) {
-    c = Math.floor(constants.NUM_OF_DAYS_IN_A_YEAR * y - 0.75);
+    c = Math.floor(NUM_OF_DAYS_IN_A_YEAR * y - 0.75);
   } else {
-    c = Math.floor(constants.NUM_OF_DAYS_IN_A_YEAR * y);
+    c = Math.floor(NUM_OF_DAYS_IN_A_YEAR * y);
   }
   var d = Math.floor(30.6001 * (m + 1.0));
   return b + c + d + day + 1720994.5;
@@ -23658,22 +25653,21 @@ function julian_day(year, month, day) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateContext
+ * @type {import('../chrono/naive_date.js').NaiveDateContext}
+ */
 
 /**
  *
  * Original:
  * - sowngwala::time::julian_day_from_generic_date
  *
- * @param {Moment} date
+ * @param {NaiveDateContext} date
  * @returns {number}
  */
 function julian_day_from_generic_date(date) {
-  return julian_day(date.year(),
-  // NOTE: 'month' is indexed in JS
-  date.month() + 1,
-  // NOTE: 'day' in Rust is 'date' in JS
-  date.date());
+  return julian_day(date.year(), date.month(), date.day());
 }
 ;// CONCATENATED MODULE: ./src/time/naive_time_from_generic_datetime.js
 /**
@@ -23682,7 +25676,10 @@ function julian_day_from_generic_date(date) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * @typedef NaiveTimeContext
@@ -23692,13 +25689,11 @@ function julian_day_from_generic_date(date) {
 /**
  * @public
  * @function
- * @param {Moment} dt
+ * @param {NaiveDateTimeContext} dt
  * @returns {NaiveTimeContext}
  */
 function naive_time_from_generic_datetime(dt) {
-  return NaiveTime.from_hmsn(dt.hour(), dt.minute(), dt.second(),
-  // NOTE: 'Moment' does not have 'nanosecond'
-  dt.millisecond() * 1000000);
+  return NaiveTime.from_hmsn(dt.hour(), dt.minute(), dt.second(), dt.nanosecond());
 }
 ;// CONCATENATED MODULE: ./src/time/naive_time_from_decimal_hours.js
 /**
@@ -23729,6 +25724,8 @@ function naive_time_from_generic_datetime(dt) {
  * @returns {NaiveTimeContext}
  */
 function naive_time_from_decimal_hours(dec) {
+  // NOTE:
+  // This will extract 'nano' from 'sec'.
   return angle_from_decimal_hours(dec).to_naive_time();
 }
 ;// CONCATENATED MODULE: ./src/time/gst_from_utc.js
@@ -23742,7 +25739,10 @@ function naive_time_from_decimal_hours(dec) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * @typedef NaiveTimeContext
@@ -23750,35 +25750,15 @@ function naive_time_from_decimal_hours(dec) {
  */
 
 /**
- * Given UT, and retursn GST.
+ * Given UT, and returns GST.
  *
  * References:
  * - (Peter Duffett-Smith, p.17)
  * - sowngwala::time::gst_from_ut
  *
- * Example:
- * ```rust
- * use chrono::{DateTime, Timelike};
- * use chrono::naive::NaiveTime;
- * use chrono::offset::Utc;
- * use sowngwala::time::{
- *     build_utc,
- *     gst_from_utc,
- * };
- *
- * let nanosecond: u32 = 670_000_000;
- * let utc: DateTime<Utc> =
- *     build_utc(1980, 4, 22, 14, 36, 51, nanosecond);
- * let gst: NaiveTime = gst_from_utc(utc);
- *
- * assert_eq!(gst.hour(), 4);
- * assert_eq!(gst.minute(), 40);
- * assert_eq!(gst.second(), 5); // 5.229576759185761
- * assert_eq!(gst.nanosecond(), 229_576_759);
- * ```
  * @public
  * @function
- * @param {Moment} utc
+ * @param {NaiveDateTimeContext} utc
  * @returns {NaiveTimeContext}
  */
 function gst_from_utc(utc) {
@@ -23786,26 +25766,29 @@ function gst_from_utc(utc) {
   var s = jd - 2451545.0;
   var t = s / 36525.0;
   var t0 = 6.697374558 + 2400.051336 * t + 0.000025862 * t * t;
-
-  // mosaikekkan
-  // ({ quotient: t0 } = overflow(t0, 24.0));
   ({
     remainder: t0
-  } = overflow(t0, 24.0));
-  var naive_time = naive_time_from_generic_datetime(utc);
-  var decimal = decimal_hours_from_generic_time(naive_time);
-  decimal *= 1.002737909;
-  decimal += t0;
+  } = overflow(t0, 24));
 
-  // mosaikekkan
-  // ({ quotient: decimal } = overflow(decimal, 24.0));
+  // NOTE:
+  // This will take 'millisecond' into consideration.
+  var naive_time = naive_time_from_generic_datetime(utc);
+  var decimal_hours = decimal_hours_from_generic_time(naive_time);
+  decimal_hours *= 1.002737909;
+  decimal_hours += t0;
   ({
-    remainder: decimal
-  } = overflow(decimal, 24.0));
-  return naive_time_from_decimal_hours(decimal);
+    remainder: decimal_hours
+  } = overflow(decimal_hours, 24));
+
+  // NOTE:
+  // This will extract 'nano' from 'sec'.
+  return naive_time_from_decimal_hours(decimal_hours);
 }
 ;// CONCATENATED MODULE: ./src/time/decimal_hours_from_hms.js
 /**
+ * NOTE:
+ * It does not exist in the Rust version.
+ *
  * @module sowngwala/time/decimal_hours_from_hms
  */
 
@@ -23869,6 +25852,9 @@ function decimal_hours_from_naive_time(naive) {
 }
 ;// CONCATENATED MODULE: ./src/time/local_from_gst.js
 /**
+ * NOTE:
+ * It does not exist in Rust version.
+ *
  * @module sowngwala/time/local_from_gst
  */
 
@@ -23959,16 +25945,14 @@ function decimal_hours_from_angle(angle) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
-
 /**
  * @typedef AngleContext
  * @type {import('../coords/angle.js').AngleContext}
  */
 
 /**
- * @typedef NaiveTimeContext
- * @type {import('../chrono/naive_time.js').NaiveTimeContext}
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
  */
 
 /**
@@ -23977,16 +25961,14 @@ function decimal_hours_from_angle(angle) {
  */
 
 /**
- * Given the date time in UTC, and
+ * Given the datetime in UTC, and
  * the hour angle in AngleContext,
  * returns "right ascension (α)".
- *
- * References:
- * - Peter Duffett-Smith, p.35
+ * (Peter Duffett-Smith, p.35)
  *
  * @public
  * @function
- * @param {Moment} utc
+ * @param {NaiveDateTimeContext} utc
  * @param {AngleContext} hour_angle
  * @param {LongitudeContext} lng
  * @returns {AngleContext}
@@ -23996,16 +25978,16 @@ function asc_from_hour_angle(utc, hour_angle, lng) {
   var lst = local_from_gst(gst, lng);
   var lst_hours = decimal_hours_from_naive_time(lst);
   var hour_angle_decimal = decimal_hours_from_angle(hour_angle);
-  var hour_angle_0 = lst_hours;
-  hour_angle_0 -= hour_angle_decimal;
-  if (hour_angle_0 < 0) {
-    hour_angle_0 += 24;
+  var hour_angle_1 = lst_hours;
+  hour_angle_1 -= hour_angle_decimal;
+  if (hour_angle_1 < 0) {
+    hour_angle_1 += 24;
   }
   var {
     hour,
     min,
     sec
-  } = hms_from_decimal_hours(hour_angle_0);
+  } = hms_from_decimal_hours(hour_angle_1);
   return Angle.from_hms(hour, min, sec);
 }
 ;// CONCATENATED MODULE: ./src/time/calibrate_hmsn.js
@@ -24137,7 +26119,10 @@ function calibrate_hmsn(_ref) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateContext
+ * @type {import('../chrono/naive_date.js').NaiveDateContext}
+ */
 
 /**
  * Finds day of the week out of
@@ -24159,22 +26144,18 @@ function calibrate_hmsn(_ref) {
  *
  * @public
  * @function
- * @param {Moment} dt
+ * @param {NaiveDateContext} date
  * @returns {number}
  */
-function day_of_the_week(dt) {
+function day_of_the_week(date) {
   // Rust implementation would be:
   // ----------------------------------
-  // dt.weekday().num_days_from_sunday()
+  // date.weekday().num_days_from_sunday()
   // // Sunday = 0
   // // Monday = 1
   // ----------------------------------
 
-  var jd = julian_day(dt.year(),
-  // NOTE: 'month' is indexed in JS
-  dt.month() + 1,
-  // NOTE: 'day' in Rust is 'date' in JS
-  dt.date());
+  var jd = julian_day(date.year(), date.month(), date.day());
   var a = (jd + 1.5) / 7.0;
   return Math.round(fract(Math.abs(a)) * 7.0);
 }
@@ -24212,7 +26193,10 @@ function is_leap_year(year) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateContext
+ * @type {import('../chrono/naive_date.js').NaiveDateContext}
+ */
 
 /**
  * Finds out the day number for the
@@ -24222,21 +26206,18 @@ function is_leap_year(year) {
  * Original:
  * - sowngwala::time::day_number_from_generic_date
  *
- * @param {Moment} date
+ * @param {NaiveDateContext} date
  * @returns {number}
  */
 function day_number_from_generic_date(date) {
   var tmp = is_leap_year(date.year()) ? 62.0 : 63.0;
-
-  // NOTE: 'month' is indexed in JS
-  var num = date.month() + 1;
+  var num = date.month();
   if (num <= 2.0) {
     num = Math.floor((num - 1.0) * tmp / 2.0);
   } else {
     num = Math.floor((num + 1.0) * 30.6) - tmp;
   }
-  // NOTE: 'day' in Rust is 'date' in JS
-  return num + date.date();
+  return num + date.day();
 }
 ;// CONCATENATED MODULE: ./src/time/days_since_1990.js
 
@@ -24317,29 +26298,35 @@ function days_since_1990(year) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
 /** @typedef {import('../types.js').DecimalDays} DecimalDays */
+
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  *
  * @public
  * @function
- * @param {Moment} dt
+ * @param {NaiveDateTimeContext} dt
  * @returns {DecimalDays}
  */
 function decimal_days_from_generic_datetime(dt) {
   var naive = NaiveTime.from_hmsn(dt.hour(), dt.minute(), dt.second(), 0.0);
-  var decimal = decimal_hours_from_naive_time(naive);
-
-  // NOTE: 'day' in Rust is 'date' in JS
-  return dt.date() + decimal / 24.0;
+  var decimal_hours = decimal_hours_from_naive_time(naive);
+  return dt.day() + decimal_hours / 24.0;
 }
 ;// CONCATENATED MODULE: ./src/time/decimal_year_from_generic_date.js
 /**
  * @module sowngwala/time/decimal_year_from_generic_date
  */
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateContext
+ * @type {import('../chrono/naive_date.js').NaiveDateContext}
+ */
+
 /** @typedef {import('../types.js').DecimalYears} DecimalYears */
 
 /**
@@ -24364,22 +26351,27 @@ function decimal_days_from_generic_datetime(dt) {
  *
  * @public
  * @function
- * @param {Moment} date
+ * @param {NaiveDateContext} date
  * @returns {DecimalYears}
  */
 function decimal_year_from_generic_date(date) {
   var year = date.year();
-  // NOTE: 'month' in JS is indexed
-  var month = date.month() + 1;
+  var month = date.month();
   return year + (month - 0.5) / 12.0;
 }
 ;// CONCATENATED MODULE: ./src/time/gst_from_local.js
 /**
+ * NOTE:
+ * It does not exist in Rust version.
+ *
  * @module sowngwala/time/gst_from_local
  */
 
 
 
+
+
+/** @typedef {import('../types.js').DecimalDays} DecimalDays */
 
 /**
  * @typedef NaiveTimeContext
@@ -24392,9 +26384,17 @@ function decimal_year_from_generic_date(date) {
  */
 
 /**
+ * @typedef GstFromLocalReturned
+ * @type {Object}
+ * @property {NaiveTimeContext} gst - GST
+ * @property {DecimalDays} day_excess - Carry-over when exceeds 24 hours.
+ */
+
+/**
  * Given GST LST (Local Sidereal Time)
  * in NaiveTime and Longitude for
- * the site, returns GST.
+ * the site, returns GST and excess
+ * days when exceeds 24 hours.
  *
  * References:
  * - Peter Duffett-Smith, p.21
@@ -24403,7 +26403,7 @@ function decimal_year_from_generic_date(date) {
  * @function
  * @param {NaiveTimeContext} lst
  * @param {LongitudeContext} lng
- * @returns {NaiveTimeContext}
+ * @returns {GstFromLocalReturned}
  */
 function gst_from_local(lst, lng) {
   var lst_hours = decimal_hours_from_naive_time(lst);
@@ -24414,13 +26414,15 @@ function gst_from_local(lst, lng) {
   } else {
     decimal_hours -= lng_hours;
   }
-  if (decimal_hours > 24) {
-    decimal_hours -= 24;
-  }
-  if (decimal_hours < 0) {
-    decimal_hours += 24;
-  }
-  return naive_time_from_decimal_hours(decimal_hours);
+  var {
+    remainder,
+    quotient
+  } = overflow(decimal_hours, 24);
+  decimal_hours = remainder;
+  return {
+    gst: naive_time_from_decimal_hours(decimal_hours),
+    day_excess: quotient
+  };
 }
 ;// CONCATENATED MODULE: ./src/time/julian_day_from_generic_datetime.js
 /**
@@ -24430,7 +26432,10 @@ function gst_from_local(lst, lng) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * Converts a generic datetime into julian day.
@@ -24438,18 +26443,21 @@ function gst_from_local(lst, lng) {
  * Original:
  * - sowngwala::time::julian_day_from_generic_datetime
  *
- * @param {Moment} dt
+ * @param {NaiveDateTimeContext} dt
  * @returns {number}
  */
 function julian_day_from_generic_datetime(dt) {
-  return julian_day(dt.year(),
-  // NOTE: 'month' is indexed in JS
-  dt.month() + 1,
-  // NOTE: A bit problematic in 'sowngwalla'
+  return julian_day(dt.year(), dt.month(),
+  // NOTE: Currently, it is bit
+  // problematic in the Rust
+  // version...
   decimal_days_from_generic_datetime(dt));
 }
 ;// CONCATENATED MODULE: ./src/time/hour_angle_from_asc.js
 /**
+ * NOTE:
+ * It does not exist in Rust version.
+ *
  * @module sowngwala/time/hour_angle_from_asc
  */
 
@@ -24460,16 +26468,21 @@ function julian_day_from_generic_datetime(dt) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
+/** @typedef {import('../types.js').DecimalHours} DecimalHours */
 
 /**
- * @typedef AngleContext
- * @type {import('../coords/angle.js').AngleContext}
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
  */
 
 /**
  * @typedef NaiveTimeContext
  * @type {import('../chrono/naive_time.js').NaiveTimeContext}
+ */
+
+/**
+ * @typedef AngleContext
+ * @type {import('../coords/angle.js').AngleContext}
  */
 
 /**
@@ -24479,26 +26492,32 @@ function julian_day_from_generic_datetime(dt) {
 
 /**
  * Given the date time in UTC, and
- * "right ascension (α)", returns
- * the hour angle in AngleContext.
- *
- * References:
- * - Peter Duffett-Smith, p.35
+ * "right ascension (α)", it will return
+ * the hour angle (H) as 'AngleContext'.
+ * (Peter Duffett-Smith, p.35)
  *
  * @public
  * @function
- * @param {Moment} utc
+ * @param {NaiveDateTimeContext} utc
  * @param {AngleContext} asc
  * @param {LongitudeContext} lng
  * @returns {AngleContext}
  */
 function hour_angle_from_asc(utc, asc, lng) {
+  /** @type {NaiveTimeContext} */
   var gst = gst_from_utc(utc);
+
+  /** @type {NaiveTimeContext} */
   var lst = local_from_gst(gst, lng);
+
+  /** @type {DecimalHours} */
   var lst_hours = decimal_hours_from_naive_time(lst);
+
+  /** @type {DecimalHours} */
   var asc_decimal = decimal_hours_from_angle(asc);
-  var hour_angle = lst_hours;
-  hour_angle -= asc_decimal;
+
+  /** @type {DecimalHours} */
+  var hour_angle = lst_hours - asc_decimal;
   if (hour_angle < 0) {
     hour_angle += 24;
   }
@@ -24548,13 +26567,14 @@ function naive_time_from_decimal_days(days) {
  */
 
 
-var {
-  NUM_OF_DAYS_IN_A_YEAR
-} = __webpack_require__(3832);
 
 
 
-/** @typedef {import('moment').Moment} Moment */
+
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * Converts julian day to datetime of
@@ -24576,7 +26596,7 @@ var {
  * @public
  * @function
  * @param {number} jd
- * @returns {Moment}
+ * @returns {NaiveDateTimeContext}
  */
 function naive_from_julian_day(jd) {
   var jd_0 = jd + 0.5;
@@ -24602,9 +26622,7 @@ function naive_from_julian_day(jd) {
   } = naive_time_from_decimal_days(decimal_days);
   var month = g < 13.5 ? g - 1.0 : g - 13.0;
   var year = month > 2.5 ? d - 4716.0 : d - 4715.0;
-  return moment_default()(Date.UTC(year,
-  // NOTE: 'month' is indexed in JS
-  month - 1, day, naive_time.hour(), naive_time.minute(), naive_time.second())).utc();
+  return NaiveDateTime.from_ymd_hmsn(year, month, day, naive_time.hour(), naive_time.minute(), naive_time.second(), naive_time.nanosecond());
 }
 ;// CONCATENATED MODULE: ./src/time/nano_from_second.js
 /**
@@ -24644,7 +26662,12 @@ function nano_from_second(sec) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
+
+/** @typedef {import('../types.js').DecimalDays} DecimalDays */
 
 /**
  * @typedef NaiveTimeContext
@@ -24652,58 +26675,143 @@ function nano_from_second(sec) {
  */
 
 /**
+ * @typedef UtcFromGstReturned
+ * @type {Object}
+ * @property {NaiveTimeContext} utc_time - UTC Time
+ * @property {DecimalDays} day_excess - Carry-over when exceeds 24 hours.
+ */
+
+/**
  * Given GST, returns UTC.
  *
  * Reference:
- * - (Peter Duffett-Smith, pp.18-19)
- * - sowngwala::time::utc_from_gst
+ * - Peter Duffett-Smith, pp.18-19
  *
- * Example:
- * ```rust
- * use chrono::Timelike;
- * use chrono::naive::{NaiveDateTime, NaiveDate, NaiveTime};
- * use sowngwala::time::utc_from_gst;
- *
- * let nanosecond: u32 = 230_000_000;
- * let gst: NaiveDateTime =
- *     NaiveDate::from_ymd(1980, 4, 22)
- *         .and_hms_nano(4, 40, 5, nanosecond);
- *
- * let utc = utc_from_gst(gst);
- * assert_eq!(utc.hour(), 14);
- * assert_eq!(utc.minute(), 36);
- * assert_eq!(utc.second(), 51); // 51.67040214530175
- * assert_eq!(
- *     utc.nanosecond(),
- *     670_402_145
- * );
- * ```
  * @public
  * @function
- * @param {Moment} gst
- * @returns {NaiveTimeContext}
+ * @see {@link: module:sowngwala/time/utc_from_gst}
+ * @param {NaiveDateTimeContext} gst
+ * @returns {UtcFromGstReturned}
  */
 function utc_from_gst(gst) {
-  // Luckily, we only need date, not datetime.
+  // We only need date, not datetime.
   var jd = julian_day_from_generic_date(gst);
   var s = jd - 2451545.0;
   var t = s / 36525.0;
   var t0 = 6.697374558 + 2400.051336 * t + 0.000025862 * t * t;
+  var remainder = 0;
   ({
-    quotient: t0
+    remainder: t0
   } = overflow(t0, 24.0));
-  var decimal = decimal_hours_from_generic_time(NaiveTime.from_hmsn(gst.hour(), gst.minute(), gst.second(),
-  // NOTE: 'Moment' does not have 'nanosecond'
-  gst.millisecond() * 1000000));
+  var decimal_hours = decimal_hours_from_generic_time(NaiveTime.from_hmsn(gst.hour(), gst.minute(), gst.second(), gst.nanosecond()));
+  decimal_hours -= t0;
   ({
-    quotient: decimal
-  } = overflow(decimal - t0, 24.0));
-  return naive_time_from_decimal_hours(decimal * 0.9972695663);
+    remainder: decimal_hours
+  } = overflow(decimal_hours, 24.0));
+  decimal_hours *= 0.9972695663;
+  return {
+    utc_time: naive_time_from_decimal_hours(decimal_hours),
+    day_excess: remainder
+  };
+}
+;// CONCATENATED MODULE: ./src/time/utc_from_local.js
+/**
+ * @module sowngwala/time/utc_from_local.js
+ */
+
+
+
+
+
+
+
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
+
+/**
+ * Given LST (Local Sidereal Time) and
+ * the time zone offset, returns UTC.
+ *
+ * References:
+ * - Peter Duffett-Smith, p.13
+ *
+ * @public
+ * @function
+ * @param {NaiveDateTimeContext} local
+ * @param {number} zone
+ * @returns {NaiveDateTimeContext}
+ */
+function utc_from_local(local, zone) {
+  var date = local.date();
+  var time = local.time();
+  var decimal_hours = decimal_hours_from_generic_time(time);
+  // console.log('local:', local.print());
+  // console.log('zone:', zone);
+  // console.log('decimal_hours[0]:', decimal_hours);
+
+  decimal_hours -= zone;
+  // console.log('decimal_hours[1]:', decimal_hours);
+
+  var day_excess = 0;
+  ({
+    remainder: decimal_hours,
+    quotient: day_excess
+  } = overflow(decimal_hours, 24));
+  // console.log('decimal_hours[2]:', decimal_hours);
+  // console.log('day_excess:', day_excess);
+
+  var new_time = naive_time_from_decimal_hours(decimal_hours);
+  // console.log('new_time:', new_time.print());
+
+  var utc = NaiveDateTime.from_date_time(date, new_time);
+  // console.log('utc[0]:', utc.print());
+
+  utc = add_date(utc, day_excess);
+  // console.log('utc[1]:', utc.print());
+
+  return utc;
+}
+;// CONCATENATED MODULE: ./src/time/utc_from_local_geo.js
+/**
+ * @module sowngwala/time/utc_from_local_geo.js
+ */
+
+
+
+
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
+
+/**
+ * @typedef GeoCoordContext
+ * @type {import('../coords/geo.js').GeoCoordContext}
+ */
+
+/**
+ * Given LST (Local Sidereal Time) and
+ * the observer's geo coordinate
+ * position (longitude and latitude),
+ * returns UTC datetime.
+ *
+ * @public
+ * @function
+ * @param {NaiveDateTimeContext} local
+ * @param {GeoCoordContext} geo
+ * @returns {NaiveDateTimeContext}
+ */
+function utc_from_local_geo(local, geo) {
+  return utc_from_local(local, approx_zone_from_geo(local, geo));
 }
 ;// CONCATENATED MODULE: ./src/time/index.js
 /**
  * @module sowngwala/time
  */
+
+
 
 
 
@@ -24828,6 +26936,7 @@ function utc_from_gst(gst) {
 
 
 
+
 /** @typedef {import('../types.js').Hour} Hour */
 /** @typedef {import('../types.js').Minute} Minute */
 /** @typedef {import('../types.js').Second} Second */
@@ -24853,6 +26962,7 @@ function utc_from_gst(gst) {
  * @property {Getter<NanoSecond>} nanosecond
  * @property {Getter<DecimalDays>} day_excess
  * @property {Calibrate} calibrate
+ * @property {function(): void} print
  */
 
 /**
@@ -24861,7 +26971,16 @@ function utc_from_gst(gst) {
  *
  * @typedef NaiveTime
  * @type {Object}
+ * @property {FromHMS} from_hms
  * @property {FromHMSNano} from_hmsn
+ */
+
+/**
+ * @callback FromHMS
+ * @param {number} h
+ * @param {number} m
+ * @param {number} s
+ * @returns {NaiveTimeContext}
  */
 
 /**
@@ -24884,8 +27003,22 @@ function utc_from_gst(gst) {
  * @type {NaiveTime}
  */
 var NaiveTime = Object.freeze({
+  from_hms: naive_time_from_hms,
   from_hmsn
 });
+
+/**
+ * @public
+ * @static
+ * @type {FromHMS}
+ */
+function naive_time_from_hms(h, m, s) {
+  var {
+    sec,
+    nano
+  } = nano_from_sec(s);
+  return _from_hmsn(h, m, sec, nano);
+}
 
 /**
  * @public
@@ -24893,16 +27026,15 @@ var NaiveTime = Object.freeze({
  * @type {FromHMSNano}
  */
 function from_hmsn(h, m, s, n) {
-  var self = _from_hmsn(h, m, s, n);
-  // self.calibrate();
-  return self;
+  return _from_hmsn(h, m, s, n);
 }
 
 /**
  * @private
  * @type {FromHMSNano}
  */
-function _from_hmsn(h, m, s, n) {
+function _from_hmsn(h, m, s) {
+  var n = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0.0;
   /**
    * @private
    * @type {Hour}
@@ -24944,7 +27076,8 @@ function _from_hmsn(h, m, s, n) {
     second: () => sec,
     nanosecond: () => nano,
     day_excess: () => _day_excess,
-    calibrate
+    calibrate,
+    print: () => "".concat(pad(_hour), ":").concat(pad(min), ":").concat(pad(sec))
   });
 
   /**
@@ -24969,10 +27102,247 @@ function _from_hmsn(h, m, s, n) {
     return _day_excess;
   }
 }
+;// CONCATENATED MODULE: ./src/chrono/naive_datetime.js
+/**
+ * @module chrono/naive_datetime
+ */
+
+
+
+
+
+
+/** @typedef {import('moment').Moment} Moment */
+
+/** @typedef {import('../types.js').Year} Year */
+/** @typedef {import('../types.js').Day} Day */
+/** @typedef {import('../types.js').Month} Month */
+/** @typedef {import('../types.js').Hour} Hour */
+/** @typedef {import('../types.js').Minute} Minute */
+/** @typedef {import('../types.js').Second} Second */
+/** @typedef {import('../types.js').NanoSecond} NanoSecond */
+
+/**
+ * @typedef NaiveDateContext
+ * @type {import('./naive_date.js').NaiveDateContext}
+ */
+
+/**
+ * @typedef NaiveTimeContext
+ * @type {import('./naive_time.js').NaiveTimeContext}
+ */
+
+/**
+ * @template T
+ * @typedef Getter
+ * @type {function(): T}
+ */
+
+/**
+ * A context (or an instance)
+ * to be created.
+ *
+ * @typedef NaiveDateTimeContext
+ * @type {Object}
+ * @property {Getter<NaiveDateContext>} date
+ * @property {Getter<NaiveTimeContext>} time
+ * @property {Getter<Year>} year
+ * @property {Getter<Month>} month
+ * @property {Getter<Day>} day
+ * @property {Getter<Hour>} hour
+ * @property {Getter<Minute>} minute
+ * @property {Getter<Second>} second
+ * @property {Getter<NanoSecond>} nanosecond
+ * @property {Getter<Moment>} to_moment
+ * @property {function(): void} print
+ */
+
+/**
+ * A publicly exposed object
+ * containing a static method.
+ *
+ * @typedef NaiveDateTime
+ * @type {Object}
+ * @property {FromMoment} from_moment
+ * @property {FromYMD} from_ymd
+ * @property {FromYMDHMS} from_ymd_hms
+ * @property {FromYMDHMSNano} from_ymd_hmsn
+ * @property {FromDate} from_date
+ * @property {FromDateTime} from_date_time
+ */
+
+/**
+ * @callback FromMoment
+ * @param {Moment} dt
+ * @returns {NaiveDateTimeContext}
+ */
+
+/**
+ * @callback FromYMD
+ * @param {Year} year
+ * @param {Month} month
+ * @param {Day} day
+ * @returns {NaiveDateTimeContext}
+ */
+
+/**
+ * @callback FromYMDHMS
+ * @param {Year} year
+ * @param {Month} month
+ * @param {Day} day
+ * @param {Hour} hour
+ * @param {Minute} min
+ * @param {Second} sec
+ * @returns {NaiveDateTimeContext}
+ */
+
+/**
+ * @callback FromYMDHMSNano
+ * @param {Year} year
+ * @param {Month} month
+ * @param {Day} day
+ * @param {Hour} hour
+ * @param {Minute} min
+ * @param {Second} sec
+ * @param {NanoSecond} nano
+ * @returns {NaiveDateTimeContext}
+ */
+
+/**
+ * @callback FromDate
+ * @param {NaiveDateContext} date
+ * @returns {NaiveDateTimeContext}
+ */
+
+/**
+ * @callback FromDateTime
+ * @param {NaiveDateContext} date
+ * @param {NaiveTimeContext} time
+ * @returns {NaiveDateTimeContext}
+ */
+
+/**
+ * @public
+ * @type {NaiveDateTime}
+ */
+var NaiveDateTime = Object.freeze({
+  from_moment: naive_datetime_from_moment,
+  from_ymd: naive_datetime_from_ymd,
+  from_ymd_hms,
+  from_ymd_hmsn,
+  from_date,
+  from_date_time
+});
+
+/**
+ * @public
+ * @static
+ * @type {FromMoment}
+ */
+function naive_datetime_from_moment(dt) {
+  return _from_ymd_hmsn(dt.year(), dt.month() + 1, dt.date(),
+  // NOTE
+  dt.hour(), dt.minute(), dt.second(), dt.millisecond() * 1000000);
+}
+
+/**
+ * @public
+ * @static
+ * @type {FromYMD}
+ */
+function naive_datetime_from_ymd(year, month, day) {
+  return _from_ymd_hmsn(year, month, day, 0, 0, 0, 0);
+}
+
+/**
+ * @public
+ * @static
+ * @type {FromYMDHMS}
+ */
+function from_ymd_hms(year, month, day, hour, min, sec) {
+  var {
+    sec: sec_1,
+    nano: nano_1
+  } = nano_from_sec(sec);
+  return _from_ymd_hmsn(year, month, day, hour, min, sec_1, nano_1);
+}
+
+/**
+ * @public
+ * @static
+ * @type {FromYMDHMSNano}
+ */
+function from_ymd_hmsn(year, month, day, hour, min, sec, nano) {
+  return _from_ymd_hmsn(year, month, day, hour, min, sec, nano);
+}
+
+/**
+ * @public
+ * @static
+ * @type {FromDate}
+ */
+function from_date(date) {
+  return _from_ymd_hmsn(date.year(), date.month(), date.day(), 0, 0, 0, 0);
+}
+
+/**
+ * @public
+ * @static
+ * @type {FromDateTime}
+ */
+function from_date_time(date, time) {
+  return _from_ymd_hmsn(date.year(), date.month(), date.day(), time.hour(), time.minute(), time.second(), time.nanosecond());
+}
+
+/**
+ * @private
+ * @type {FromYMDHMSNano}
+ */
+function _from_ymd_hmsn(year, month, day, hour, min, sec, nano) {
+  /**
+   * @private
+   * @type {NaiveDateContext}
+   */
+  var _date = NaiveDate.from_ymd(year, month, day);
+
+  /**
+   * @private
+   * @type {NaiveTimeContext}
+   */
+  var _time = NaiveTime.from_hmsn(hour, min, sec, nano);
+
+  /**
+   * @protected
+   * @type {NaiveDateTimeContext}
+   */
+  return Object.freeze({
+    date: () => _date,
+    time: () => _time,
+    year: () => _date.year(),
+    month: () => _date.month(),
+    day: () => _date.day(),
+    hour: () => _time.hour(),
+    minute: () => _time.minute(),
+    second: () => _time.second(),
+    nanosecond: () => _time.nanosecond(),
+    to_moment,
+    print: () => "".concat(pad(_date.year()), "-").concat(pad(_date.month()), "-").concat(pad(_date.day()), " ").concat(pad(_time.hour()), ":").concat(pad(_time.minute()), ":").concat(pad(_time.second()))
+  });
+
+  /**
+   * @returns {Moment}
+   */
+  function to_moment() {
+    var sec = _time.second() + _time.nanosecond() / NANOSECOND_UNIT;
+    return moment_default()(Date.UTC(_date.year(), _date.month() - 1, _date.day(), _time.hour(), _time.minute(), sec)).utc();
+  }
+}
 ;// CONCATENATED MODULE: ./src/chrono/index.js
 /**
  * @module chrono
  */
+
+
 
 
 ;// CONCATENATED MODULE: ./src/delta_t.js
@@ -25010,7 +27380,10 @@ function _from_hmsn(h, m, s, n) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateContext
+ * @type {import('./chrono/naive_date.js').NaiveDateContext}
+ */
 
 /**
  * Before the year -500, calculate:
@@ -25308,7 +27681,7 @@ function get_after_ad2150(year) {
  *
  * @public
  * @function
- * @param {Moment} date
+ * @param {NaiveDateContext} date
  * @returns {number}
  */
 function delta_t_from_generic_date(date) {
@@ -25383,7 +27756,7 @@ function sun_longitude_and_mean_anomaly(days) {
   // =================================
   // [Step 4] to [Step 5] (in his book, p.91)
   // Or, it is fully explained in p.89.
-  var mean_anom = n + constants.ECLIPTIC_LONGITUDE_AT_1990 - constants.ECLIPTIC_LONGITUDE_OF_PERIGEE;
+  var mean_anom = n + ECLIPTIC_LONGITUDE_AT_1990 - ECLIPTIC_LONGITUDE_OF_PERIGEE;
   if (mean_anom < 0.0) {
     mean_anom += 360.0;
   }
@@ -25401,14 +27774,14 @@ function sun_longitude_and_mean_anomaly(days) {
   // an ellipse.
   // [Step 7] to [Step 9] (in his book, p.91)
   // Or, it is fully explained in p.90.
-  var v = Math.sqrt((1.0 + constants.ECCENTRICITY_OF_ORBIT) / (1.0 - constants.ECCENTRICITY_OF_ORBIT)) * Math.tan(ecc / 2.0);
+  var v = Math.sqrt((1.0 + ECCENTRICITY_OF_ORBIT) / (1.0 - ECCENTRICITY_OF_ORBIT)) * Math.tan(ecc / 2.0);
   v = to_degrees(Math.atan(v) * 2.0);
 
   // =================================
   // Sun's Longitude (λ)
   // =================================
   // [Step 10] (in his book, p.91)
-  var lng = v + constants.ECLIPTIC_LONGITUDE_OF_PERIGEE;
+  var lng = v + ECLIPTIC_LONGITUDE_OF_PERIGEE;
   if (lng > 360.0) {
     lng -= 360.0;
   }
@@ -25422,6 +27795,9 @@ function sun_longitude_and_mean_anomaly(days) {
 }
 ;// CONCATENATED MODULE: ./src/sun/sun_pos_ecliptic.js
 /**
+ * NOTE:
+ * It does not exist in Rust version.
+ *
  * @module sowngwala/sun/sun_pos_ecliptic
  */
 
@@ -25430,10 +27806,13 @@ function sun_longitude_and_mean_anomaly(days) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
-
 /** @typedef {import('../types.js').DecimalDays} DecimalDays */
 /** @typedef {import('../types.js').DecimalHours} DecimalHours */
+
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * @typedef EcliCoordContext
@@ -25448,77 +27827,108 @@ function sun_longitude_and_mean_anomaly(days) {
  */
 
 /**
- * Given a specific 'dt' (datetime)
- * in UTC, it will return the Ecliptic
- * position of the sun which consists of
- * "latitude (β)" and "longitude (λ)".
+ * Given a datetime in UTC, it will
+ * return the Ecliptic position of
+ * the sun (which consists of "latitude
+ * (β)" and "longitude (λ)".
  * (Peter Duffett-Smith, p.91)
  *
- * The book describes how to calculate
- * the position in 10 steps.
- * (see comments bellow for which
- * part corresponds to which step)
+ * To calculate the Ecliptic position,
+ * Peter Duffett-Smith's book only
+ * takes "date", but does not take
+ * "time" into consideration. The book
+ * calculates "sun's longitude (λ)" and
+ * "mean anomaly (M)" for when "time"
+ * is "00:00:00". Since we want to
+ * specify "time" as well, so did I
+ * slightly change the implementation
+ * so that we take "time".
+ *
+ * In our repo, what implemented in
+ * 'sun_pos_ecliptic_from_generic_date'
+ * strictly follows the book. In another
+ * word, it only takes "date".
+ *
+ * Whether we want "time" or not,
+ * calculations are mostly the same,
+ * and Peter Duffett-Smith explains the
+ * calculation logic in 10 easy steps.
+ * As you can see, bellow codes are
+ * commented so that to show the
+ * correspondances to the book.
+ *
+ * Original:
+ * - sowngwalla::sun::ecliptic_position_of_the_sun_from_generic_date
  *
  * @public
  * @function
- * @param {Moment} dt - UTC datetime (for specific time as well)
+ * @param {NaiveDateTimeContext} dt - UTC datetime
  * @returns {SunPosEclipticReturned}
  */
 function sun_pos_ecliptic(dt) {
-  // [Step 1] (in his book, p.91)
-  // Find out the day number for
-  // the specified date.
-  var day_number = day_number_from_generic_date(dt);
+  var date = dt.date();
 
-  // [Step 2] (in his book, p.91)
+  // [Step 1]
+  // (p.91)
+  // Find out the "day number" for
+  // the specified date.
+
+  var day_number = day_number_from_generic_date(date);
+  // console.log('day_number:', day_number);
+
+  // [Step 2]
+  // (p.91)
   // Find out days since 1990.
 
-  /**
-   * @type {DecimalDays}
-   */
+  /** @type {DecimalHours} */
   var days = days_since_1990(dt.year()) + day_number;
+  // console.log('days[0]:', days);
 
-  // ==================================
-  // IMPORTANT
-  // ==================================
-  // This part is not discussed in
-  // Peter Duffett-Smith's book,
-  // and he assumes the time being
-  // '00:00:00' for granted, but
-  // we want to extract time from the
-  // given time, and want to add it
-  // to the decimal days!!!!
+  // You can see bellow that we prepare
+  // the decimal hours to find out
+  // "sun's longitude (λ)" and "mean
+  // anomaly (M)". While the book only
+  // takes "date", we want to specify
+  // "time" so that we would get more
+  // accurate values.
 
-  var naive = NaiveTime.from_hmsn(dt.hour(), dt.minute(), dt.second(), 0.0);
+  /** @type {DecimalHours} */
+  var decimal_hours = decimal_hours_from_naive_time(NaiveTime.from_hmsn(dt.hour(), dt.minute(), dt.second(), 0.0));
 
-  /**
-   * @type {DecimalHours}
-   */
-  var decimal_hours = decimal_hours_from_naive_time(naive);
-
-  // Adding the decimal hours for precision!!!!
+  // So, we are adding "time" as well.
   days + decimal_hours / 24.0;
 
-  // [Step 3] to [Step 10] (in his book, p.91)
+  // console.log('days[1]:', days);
+
+  // [Step 3] to [Step 10]
+  // (p.91)
   // For the given number of days
-  // since 1990, find out "sun's
-  // longitude (λ)" and "mean
-  // anomaly (M)".
+  // since 1990, we will find out
+  // "sun's/ longitude (λ)" and
+  // "mean anomaly (M)".
+
   var {
     lng: _lng,
     mean_anom: _mean_anom
   } = sun_longitude_and_mean_anomaly(days);
 
-  // Sun's "latitude (β)" in Ecliptic
-  // will always become 0.0 because
-  // that's the very definition of
-  // what Ecliptic coordinate system.
-  // This is explained in Peter
-  // Duffett-Smith, p.85.
+  // console.log('lng:', _lng);
+  // console.log('mean_anom:', _mean_anom);
+
+  // Note: "latitude (β)" in Ecliptic
+  // will always become "0.0" because
+  // that is the definition of what
+  // the Ecliptic coordinate system is.
+  // See:
+  // Peter Duffett-Smith, p.85.
+
   var coord = EcliCoord({
     lat: 0.0,
     lng: _lng
   });
+
+  // console.log('coord:', coord);
+
   return {
     coord,
     _mean_anom
@@ -25532,7 +27942,10 @@ function sun_pos_ecliptic(dt) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * @typedef EcliCoordContext
@@ -25554,22 +27967,27 @@ function sun_pos_ecliptic(dt) {
  */
 
 /**
- * Given a specific 'dt' (datetime)
- * in UTC, it will return the Equatorial
- * position of the sun which consists
- * of "right ascension (α)" and
- * "declination (δ)".
+ * Given a datetime in UTC, it will
+ * return the Equatorial position of
+ * the sun (which consists of "right
+ * ascension (α)" and "declination (δ)".
  * (Peter Duffett-Smith, p.91)
  *
- * See 'sun_pos_ecliptic' for that is
- * where the actual calculations are
- * to be carried out.
+ * See 'sun_pos_ecliptic' for most of
+ * the calculations are done there.
  *
- * See, also
+ * Just as explained fully in
+ * 'sun_pos_ecliptic', the book does
+ * not take "time" into consideration
+ * but only "date". So,
+ * 'sun_pos_equatorial_from_generic_date'
+ * is the method which strictly follows
+ * the book, but the method provided
+ * here takes "time".
+ *
+ * Also, notice how
  * 'equatorial_from_ecliptic_with_generic_date'
- * for it converts the Ecliptic
- * coordinate position to that of
- * the Equatorial.
+ * converts the Ecliptic into Equatorial.
  *
  * Original:
  * - sonwgwalla::sun::equatorial_position_of_the_sun_from_generic_date
@@ -25578,18 +27996,27 @@ function sun_pos_ecliptic(dt) {
  * @function
  * @see {@link: module:sowngwala/sun.sun_pos_ecliptic}
  * @see {@link: module:sowngwala/coords.equatorial_from_ecliptic_with_generic_datetime}
- * @param {Moment} dt - UTC datetime (for specific time as well)
+ * @param {NaiveDateTimeContext} utc - UTC datetime (for specific time as well)
  * @returns {SunPosEquatorialReturned}
  */
-function sun_pos_equatorial(dt) {
+function sun_pos_equatorial(utc) {
+  // In the book, we get the Equatorial
+  // from "date". However, we want to
+  // manage "time" as well.
   var {
     coord: _ecliptic,
     _mean_anom
-  } = sun_pos_ecliptic(dt);
+  } = sun_pos_ecliptic(utc);
+
+  // Same here. We want to take "time"
+  // into consideration. To be specific,
+  // we are passing "time" to
+  // 'mean_obliquity_of_the_ecliptic'
+  // so that we would improve accuracy.
   var {
     coord,
     _obliquity
-  } = equatorial_from_ecliptic_with_generic_datetime(_ecliptic, dt);
+  } = equatorial_from_ecliptic_with_generic_datetime(_ecliptic, utc);
   return {
     coord,
     _ecliptic,
@@ -25613,6 +28040,11 @@ function sun_pos_equatorial(dt) {
 /**
  * @typedef NaiveTimeContext
  * @type {import('../chrono/naive_time.js').NaiveTimeContext}
+ */
+
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
  */
 
 /**
@@ -25648,24 +28080,27 @@ function sun_pos_equatorial(dt) {
  * functions implemented anywhere
  * in the program...
  *
+ * Original:
+ * - sowngwala::sun::equation_of_time_from_gst
+ *
  * @public
  * @function
  * @see {@link: sowngwala/sun.eot_from_utc}
  * @see {@link: sowngwala/sun.eot_decimal_from_utc}
- * @param {Moment} gst
+ * @param {NaiveDateTimeContext} gst
  * @returns {EOTFromGSTReturned}
  */
 function eot_from_gst(gst) {
-  // While we had 'gst.date()'
-  // in the original Rust code to extract
-  // 'NaiveDate' from 'NaiveDateTime',
-  // DATE and DATETIME are essentially
-  // the same in JS. Hence, we simply
-  // pass 'gst' to the next.
-  var date = gst;
+  var date = gst.date();
+
+  // In the book, we get
+  // the Equatorial from
+  // "date". However,
+  // we want to manage
+  // "time" as well.
   var {
     coord
-  } = sun_pos_equatorial(date);
+  } = sun_pos_equatorial(gst);
 
   /**
    * 'asc' in 'EquaCoord' is 'Angle'
@@ -25677,19 +28112,24 @@ function eot_from_gst(gst) {
   /** @type {NaiveTimeContext} */
   var asc_1 = asc_0.to_naive_time();
 
-  /** @type {Moment} */
-  var naivetime = moment_default()(Date.UTC(date.year(),
-  // NOTE: 'month' in JS is indexed
-  date.month() - 1,
-  // NOTE: 'day' in Rust is 'date' in JS
-  date.date(), asc_1.hour(), asc_1.minute(), asc_1.second())).utc(); // TODO: Do we want this in UTC?
+  // TODO:
+  // Do we want the following
+  // in datetime?
+
+  /** @type {NaiveDateTimeContext} */
+  var naivedatetime = NaiveDateTime.from_ymd_hmsn(date.year(), date.month(), date.day(), asc_1.hour(), asc_1.minute(), asc_1.second(), asc_1.nanosecond());
+  var day_excess = 0;
 
   /** @type {NaiveTimeContext} */
-  var utc = utc_from_gst(naivetime);
-  var decimal = decimal_hours_from_naive_time(utc);
+  var utc_time;
+  ({
+    utc_time,
+    day_excess
+  } = utc_from_gst(naivedatetime));
+  var decimal = decimal_hours_from_naive_time(utc_time);
   var e = 12.0 - decimal;
   var angle_0 = angle_from_decimal_hours(e);
-  var day_excess = angle_0.day_excess();
+  day_excess += angle_0.day_excess();
   return {
     angle: angle_0,
     day_excess
@@ -25697,14 +28137,20 @@ function eot_from_gst(gst) {
 }
 ;// CONCATENATED MODULE: ./src/sun/eot_from_utc.js
 /**
+ * NOTE:
+ * It does not exist in Rust version.
+ *
  * @module sowngwala/sun/eot_from_utc
  */
-
-/** @typedef {import('moment').Moment} Moment */
 
 
 
 /** @typedef {import('../types.js').DecimalDays} DecimalDays */
+
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * @typedef AngleContext
@@ -25743,7 +28189,7 @@ function eot_from_gst(gst) {
  * @function
  * @see {@link: sowngwala/sun.eot_decimal_from_utc}
  * @see {@link: sowngwala/sun.eot_from_gst}
- * @param {Moment} utc
+ * @param {NaiveDateTimeContext} utc
  * @returns {EOTFromUTCReturned}
  */
 function eot_from_utc(utc) {
@@ -25766,15 +28212,21 @@ function eot_from_utc(utc) {
 }
 ;// CONCATENATED MODULE: ./src/sun/eot_decimal_from_utc.js
 /**
+ * NOTE:
+ * It does not exist in Rust version.
+ *
  * @module sowngwala/sun/eot_decimal_from_utc
  */
 
 
 
 
-/** @typedef {import('moment').Moment} Moment */
-
 /** @typedef {import('../types.js').DecimalHours} DecimalHours */
+
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * @typedef EOTDecimalFromUTCReturned
@@ -25805,7 +28257,7 @@ function eot_from_utc(utc) {
  * @public
  * @function
  * @see {@link: sowngwala/sun.eot_from_utc}
- * @param {Moment} utc
+ * @param {NaiveDateTimeContext} utc
  * @returns {EOTDecimalFromUTCReturned}
  */
 function eot_decimal_from_utc(utc) {
@@ -25826,7 +28278,11 @@ function eot_decimal_from_utc(utc) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
+
+/**
+ * @typedef NaiveDateContext
+ * @type {import('../chrono/naive_date.js').NaiveDateContext}
+ */
 
 /**
  * @typedef SunPosEclipticFromGenericDateReturned
@@ -25842,9 +28298,17 @@ function eot_decimal_from_utc(utc) {
  * and "longitude (λ)".
  * (Peter Duffett-Smith, p.91)
  *
- * See 'sun_pos_ecliptic' for that is
- * where the actual calculation are
- * to be carried out.
+ * Consider using
+ * 'sun_pos_ecliptic_from_generic_date'
+ * because it gives you accurate
+ * a result. In Peter Duffett-Smith's
+ * it takes only "date". Obviously,
+ * it does not take "time" into
+ * consideration. However, for
+ * 'sun_pos_ecliptic_from_generic_date'
+ * takes "datetime", it gives you
+ * more accurate result when you
+ * want a result for a specific time.
  *
  * Original:
  * - sowngwalla::sun::ecliptic_position_of_the_sun_from_generic_date
@@ -25852,16 +28316,11 @@ function eot_decimal_from_utc(utc) {
  * @public
  * @function
  * @see {@link: module:sowngwala/sun/sun_pos_ecliptic}
- * @param {Moment} date - UTC date (w/o specific time)
+ * @param {NaiveDateContext} date - UTC date (w/o specific time)
  * @returns {SunPosEclipticFromGenericDateReturned}
  */
 function sun_pos_ecliptic_from_generic_date(date) {
-  var dt = date;
-  dt.set({
-    hour: 0,
-    minute: 0,
-    second: 0
-  });
+  var dt = NaiveDateTime.from_ymd_hms(date.year(), date.month(), date.day(), 0, 0, 0);
   return sun_pos_ecliptic(dt);
 }
 ;// CONCATENATED MODULE: ./src/sun/sun_pos_equatorial_from_generic_date.js
@@ -25871,7 +28330,11 @@ function sun_pos_ecliptic_from_generic_date(date) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
+
+/**
+ * @typedef NaiveDateContext
+ * @type {import('../chrono/naive_date.js').NaiveDateContext}
+ */
 
 /**
  * @typedef SunPosEquatorialFromGenericDateReturned
@@ -25887,9 +28350,20 @@ function sun_pos_ecliptic_from_generic_date(date) {
  * (α)" and "declination (δ)".
  * (Peter Duffett-Smith, p.91)
  *
- * See 'sun_pos_equatorial' for that is
- * where the actual calculation are
- * to be carried out.
+ * See 'sun_pos_equatorial' for
+ * actual calculations.
+ *
+ * Just as it is discussed in
+ * 'sun_pos_ecliptic', the book only
+ * talks about "date", but we want
+ * "time" for accuracy. Hence,
+ * I introduced 'sun_pos_ecliptic'.
+ *
+ * Yet, if you prefer to use the bellow
+ * method instead, you should always be
+ * aware that you will get the result
+ * for that of "00:00:00" no matter
+ * whatever "date" you provide.
  *
  * Original:
  * - sonwgwalla::sun::equatorial_position_of_the_sun_from_generic_date
@@ -25897,22 +28371,109 @@ function sun_pos_ecliptic_from_generic_date(date) {
  * @public
  * @function
  * @see {@link: module:sowngwala/sun.sun_pos_equatorial}
- * @param {Moment} date - UTC date (w/o specific time)
+ * @see {@link: module:sowngwala/sun.sun_pos_ecliptic}
+ * @see {@link: module:sowngwala/sun.sun_pos_ecliptic_from_generic_date}
+ * @param {NaiveDateContext} date - UTC date (w/o specific time)
  * @returns {SunPosEquatorialFromGenericDateReturned}
  */
 function sun_pos_equatorial_from_generic_date(date) {
-  var dt = date;
-  dt.set({
-    hour: 0,
-    minute: 0,
-    second: 0
-  });
+  var dt = NaiveDateTime.from_ymd_hms(date.year(), date.month(), date.day(), 0, 0, 0);
   return sun_pos_equatorial(dt);
+}
+;// CONCATENATED MODULE: ./src/sun/sun_pos_horizontal.js
+/**
+ * @module sowngwala/sun/sun_pos_horizontal
+ */
+
+
+
+
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
+
+/**
+ * @typedef AngleContext
+ * @type {import('../coords/angle.js').AngleContext}
+ */
+
+/**
+ * @typedef EcliCoordContext
+ * @type {import('../coords/ecliptic.js').EcliCoordContext}
+ */
+
+/**
+ * @typedef EquaCoordContext
+ * @type {import('../coords/equatorial.js').EquaCoordContext}
+ */
+
+/**
+ * @typedef GeoCoordContext
+ * @type {import('../coords/geo.js').GeoCoordContext}
+ */
+
+/**
+ * @typedef HorizonCoordContext
+ * @type {import('../coords/horizontal.js').HorizonCoordContext}
+ */
+
+/**
+ * @typedef SunPosHorizontalReturned
+ * @type {Object}
+ * @property {HorizonCoordContext} coord - Horizontal position of the sun
+ * @property {EquaCoordContext} _equatorial - Equatorial position of the sun
+ * @property {EcliCoordContext} _ecliptic - (optional) Ecliptic position of the sun
+ * @property {number} _mean_anom - (optional) Mean anomaly (M) (in degrees)
+ * @property {number} _obliquity - (optional) Mean obliquity of the ecliptic (ε)
+ * @property {AngleContext} _hour_angle - Hour Angle (H)
+ */
+
+/**
+ * Given UTC datetime and observer's
+ * geo coordinate position (latitude
+ * and longitude), returns the
+ * Horizontal position of the sun which
+ * consists of "Azimuth (A)" and
+ * "Altitude (α)".
+ *
+ * @public
+ * @function
+ * @param {NaiveDateTimeContext} utc - UTC datetime
+ * @param {GeoCoordContext} geo - Observer's geo coordinate position (latitude and longitude)
+ * @returns {SunPosHorizontalReturned}
+ */
+function sun_pos_horizontal(utc, geo) {
+  var {
+    // Equatorial Coordinate
+    coord: _equatorial,
+    // Ecliptic Coordinate
+    _ecliptic,
+    // Mean Anomaly (M)
+    _mean_anom,
+    // Mean Obliquity (ε)
+    _obliquity
+  } = sun_pos_equatorial(utc);
+  var {
+    // Horizontal Coordinate
+    coord,
+    // Hour Angle (H)
+    _hour_angle
+  } = horizontal_from_equatorial(utc, _equatorial, geo);
+  return {
+    coord,
+    _ecliptic,
+    _equatorial,
+    _mean_anom,
+    _obliquity,
+    _hour_angle
+  };
 }
 ;// CONCATENATED MODULE: ./src/sun/index.js
 /**
  * @module sowngwala/sun
  */
+
 
 
 
@@ -25934,7 +28495,10 @@ function sun_pos_equatorial_from_generic_date(date) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * @typedef EcliCoordContext
@@ -25953,19 +28517,19 @@ function sun_pos_equatorial_from_generic_date(date) {
  *
  * @public
  * @function
- * @param {Moment} dt
+ * @param {NaiveDateTimeContext} dt
  * @returns {EcliCoordContext}
  */
 function moon_pos_ecliptic(dt) {
-  // Later, for Rust, we want to convert
-  // datetime into date.
-  var date = dt;
+  var date = dt.date();
 
   // [Step 1]
   // (Peter Duffett-Smith, p.144)
   var day_number = day_number_from_generic_date(date);
   var delta_t = delta_t_from_generic_date(date);
-  var angle = Angle.from_hms(dt.hour(), dt.minute(), dt.second() + delta_t);
+  var angle = Angle.from_hms(dt.hour(), dt.minute(),
+  // TODO: Don't we need nanosecond?
+  dt.second() + delta_t);
   var hours = decimal_hours_from_angle(angle);
   var hours_as_days = hours / 24.0;
 
@@ -25998,17 +28562,17 @@ function moon_pos_ecliptic(dt) {
 
   // [Step 4]
   // Moon's "mean longitude (l)"
-  var l = 13.1763966 * days + constants.MOON_MEAN_LONGITUDE_AT_THE_EPOCH;
+  var l = 13.1763966 * days + MOON_MEAN_LONGITUDE_AT_THE_EPOCH;
   l -= 360.0 * Math.floor(l / 360.0);
 
   // [Step 5]
   // Moon's "mean anomaly (Mm)"
-  var mm = l - 0.1114041 * days - constants.MEAN_LONGITUDE_OF_PERIGEE_AT_THE_EPOCH;
+  var mm = l - 0.1114041 * days - MEAN_LONGITUDE_OF_PERIGEE_AT_THE_EPOCH;
   mm -= 360.0 * Math.floor(mm / 360.0);
 
   // [Step 6]
   // Acending node's mean longitude (N).
-  var n = constants.MEAN_LONGITUDE_OF_THE_NODE_AT_THE_EPOCH - 0.0529539 * days;
+  var n = MEAN_LONGITUDE_OF_THE_NODE_AT_THE_EPOCH - 0.0529539 * days;
   n -= 360.0 * Math.floor(n / 360.0);
 
   // [Step 7]
@@ -26074,7 +28638,7 @@ function moon_pos_ecliptic(dt) {
   var l_minus_n = to_radians(l - n);
 
   // [Step 16]
-  var y = Math.sin(l_minus_n) * Math.cos(to_radians(constants.INCLINATION_OF_THE_MOON_ORBIT));
+  var y = Math.sin(l_minus_n) * Math.cos(to_radians(INCLINATION_OF_THE_MOON_ORBIT));
 
   // [Step 17]
   var x = Math.cos(l_minus_n);
@@ -26098,7 +28662,7 @@ function moon_pos_ecliptic(dt) {
   lng += n;
 
   // Ecliptic latitude (βm)
-  var lat = Math.sin(l_minus_n) * to_degrees(Math.asin(Math.sin(to_radians(constants.INCLINATION_OF_THE_MOON_ORBIT))));
+  var lat = Math.sin(l_minus_n) * to_degrees(Math.asin(Math.sin(to_radians(INCLINATION_OF_THE_MOON_ORBIT))));
 
   // console.log('[moon] tmp:', tmp);
   // console.log('[moon] lng[0]:', lng);
@@ -26118,7 +28682,10 @@ function moon_pos_ecliptic(dt) {
 
 
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * @typedef EquaCoordContext
@@ -26137,13 +28704,11 @@ function moon_pos_ecliptic(dt) {
  *
  * @public
  * @function
- * @param {Moment} dt
+ * @param {NaiveDateTimeContext} dt
  * @returns {EquaCoordContext}
  */
 function moon_pos_equatorial(dt) {
-  // Later, for Rust, we want to convert
-  // datetime into date.
-  var date = dt;
+  var date = dt.date();
   var {
     coord
   } = equatorial_from_ecliptic_with_generic_date(moon_pos_ecliptic(dt), date);
@@ -26182,4 +28747,4 @@ function moon_pos_equatorial(dt) {
 /******/ })()
 ;
 });
-//# sourceMappingURL=sowngwala-0.5.0.js.map
+//# sourceMappingURL=sowngwala-0.6.0.js.map

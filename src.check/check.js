@@ -3,7 +3,6 @@
  *
  * @module sowngwala/check
  */
-import moment from 'moment';
 import { debounce } from './utils';
 
 const INPUT_ELEM_KEYS = [
@@ -34,24 +33,27 @@ const ROUND_DIGITS = 10000;
 
 const el = {};
 
+// Debounce the event listener
 const onchange = debounce(event_handler, 1000);
 
+// Sowngwala functions to be dynamically imported
 let GeoCoord;
 let Longitude;
 let Latitude;
-let sun_pos_equatorial;
-let horizontal_from_equatorial;
+let NaiveDateTime;
+let utc_from_local_geo;
+let sun_pos_horizontal;
 
+/**
+ * Executed once the page is ready.
+ */
 export const start = () => {
   if (typeof Sowngwala === 'undefined')
     throw new Error("Can't find Sowngwala");
 
-  ELEM_KEYS.forEach(key => {
-    el[key] = document.querySelector(`#${key}`);
-  });
-
   let ok = 1;
 
+  // Check for required DOM elements.
   ELEM_KEYS.forEach(key => {
     el[key] = document.querySelector(`#${key}`);
     if (!el[key]) {
@@ -60,15 +62,13 @@ export const start = () => {
   });
 
   if (ok) {
-    ({
-      Longitude,
-      Latitude,
-      GeoCoord,
-      horizontal_from_equatorial,
-    } = Sowngwala.coords);
+    // Import Sowngwala's functions dynamically.
+    ({ Longitude, Latitude, GeoCoord } = Sowngwala.coords);
+    ({ NaiveDateTime } = Sowngwala.chrono);
+    ({ utc_from_local_geo } = Sowngwala.time);
+    ({ sun_pos_horizontal } = Sowngwala.sun);
 
-    ({ sun_pos_equatorial } = Sowngwala.sun);
-
+    // Add event listeners for inputs
     INPUT_ELEM_KEYS.forEach(key => {
       el[key].addEventListener('input', onchange);
       el[key].addEventListener('propertychange', onchange);
@@ -78,65 +78,71 @@ export const start = () => {
   }
 };
 
+/**
+ * Calculates when data changes.
+ */
 function event_handler() {
   try {
     const vals = get_values();
-    if (!vals) return;
+    if (!vals) {
+      console.warn('No input values?');
+      return;
+    }
 
-    const utc = moment(
-      Date.UTC(
-        vals.year,
-        vals.month - 1,
-        vals.day,
-        vals.hour,
-        vals.min,
-        vals.sec
-      )
-    ).utc();
-
-    const {
-      // Equatorial
-      coord: equa_coord,
-      // Ecliptic
-      _ecliptic: ecli_coord,
-      // Mean anomaly (M)
-      _mean_anom,
-      // Mean obliquity of the ecliptic (ε)
-      _obliquity,
-    } = sun_pos_equatorial(utc);
-
-    // Ecliptic "longitude (λ)"
-    const ecliptic_lng = ecli_coord.lng;
-
-    // "right ascension (α)" (in the Equatorial)
-    const asc = equa_coord.asc;
-
-    // "declination (δ)" (in the Equatorial)
-    const dec = equa_coord.dec;
-
-    const geo_coord = GeoCoord({
-      lat: Latitude({
-        degrees: vals.lat,
-        bound: vals['lat-bound'],
-      }),
-      lng: Longitude({
-        degrees: vals.lng,
-        bound: vals['lng-bound'],
-      }),
+    const lat = Latitude({
+      degrees: vals.lat,
+      bound: vals['lat-bound'],
     });
 
-    const {
-      coord: {
-        // Azimuth (A)
-        azimuth,
-        // Altitude (α)
-        altitude,
-      },
-    } = horizontal_from_equatorial(
-      utc,
-      equa_coord,
-      geo_coord
+    const lng = Longitude({
+      degrees: vals.lng,
+      bound: vals['lng-bound'],
+    });
+
+    const geo = GeoCoord({ lat, lng });
+
+    // -------------------------------------
+    // Local --> GST Time --> UTC Time --> UTC
+    // -------------------------------------
+
+    const dt = NaiveDateTime.from_ymd_hms(
+      vals.year,
+      vals.month,
+      vals.day,
+      vals.hour,
+      vals.min,
+      vals.sec
     );
+
+    const utc = utc_from_local_geo(dt, geo);
+
+    const {
+      coord: horizontal,
+      _equatorial: equatorial,
+      _ecliptic: ecliptic,
+
+      // Mean Anomaly (M)
+      _mean_anom,
+      // Mean Obliquity (ε)
+      _obliquity,
+    } = sun_pos_horizontal(utc, geo);
+
+    // Ecliptic Longitude (λ)
+    const ecliptic_lng = ecliptic.lng;
+
+    // Right Ascension (α)
+    const asc = equatorial.asc;
+
+    // Declination (δ)
+    const dec = equatorial.dec;
+
+    // Azimuth (A)
+    const azimuth = horizontal.azimuth;
+
+    // Altitude (α)
+    const altitude = horizontal.altitude;
+
+    // Truncating decimals for some values...
 
     const ecliptic_lng_fixed =
       Math.round(ecliptic_lng * ROUND_DIGITS) /
@@ -158,6 +164,8 @@ function event_handler() {
       Math.round(altitude.second() * ROUND_DIGITS) /
       ROUND_DIGITS;
 
+    // Displaying the values to the screen...
+
     el['ecliptic-lng'].innerHTML = `${ecliptic_lng_fixed}°`;
     el['mean-anom'].innerHTML = `${_mean_anom}°`;
     el.obliquity.innerHTML = `${_obliquity}`;
@@ -170,12 +178,20 @@ function event_handler() {
   }
 }
 
+/**
+ * Get input values, and returns a collection.
+ */
 function get_values() {
   let ok = 1;
 
   const vals = INPUT_ELEM_KEYS.reduce((acc, key) => {
-    let val = el[key].value || 0;
-    if (!val) {
+    let val;
+    if (key.indexOf('bound') > -1) {
+      val = el[key].value;
+    } else {
+      val = Number(el[key].value || 0);
+    }
+    if (typeof val === 'undefined' || val === null) {
       ok *= 0;
     }
     acc[key] = val;

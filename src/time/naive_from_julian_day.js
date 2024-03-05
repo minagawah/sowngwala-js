@@ -2,14 +2,15 @@
  * @module sowngwala/time/naive_from_julian_day
  */
 
-import moment from 'moment';
-
-const { NUM_OF_DAYS_IN_A_YEAR } = require('../constants');
+import { NUM_OF_DAYS_IN_A_YEAR } from '../constants';
 import { fract } from '../utils';
-
+import { NaiveDateTime } from '../chrono';
 import { naive_time_from_decimal_days } from './naive_time_from_decimal_days';
 
-/** @typedef {import('moment').Moment} Moment */
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * Converts julian day to datetime of
@@ -31,7 +32,7 @@ import { naive_time_from_decimal_days } from './naive_time_from_decimal_days';
  * @public
  * @function
  * @param {number} jd
- * @returns {Moment}
+ * @returns {NaiveDateTimeContext}
  */
 export function naive_from_julian_day(jd) {
   let jd_0 = jd + 0.5;
@@ -62,15 +63,13 @@ export function naive_from_julian_day(jd) {
   let month = g < 13.5 ? g - 1.0 : g - 13.0;
   let year = month > 2.5 ? d - 4716.0 : d - 4715.0;
 
-  return moment(
-    Date.UTC(
-      year,
-      // NOTE: 'month' is indexed in JS
-      month - 1,
-      day,
-      naive_time.hour(),
-      naive_time.minute(),
-      naive_time.second()
-    )
-  ).utc();
+  return NaiveDateTime.from_ymd_hmsn(
+    year,
+    month,
+    day,
+    naive_time.hour(),
+    naive_time.minute(),
+    naive_time.second(),
+    naive_time.nanosecond()
+  );
 }

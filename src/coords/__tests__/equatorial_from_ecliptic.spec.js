@@ -27,6 +27,8 @@ describe('A test suite for: coords/equatorial_from_ecliptic', () => {
 
     const asc = coord.asc; // right ascension (α)
     const dec = coord.dec; // declination (δ)
+    // console.log('asc:', asc.print());
+    // console.log('dec:', dec.print());
 
     expect(asc.hour()).toBe(9);
     expect(asc.minute()).toBe(34);

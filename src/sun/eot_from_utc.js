@@ -1,12 +1,18 @@
 /**
+ * NOTE:
+ * It does not exist in Rust version.
+ *
  * @module sowngwala/sun/eot_from_utc
  */
-
-/** @typedef {import('moment').Moment} Moment */
 
 import { eot_from_gst } from './eot_from_gst';
 
 /** @typedef {import('../types.js').DecimalDays} DecimalDays */
+
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
+ */
 
 /**
  * @typedef AngleContext
@@ -45,7 +51,7 @@ import { eot_from_gst } from './eot_from_gst';
  * @function
  * @see {@link: sowngwala/sun.eot_decimal_from_utc}
  * @see {@link: sowngwala/sun.eot_from_gst}
- * @param {Moment} utc
+ * @param {NaiveDateTimeContext} utc
  * @returns {EOTFromUTCReturned}
  */
 export function eot_from_utc(utc) {

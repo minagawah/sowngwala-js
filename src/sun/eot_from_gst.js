@@ -2,14 +2,12 @@
  * @module sowngwala/sun/eot_from_gst
  */
 
-import moment from 'moment';
-
+import { NaiveDateTime } from '../chrono';
 import {
   utc_from_gst,
   decimal_hours_from_naive_time,
   angle_from_decimal_hours,
 } from '../time';
-
 import { sun_pos_equatorial } from './sun_pos_equatorial';
 
 /** @typedef {import('moment').Moment} Moment */
@@ -19,6 +17,11 @@ import { sun_pos_equatorial } from './sun_pos_equatorial';
 /**
  * @typedef NaiveTimeContext
  * @type {import('../chrono/naive_time.js').NaiveTimeContext}
+ */
+
+/**
+ * @typedef NaiveDateTimeContext
+ * @type {import('../chrono/naive_datetime.js').NaiveDateTimeContext}
  */
 
 /**
@@ -54,23 +57,25 @@ import { sun_pos_equatorial } from './sun_pos_equatorial';
  * functions implemented anywhere
  * in the program...
  *
+ * Original:
+ * - sowngwala::sun::equation_of_time_from_gst
+ *
  * @public
  * @function
  * @see {@link: sowngwala/sun.eot_from_utc}
  * @see {@link: sowngwala/sun.eot_decimal_from_utc}
- * @param {Moment} gst
+ * @param {NaiveDateTimeContext} gst
  * @returns {EOTFromGSTReturned}
  */
 export function eot_from_gst(gst) {
-  // While we had 'gst.date()'
-  // in the original Rust code to extract
-  // 'NaiveDate' from 'NaiveDateTime',
-  // DATE and DATETIME are essentially
-  // the same in JS. Hence, we simply
-  // pass 'gst' to the next.
-  let date = gst;
+  let date = gst.date();
 
-  let { coord } = sun_pos_equatorial(date);
+  // In the book, we get
+  // the Equatorial from
+  // "date". However,
+  // we want to manage
+  // "time" as well.
+  let { coord } = sun_pos_equatorial(gst);
 
   /**
    * 'asc' in 'EquaCoord' is 'Angle'
@@ -82,27 +87,34 @@ export function eot_from_gst(gst) {
   /** @type {NaiveTimeContext} */
   let asc_1 = asc_0.to_naive_time();
 
-  /** @type {Moment} */
-  let naivetime = moment(
-    Date.UTC(
-      date.year(),
-      // NOTE: 'month' in JS is indexed
-      date.month() - 1,
-      // NOTE: 'day' in Rust is 'date' in JS
-      date.date(),
-      asc_1.hour(),
-      asc_1.minute(),
-      asc_1.second()
-    )
-  ).utc(); // TODO: Do we want this in UTC?
+  // TODO:
+  // Do we want the following
+  // in datetime?
+
+  /** @type {NaiveDateTimeContext} */
+  let naivedatetime = NaiveDateTime.from_ymd_hmsn(
+    date.year(),
+    date.month(),
+    date.day(),
+    asc_1.hour(),
+    asc_1.minute(),
+    asc_1.second(),
+    asc_1.nanosecond()
+  );
+
+  let day_excess = 0;
 
   /** @type {NaiveTimeContext} */
-  let utc = utc_from_gst(naivetime);
-  let decimal = decimal_hours_from_naive_time(utc);
+  let utc_time;
+
+  ({ utc_time, day_excess } = utc_from_gst(naivedatetime));
+
+  let decimal = decimal_hours_from_naive_time(utc_time);
   let e = 12.0 - decimal;
 
   let angle_0 = angle_from_decimal_hours(e);
-  let day_excess = angle_0.day_excess();
+
+  day_excess += angle_0.day_excess();
 
   return { angle: angle_0, day_excess };
 }

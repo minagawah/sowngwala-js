@@ -9,8 +9,6 @@ import {
 } from '../time';
 import { HorizonCoord } from './horizontal';
 
-/** @typedef {import('moment').Moment} Moment */
-
 /**
  * @typedef AngleContext
  * @type {import('./angle.js').AngleContext}

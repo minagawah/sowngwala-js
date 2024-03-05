@@ -1,4 +1,7 @@
 /**
+ * NOTE:
+ * It does not exist in the Rust version.
+ *
  * @module sowngwala/time/decimal_hours_from_hms
  */
 
