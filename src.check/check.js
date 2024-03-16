@@ -101,6 +101,7 @@ export const start = async () => {
   ready = true;
   console.log('Ready to proceed');
 
+  _find_geo_from_city();
   _calc_sun_position();
 };
 

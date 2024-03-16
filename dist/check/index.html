@@ -17,8 +17,14 @@
 
     <!-- BEGIN: container -->
     <div id="container">
-      <div id="title" class="font-3xl font-bold">
-        Sun's Position
+      <h1 id="title" class="font-3xl font-bold">
+        Position of the Sun
+      </h1>
+
+      <div class="mt-5 small">
+        This is a demo page for <span class="font-bold">SowngwalaJS</span> which is a JS ported version of another library of mine written in Rust for calculating the sun's position. Most of the programs are based on Peter Duffett-Smith "Practical Astronomy With Your Calculator" (The Press Syndicate of the University of Cambridge, 1988).<br />
+See Github:<br />
+        <a href="https://github.com/minagawah/sowngwala-js" target="_blank">https://github.com/minagawah/sowngwala-js</a>
       </div>
 
       <div id="description" class="mt-5">
@@ -60,8 +66,11 @@
         </div>
 
         <div id="cities-wrapper">
-          <input type="text" id="city" list="city-names" />
+          <input type="text" id="city" list="city-names" value="Tokyo/Japan" />
           <datalist id="city-names"></datalist>
+          <div class="small">
+            Auto-complete does not work on <span class="font-bold">Firefox for Android</span>
+          </div>
         </div>
 
         <div id="location-label" class="label">
@@ -141,7 +150,7 @@
   </div>
   <!-- END OF: generic-wrapper -->
 
-<script defer src="https://tokyo800.jp/mina/sowngwala-0.8.0.js"></script>
+<script defer src="https://tokyo800.jp/mina/sowngwala-0.8.1.js"></script>
 
 <script type="text/javascript">
 window.addEventListener('load', () => {
@@ -149,5 +158,5 @@ window.addEventListener('load', () => {
 });
 </script>
 
-<script defer src="check-0.8.0.js"></script></body>
+<script defer src="check-0.8.1.js"></script></body>
 </html>

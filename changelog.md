@@ -1,5 +1,9 @@
 # Release Change Log
 
+## 0.8.1
+
+- Added the demo page, added a link to Github repo.
+
 ## 0.8.0
 
 - For `src.check/check.js` will now have the current version appended to the name when bundled.

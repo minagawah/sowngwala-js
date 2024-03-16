@@ -144,12 +144,11 @@ function trim(s) {
  */
 function calc_latitude(lat) {
   let bound = 'N';
-  let lat2 = lat;
-  if (lat2 < 0) {
+  if (lat < 0) {
     bound = 'S';
-    lat2 = 90 + lat;
+    lat *= -1;
   }
-  return [lat2, bound];
+  return [lat, bound];
 }
 
 /**
@@ -158,12 +157,11 @@ function calc_latitude(lat) {
  */
 function calc_longitude(lng) {
   let bound = 'E';
-  let lng2 = lng;
-  if (lng2 < 0) {
+  if (lng < 0) {
     bound = 'W';
-    lng2 = 180 + lng;
+    lng *= -1;
   }
-  return [lng2, bound];
+  return [lng, bound];
 }
 
 /**
