@@ -303,6 +303,7 @@ Otherwise, we won't need such web related dependencies.
 - ramda
 - moment
 - moment-timezone
+- csv-parse
 
 ```
 npm install --save core-js ramda moment moment-timezone;
@@ -320,10 +321,12 @@ npm install --save-dev @babel/cli @babel/core \
   tailwindcss babel-plugin-preval \
   jsdoc jsdoc-tsimport-plugin jsdoc-plugin-intersection \
   typescript @types/ramda jest \
-  rimraf nodemon concurrently ;
+  rimraf nodemon concurrently csv-parse;
 ```
 
 ## 7. License
+
+### Sowngwala-JS
 
 Dual-licensed under either of the followings.  
 Choose at your option.
@@ -331,4 +334,10 @@ Choose at your option.
 - The UNLICENSE ([LICENSE.UNLICENSE](LICENSE.UNLICENSE))
 - MIT license ([LICENSE.MIT](LICENSE.MIT))
 
+### check.js
 
+For the city names to lat/lng data used in [src.check/check.js](src.check/check.js) is based on 
+[simplemaps' World Cities Database](https://simplemaps.com/data/world-cities),
+and the content is protected by CC BY 4.0 Deed, and is attributed to the Pareto Software, LLC.  
+See details in [license.simplemaps-world-cities.txt](license.simplemaps-world-cities.txt).  
+https://simplemaps.com/data/world-cities

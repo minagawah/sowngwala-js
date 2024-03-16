@@ -1,5 +1,10 @@
 # Release Change Log
 
+## 0.7.0
+
+- Added `tools/parse_cities.js`
+- For `src.check/check.js`, added a feature to find latitude and longitude from the city name.
+
 ## 0.6.0
 
 - No longer using 'moment' but 'NaiveDateTime'.

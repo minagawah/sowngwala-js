@@ -1,6 +1,6 @@
 {
   "name": "sowngwala-js",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": false,
   "description": "JS library for calculating the sun & moon's position.",
   "main": "dist/sowngwala-$npm_package_version.js",
@@ -11,8 +11,8 @@
   },
   "scripts": {
     "eslint": "eslint --ext js \"{src,src.check}/**/*.js\"",
-    "eslint:fix": "eslint --fix --ext js \"{src,src.check}/**/*.js\"",
-    "prettier": "prettier --write \"*.{js,md,json}\" \"{src,src.check}/**/*.js\"",
+    "eslint:fix": "eslint --fix --ext js \"{src,src.check,tools}/**/*.js\"",
+    "prettier": "prettier --write \"*.{js,md,json}\" \"{src,src.check,tools}/**/*.js\"",
     "lint": "$npm_execpath run prettier && $npm_execpath run eslint:fix",
     "type:check": "tsc -p tsconfig.json",
     "type:generate": "rimraf types && tsc -p tsconfig.generate.json",
@@ -59,6 +59,7 @@
     "concurrently": "^8.2.2",
     "copy-webpack-plugin": "^12.0.2",
     "css-loader": "^6.9.1",
+    "csv-parse": "^5.5.5",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",

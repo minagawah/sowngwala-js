@@ -31,28 +31,37 @@
           Year
         </div>
 
-        <input type="text" id="year" value="1988" />
+        <input type="text" id="year" />
 
         <div id="month-label" class="label">
           Month
         </div>
 
-        <input type="text" id="month" value="7" />
+        <input type="text" id="month" />
 
         <div id="day-label" class="label">
           Day
         </div>
 
-        <input type="text" id="day" value="27" />
+        <input type="text" id="day" />
 
         <div id="time-label" class="label">
           Time
         </div>
 
         <div id="time-wrapper">
-          <input type="text" id="hour" value="0" />
-          <input type="text" id="min" value="0" />
-          <input type="text" id="sec" value="0" />
+          <input type="text" id="hour" />
+          <input type="text" id="min" />
+          <input type="text" id="sec" />
+        </div>
+
+        <div id="cities-label" class="label">
+          Cities
+        </div>
+
+        <div id="cities-wrapper">
+          <input type="text" id="city" list="city-names" />
+          <datalist id="city-names"></datalist>
         </div>
 
         <div id="location-label" class="label">
@@ -60,14 +69,16 @@
         </div>
 
         <div id="location-wrapper">
-          <input type="text" id="lat" value="35.67" />
+          <input type="text" id="lat" />
           <select id="lat-bound">
-            <option value="N" selected="selected">N</option>
+            <option>-</option>
+            <option value="N">N</option>
             <option value="S">S</option>
           </select>
-          <input type="text" id="lng" value="139.65" />
+          <input type="text" id="lng" />
           <select id="lng-bound">
-            <option value="E" selected="selected">E</option>
+            <option>-</option>
+            <option value="E">E</option>
             <option value="W">W</option>
           </select>
         </div>

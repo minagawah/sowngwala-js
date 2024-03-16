@@ -131,3 +131,5 @@ out
 
 # For all the app specific ignore files and folders
 package-lock.json
+/tools/worldcities.csv
+/tools/*.txt
