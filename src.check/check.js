@@ -95,6 +95,20 @@ export const start = async () => {
     el[key].addEventListener('propertychange', handler);
   });
 
+  fill_dates(el);
+
+  await add_cities();
+  ready = true;
+  console.log('Ready to proceed');
+
+  _calc_sun_position();
+};
+
+/**
+ * @private
+ * @function
+ */
+function fill_dates(el) {
   const now = new Date();
   [
     ['year', 'getFullYear'],
@@ -105,18 +119,12 @@ export const start = async () => {
     ['sec', 'getSeconds'],
   ].forEach(([key, method]) => {
     let value = now[method]();
-    if (value) {
+    if (!is_empty(value)) {
       if (key === 'month') value++;
       el[key].value = value;
     }
   });
-
-  await add_cities();
-  ready = true;
-  console.log('Ready to proceed');
-
-  _calc_sun_position();
-};
+}
 
 /**
  * Opens CITY_DATA, and add all the city names to the pulldown option.

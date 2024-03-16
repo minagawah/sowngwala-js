@@ -1,5 +1,9 @@
 # Release Change Log
 
+## 0.8.0
+
+- For `src.check/check.js` will now have the current version appended to the name when bundled.
+
 ## 0.7.0
 
 - Added `tools/parse_cities.js`

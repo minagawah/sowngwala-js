@@ -16,10 +16,6 @@ const { version } = require('./package.json');
 const DEFAULT_CONFIG = {
   mode: 'production',
   devtool: 'cheap-source-map', // hidden-source-map
-  performance: {
-    maxEntrypointSize: 921600, // 900 KB
-    maxAssetSize: 921600, // 900 KB
-  },
   plugins: [
     new webpack.DefinePlugin({
       NODE_ENV: '"production"',
@@ -33,6 +29,10 @@ const config_for_library = merge(
   DEFAULT_CONFIG_FOR_LIB,
   DEFAULT_CONFIG,
   {
+    performance: {
+      maxEntrypointSize: 921600, // 900 KiB
+      maxAssetSize: 921600, // 900 KiB
+    },
     plugins: [
       new LicenseWebpackPlugin({
         perChunkOutput: true,
@@ -47,6 +47,10 @@ const config_for_checker = merge(
   DEFAULT_CONFIG_FOR_CHECK,
   DEFAULT_CONFIG,
   {
+    performance: {
+      maxEntrypointSize: 2560000, // 2.5 MiB
+      maxAssetSize: 2560000, // 2.5 MiB
+    },
     module: {
       rules: [
         {

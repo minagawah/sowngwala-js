@@ -9,3 +9,4 @@ READEME.md
 *.log
 *.lock
 *.png
+/src.check/data.js

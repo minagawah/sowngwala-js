@@ -3913,15 +3913,7 @@ var start = /*#__PURE__*/function () {
       el[key].addEventListener('input', handler);
       el[key].addEventListener('propertychange', handler);
     });
-    var now = new Date();
-    [['year', 'getFullYear'], ['month', 'getMonth'], ['day', 'getDate'], ['hour', 'getHours'], ['min', 'getMinutes'], ['sec', 'getSeconds']].forEach(_ref2 => {
-      var [key, method] = _ref2;
-      var value = now[method]();
-      if (value) {
-        if (key === 'month') value++;
-        el[key].value = value;
-      }
-    });
+    fill_dates(el);
     yield add_cities();
     ready = true;
     console.log('Ready to proceed');
@@ -3931,6 +3923,22 @@ var start = /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }();
+
+/**
+ * @private
+ * @function
+ */
+function fill_dates(el) {
+  var now = new Date();
+  [['year', 'getFullYear'], ['month', 'getMonth'], ['day', 'getDate'], ['hour', 'getHours'], ['min', 'getMinutes'], ['sec', 'getSeconds']].forEach(_ref2 => {
+    var [key, method] = _ref2;
+    var value = now[method]();
+    if (!is_empty(value)) {
+      if (key === 'month') value++;
+      el[key].value = value;
+    }
+  });
+}
 
 /**
  * Opens CITY_DATA, and add all the city names to the pulldown option.
@@ -4107,4 +4115,4 @@ function get_values() {
 /******/ })()
 ;
 });
-//# sourceMappingURL=check.js.map
+//# sourceMappingURL=check-0.8.0.js.map
