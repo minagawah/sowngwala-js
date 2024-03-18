@@ -37,14 +37,22 @@ describe('A test suite for: coords/angle', () => {
     angle = Angle.from_hms(1, 0, 0);
     expect(angle.hour()).toBe(1);
 
+    // Take it as a dgree context.
+    angle = Angle.from_hms(360, 0, 0);
+    angle.calibrate({ angle: true, hour_overflow: true });
+    day_excess = angle.day_excess();
+    expect(angle.hour()).toBe(0);
+    expect(day_excess).toBe(1);
+
+    // Back to the normal time context.
     angle = Angle.from_hms(24, 0, 0);
-    angle.calibrate();
+    angle.calibrate({ hour_overflow: true });
     day_excess = angle.day_excess();
     expect(angle.hour()).toBe(0);
     expect(day_excess).toBe(1);
 
     angle = Angle.from_hms(48, 0, 0);
-    angle.calibrate();
+    angle.calibrate({ hour_overflow: true });
     day_excess = angle.day_excess();
     expect(angle.hour()).toBe(0);
     expect(day_excess).toBe(2);
@@ -54,7 +62,7 @@ describe('A test suite for: coords/angle', () => {
     expect(angle.second()).toBe(59);
 
     angle = Angle.from_hms(0, 0, -1);
-    angle.calibrate();
+    angle.calibrate({ hour_overflow: true });
     day_excess = angle.day_excess();
     expect(angle.second()).toBe(59);
     expect(angle.minute()).toBe(59);

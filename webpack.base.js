@@ -42,7 +42,7 @@ const DEFAULT_CONFIG_FOR_LIB = merge(DEFAULT_CONFIG, {
 // For the checker app
 
 const DEFAULT_CONFIG_FOR_CHECK = merge(DEFAULT_CONFIG, {
-  entry: './src.check/check.js',
+  entry: './src.check/index.js',
   output: {
     path: path.resolve(__dirname, './dist/check'),
     filename: `check-${version}.js`,

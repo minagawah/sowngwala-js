@@ -1,17 +1,17 @@
 /**
- * Reads 'worldcities.csv', extracts
- * city names and geo related info,
- * and output a file 'city_data.txt'.
+ * Reads 'worldcities.csv', parse
+ * the file, and extract whatever
+ * needed to output 'city_data.txt'.
  *
  * Usage:
  * node ./tools/parse_cities.js
  *
- * 'worldcities.csv' was downloaded
- * originally from the Pareto
- * Software's website 'simplemaps'
- * which is a CSV list of major
- * cities around the world with
- * relavant information associated.
+ * 'worldcities.csv' is a list of
+ * major cities around the world
+ * with relavant information.
+ * The program attempts to extract
+ * city name and geo locations
+ * from the file.
  *
  * Originally, it has the following
  * file structures:
@@ -33,21 +33,17 @@
  *   '1392685764'
  * ]
  *
- * city --> 0
- * lat --> 2
- * lng --> 3
- * country --> 4
+ * From the above, I need city names,
+ * latitude, and longitude so that
+ * allowing users a convenient search.
  *
- * From the above, I needed city
- * names and latitude/longitude
- * information so that allowing
- * users to search for the correct
- * information.
+ * 'worldcities.csv' is provided by
+ * the Pareto Software which can be
+ * downloaded from their website
+ * 'simplemaps', and is provided under
+ * CC BY 4.0.
  *
- * ************************************
- * Data is provided under CC BY 4.0,
- * and you may find their license
- * informaion on their website:
+ * simplemaps (by the Pareto Software)
  * https://simplemaps.com/data/world-cities
  */
 

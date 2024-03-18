@@ -35,5 +35,7 @@ import { isEmpty } from 'ramda';
 export const HorizonCoord = ({ azimuth, altitude }) => {
   if (isEmpty(azimuth)) throw new Error(`No 'azimuth'`);
   if (isEmpty(altitude)) throw new Error(`No 'altitude'`);
+  azimuth.calibrate({ angle: true });
+  altitude.calibrate({ angle: true });
   return { azimuth, altitude };
 };

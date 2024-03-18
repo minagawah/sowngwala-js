@@ -35,5 +35,7 @@ import { isEmpty } from 'ramda';
 export const EquaCoord = ({ asc, dec }) => {
   if (isEmpty(asc)) throw new Error(`No 'asc'`);
   if (isEmpty(dec)) throw new Error(`No 'dec'`);
+  asc.calibrate({ angle: true });
+  dec.calibrate({ angle: true });
   return { asc, dec };
 };

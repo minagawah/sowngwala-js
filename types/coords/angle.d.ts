@@ -20,4 +20,7 @@ export type AngleContext = {
 };
 export type FromHMS = (h: Hour, m: Minute, s: Second) => AngleContext;
 export type ToNaiveTime = () => NaiveTimeContext;
-export type Calibrate = () => number;
+export type Calibrate = (options: {
+    angle?: boolean;
+    hour_overflow?: boolean;
+}) => number;

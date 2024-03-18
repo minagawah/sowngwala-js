@@ -15,6 +15,7 @@ import { overflow } from '../utils';
  * @typedef AdditionalOptions
  * @type {Object}
  * @property {boolean} [angle=false] - When specified, it will take the given data as angle-based, and will have 'hour' overflow only when it reached 360. Usually, it should be 24 as a default, and this option should be set to 'false'. When set to 'true', it will set the said limit to 360.
+ * @property {boolean} [hour_overflow=true] - If specified TRUE, changes the negative into the positive. If FALSE, let the negative hour as it is.
  */
 
 /**
@@ -55,6 +56,7 @@ export function calibrate_hmsn({
   sec,
   nano,
   angle = false,
+  hour_overflow = true,
 }) {
   const hour_limit = angle ? 360.0 : 24.0;
 
@@ -85,24 +87,22 @@ export function calibrate_hmsn({
     nano,
     1_000_000_000.0
   ));
-
   nano = remainder;
   sec += quotient; // sec_excess
 
   ({ remainder, quotient } = overflow(sec, 60.0));
-
   sec = remainder;
   min += quotient; // min_excess
 
   ({ remainder, quotient } = overflow(min, 60.0));
-
   min = remainder;
   hour += quotient; // hour_excess
 
-  ({ remainder, quotient } = overflow(hour, hour_limit));
-
-  hour = remainder;
-  day_excess = quotient;
+  if (hour_overflow) {
+    ({ remainder, quotient } = overflow(hour, hour_limit));
+    hour = remainder;
+    day_excess = quotient;
+  }
 
   return { hmsn: { hour, min, sec, nano }, day_excess };
 }

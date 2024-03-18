@@ -49,7 +49,7 @@ So, as to illustrate the use of the library,
 it is sufficient if we talked about Equatorial only.  
 As a matter of fact, if you run [sun_pos_equatorial](src/sun/sun_pos_equatorial.js), it will not only return Equatorial, but also Ecliptic, too.
 
-Also, if you want to convert the Equatorial to the Horizontal, please refer to [src.check/check.js](src.check/check.js) for it demonstrate the usage. It also takes observer's latitude and longitude, and his/her LST (Local Sidereal Time).  
+Also, if you want to convert the Equatorial to the Horizontal, please refer to [src.check/index.js](src.check/index.js) for it demonstrate the usage. It also takes observer's latitude and longitude, and his/her LST (Local Sidereal Time).  
 (you can find it runnin in [the demo page](https://tokyo800.jp/mina/sowngwala/))
 
 ### (a) Runtime Usage
@@ -93,7 +93,7 @@ window.addEventListener('load', () => {
 </html>
 ```
 
-As mentioned in the beginning, the above is for the Equatorial position, and it is advised that you check out [src.check/check.js](src.check/check.js) for it contains a full example of finding the Horizontal (which also illustrate the use of local standard time and observer's latitude and longitude).
+As mentioned in the beginning, the above is for the Equatorial position, and it is advised that you check out [src.check/index.js](src.check/index.js) for it contains a full example of finding the Horizontal (which also illustrate the use of local standard time and observer's latitude and longitude).
 
 ### (b) For NPM Apps
 
@@ -122,7 +122,7 @@ import {
 // for the runtime...
 ```
 
-As mentioned, check out [src.check/check.js](src.check/check.js) for the Horizontal position (and of local standard time and observer's latitude and longitude).
+As mentioned, check out [src.check/index.js](src.check/index.js) for the Horizontal position (and of local standard time and observer's latitude and longitude).
 
 
 ### 3-1. Position of the Moon
@@ -336,7 +336,7 @@ Choose at your option.
 
 ### check.js
 
-For the city names to lat/lng data used in [src.check/check.js](src.check/check.js) is based on 
+For the city names to lat/lng data used in [src.check/index.js](src.check/index.js) is based on 
 [simplemaps' World Cities Database](https://simplemaps.com/data/world-cities),
 and the content is protected by CC BY 4.0 Deed, and is attributed to the Pareto Software, LLC.  
 See details in [license.simplemaps-world-cities.txt](license.simplemaps-world-cities.txt).  

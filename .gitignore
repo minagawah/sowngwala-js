@@ -130,6 +130,8 @@ out
 .pnp.*
 
 # For all the app specific ignore files and folders
-package-lock.json
+/jsdoc
+/dist/check/check*
 /tools/worldcities.csv
 /tools/*.txt
+package-lock.json

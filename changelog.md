@@ -1,5 +1,13 @@
 # Release Change Log
 
+## 0.9.0
+
+- For `calibrate` in `coords/angle`, take additional options `options.angle` and `options.hour_overflow`. When calibrate, defaults to take 'hour' as in that of the time, and NOT as that of degrees. Similarly, when calibrate, defaults to NOT overflow 'hour' even when it had a negative value.
+- For `coords/equatorial`, run `calibrate` when an instance is created.
+- For `coords/horizontal`, run `calibrate` when an instance is created.
+- For `time/calibrate_hmsn`, take options.
+- Refactored `src.check` to make it easier to understand.
+
 ## 0.8.1
 
 - Added the demo page, added a link to Github repo.
