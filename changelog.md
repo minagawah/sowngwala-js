@@ -1,5 +1,9 @@
 # Release Change Log
 
+## 0.10.0
+
+- When suggesting a list of cities on the demo page, instead of using "datalist" which is not supported by Android Firefox, implemented an original suggestion box underneath the city input.
+
 ## 0.9.0
 
 - For `calibrate` in `coords/angle`, take additional options `options.angle` and `options.hour_overflow`. When calibrate, defaults to take 'hour' as in that of the time, and NOT as that of degrees. Similarly, when calibrate, defaults to NOT overflow 'hour' even when it had a negative value.

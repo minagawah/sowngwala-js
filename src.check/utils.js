@@ -1,8 +1,8 @@
 /**
- * @module sowngwala/check/lib/utils
+ * @module sowngwala/check/utils
  */
 
-import { ROUND_DIGITS } from '../constants';
+const ROUND_DIGITS = 100_000;
 
 // This is the initial value for
 // 'debounce'.
@@ -12,7 +12,7 @@ let time = Date.now();
  * @private
  * @function
  */
-export const is_empty = val =>
+export const is_nullish = val =>
   typeof val === 'undefined' || val === null;
 
 /**

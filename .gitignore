@@ -130,6 +130,7 @@ out
 .pnp.*
 
 # For all the app specific ignore files and folders
+_note.txt
 /jsdoc
 /dist/check/check*
 /tools/worldcities.csv

@@ -28802,4 +28802,4 @@ function moon_pos_equatorial(dt) {
 /******/ })()
 ;
 });
-//# sourceMappingURL=sowngwala-0.9.0.js.map
+//# sourceMappingURL=sowngwala-0.10.0.js.map
