@@ -1,5 +1,9 @@
 # Release Change Log
 
+## 0.10.1
+
+- Split chunks for `src.check`
+
 ## 0.10.0
 
 - When suggesting a list of cities on the demo page, instead of using "datalist" which is not supported by Android Firefox, implemented an original suggestion box underneath the city input.

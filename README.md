@@ -49,7 +49,7 @@ So, as to illustrate the use of the library,
 it is sufficient if we talked about Equatorial only.  
 As a matter of fact, if you run [sun_pos_equatorial](src/sun/sun_pos_equatorial.js), it will not only return Equatorial, but also Ecliptic, too.
 
-Also, if you want to convert the Equatorial to the Horizontal, please refer to [_calculate_sun_position](https://github.com/minagawah/sowngwala-js/blob/main/src.check/controllers/event_listener.js#L245) in `src.check` for it demonstrate the usage. It also takes observer's latitude and longitude, and his/her LST (Local Sidereal Time).  
+Also, if you want to convert the Equatorial to the Horizontal, please refer to [_calculate_sun_position](src.check/controllers/event_listener.js) in `src.check` for it demonstrate the usage. It also takes observer's latitude and longitude, and his/her LST (Local Sidereal Time).  
 (you can find it runnin in [the demo page](https://tokyo800.jp/mina/sowngwala/))
 
 ### (a) Runtime Usage
@@ -93,7 +93,7 @@ window.addEventListener('load', () => {
 </html>
 ```
 
-As mentioned in the beginning, the above is for the Equatorial position, and it is advised that you check out [_calculate_sun_position](https://github.com/minagawah/sowngwala-js/blob/main/src.check/controllers/event_listener.js#L245) in `src.check` for it contains a full example of finding the Horizontal (which also illustrate the use of local standard time and observer's latitude and longitude).
+As mentioned in the beginning, the above is for the Equatorial position, and it is advised that you check out [_calculate_sun_position](src.check/controllers/event_listener.js) in `src.check` for it contains a full example of finding the Horizontal (which also illustrate the use of local standard time and observer's latitude and longitude).
 
 ### (b) For NPM Apps
 
@@ -122,7 +122,7 @@ import {
 // for the runtime...
 ```
 
-As mentioned, check out [_calculate_sun_position](https://github.com/minagawah/sowngwala-js/blob/main/src.check/controllers/event_listener.js#L245) in `src.check` for the Horizontal position (and of local standard time and observer's latitude and longitude).
+As mentioned, check out [_calculate_sun_position](src.check/controllers/event_listener.js) in `src.check` for the Horizontal position (and of local standard time and observer's latitude and longitude).
 
 
 ### 3-1. Position of the Moon
@@ -255,7 +255,9 @@ Otherwise, we won't need such web related dependencies.
 - html-webpack-plugin
 - copy-webpack-plugin
 - mini-css-extract-plugin
+- terser-webpack-plugin
 - license-webpack-plugin
+- webpack-bundle-analyzer
 
 ### ESLint & Prettier
 
@@ -313,7 +315,8 @@ npm install --save-dev @babel/cli @babel/core \
   webpack webpack-cli webpack-dev-server \
   file-loader css-loader style-loader postcss-loader \
   html-webpack-plugin copy-webpack-plugin \
-  mini-css-extract-plugin license-webpack-plugin \
+  mini-css-extract-plugin terser-webpack-plugin \
+  license-webpack-plugin webpack-bundle-analyzer \
   prettier eslint eslint-config-prettier eslint-plugin-prettier \
   @stylistic/eslint-plugin \
   postcss postcss-cli autoprefixer \

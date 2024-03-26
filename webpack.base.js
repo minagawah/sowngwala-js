@@ -45,9 +45,6 @@ const DEFAULT_CONFIG_FOR_CHECK = merge(DEFAULT_CONFIG, {
   entry: './src.check/index.js',
   output: {
     path: path.resolve(__dirname, './dist/check'),
-    filename: `check-${version}.js`,
-    library: 'Check',
-    libraryTarget: 'umd',
   },
   module: {
     rules: [
