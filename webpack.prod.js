@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const LicenseWebpackPlugin =
   require('license-webpack-plugin').LicenseWebpackPlugin;
 
@@ -15,7 +16,10 @@ const { version } = require('./package.json');
 
 const DEFAULT_CONFIG = {
   mode: 'production',
-  devtool: 'cheap-source-map', // hidden-source-map
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
+  },
   plugins: [
     new webpack.DefinePlugin({
       NODE_ENV: '"production"',
@@ -29,6 +33,7 @@ const config_for_library = merge(
   DEFAULT_CONFIG_FOR_LIB,
   DEFAULT_CONFIG,
   {
+    devtool: 'cheap-source-map', // hidden-source-map
     performance: {
       maxEntrypointSize: 921600, // 900 KiB
       maxAssetSize: 921600, // 900 KiB
@@ -43,10 +48,27 @@ const config_for_library = merge(
 
 // For the checker app
 
+const get_check_chunk_name = name =>
+  name === 'check' ? `check-${version}.js` : '[name].js';
+
 const config_for_checker = merge(
   DEFAULT_CONFIG_FOR_CHECK,
   DEFAULT_CONFIG,
   {
+    entry: {
+      check: {
+        import: './src.check/index.js',
+        dependOn: 'data',
+      },
+      data: './src.check/data.js',
+    },
+    output: {
+      filename: pathData =>
+        get_check_chunk_name(pathData.chunk.name),
+      chunkFilename: pathData =>
+        get_check_chunk_name(pathData.chunk.id),
+    },
+    devtool: false,
     performance: {
       maxEntrypointSize: 2560000, // 2.5 MiB
       maxAssetSize: 2560000, // 2.5 MiB

@@ -11,94 +11,80 @@ import { geo_from_row } from '../geo_from_row';
  * event listeners. As you can see,
  * 'register_listeners' is the only
  * method publicly exposed.
+ *
  * @private
  * @function
  */
 export function create_event_listener_controller(dom) {
+  /*
+   * An event listener for finding
+   * cities when input value changes
+   * for 'city' input.
+   */
   const find_geo_from_city = debounce(
     _find_geo_from_city,
     1000
   );
 
+  /*
+   * An event listener for calculating
+   * the position of the sun.
+   */
   const calc_sun_position = debounce(
     _calc_sun_position,
     1000
   );
 
   /*
-   * There is a problem in this
+   * There is a problem with this
    * controller which needs to be
-   * addressed. It is associated with
-   * a click on the suggestion box.
+   * addressed. When a user attempts
+   * to select a city from the city
+   * list shown in the suggestion box,
+   * the suggestion box closes, and
+   * the user is not able to select
+   * any cities.
    *
-   * When users enters a city name
-   * in 'city' input, the program will
-   * look for the city. If several
-   * matches were found, we show the
-   * suggestion box populated with
-   * a list of suggested cities.
+   * This is because we have an event
+   * listener 'focusout' on a form
+   * input for 'city'. When the user
+   * select a city in the suggestion
+   * box, it also means the click was
+   * made outside 'city' input. So,
+   * before even start carrying out
+   * the search for the city given,
+   * it closes the suggestion box.
    *
-   * On the other hand, we have another
-   * event listener 'onfocusout' for
-   * 'city' input. When focus "out"
-   * of the 'city' input, it should
-   * close the suggestion box.
-   *
-   * However, the problem arises as
-   * users click on the suggestion box
-   * to select a city. Obviously, the
-   * user indends to choose a city.
-   * Yet, it triggers 'onfocusout'
-   * because it also means the click
-   * being out of focus. Since the
-   * suggestion box is now closed,
-   * there is no way for the user to
-   * select any cities from the box...
-   *
-   * To prevent this, we need to know
-   * if the user is clicking on the
-   * suggestion box. If clicking
-   * outside the box, we can safely
-   * close the suggestion box. If it
-   * was over the suggestion box,
-   * the user is attempting to select
-   * a city from the box, and we don't
-   * want the suggestion box to close.
-   *
-   * That's why we have
+   * To prevent, we have a flag
    * 'is_clicking_over_suggestion_box'
-   * which is a flag to determine
-   * whether the user is clicking over
-   * the suggestion box, or not.
-   *
-   * We have a click listener on 'body',
-   * and when clicked, it will find out
-   * where the user clicking. Only when
-   * clicked outside the suggestion box,
-   * will we allow 'onfocusout' to fire,
-   * to close the box.
-   *
-   * @private
-   * @function
+   * which is a flag to tell you
+   * if the user has clicked over the
+   * suggestion box, or not.
+   * Therefore, you will see bellow
+   * that we have a click listener
+   * attached to 'body' where we try
+   * to find where the user clicked
+   * on the page. If the click was
+   * outside the box, we can safely
+   * close the box. Yet, if the click
+   * was made on the suggestion box,
+   * it means, the user wanted to
+   * select a city from the list,
+   * and we are not closing the box.
    */
 
   /*
-   * An array to store all the click
-   * listeners for cities suggested
-   * in the suggestion box.
+   * This is an array storing all the
+   * click handlers created for cities.
    * When the suggestion box closes,
-   * all the listeners stored here
-   * will be removed.
+   * we will remove all the handlers.
    */
   const city_click_handlers = [];
 
   /*
-   * This is a flag to let you know if
-   * the user is clicking over the city
-   * suggestion box. The detection is
-   * done when clicked on 'body'.
-   * Without this, users will not be
-   * able to select a city.
+   * This is a flag to let you know
+   * if the user has clicked over the
+   * suggestion box.
    */
   let is_clicking_over_suggestion_box = false;
 
@@ -120,12 +106,10 @@ export function create_event_listener_controller(dom) {
       throw new Error("Can't find Sowngwala");
 
     /*
-     * Addling event listeners for form
-     * inputs. Normally, we would run
-     * 'calc_sun_position' to calculate
-     * the sun's position. Yet, when the
-     * input value changes on 'city',
-     * we would run 'find_geo_from_city'.
+     * When the input value for 'city'
+     * changes, we run 'find_geo_from_city'.
+     * Otherwise, we normally run
+     * 'calc_sun_position'.
      */
     dom.get_input_elem_keys().forEach(key => {
       const handler =
@@ -139,9 +123,8 @@ export function create_event_listener_controller(dom) {
     });
 
     /*
-     * Adding a click listener on 'body'.
-     * We will find out where the user
-     * is clicking.
+     * When 'body' is clicked, we will
+     * find out the click position.
      */
     dom.get('body').addEventListener(
       'click',
@@ -153,18 +136,17 @@ export function create_event_listener_controller(dom) {
     );
 
     /*
-     * Adding 'onfocusout' for 'city'
-     * input. When focus out of 'city',
-     * we would close the suggestion box.
-     * Yet, we don't want the box to
-     * close if the user is clicking
-     * over the box.
+     * When focused out of 'city' input,
+     * we would close the suggestion
+     * box. Except, when the click was
+     * over the suggestion box, we will
+     * not close the box.
      */
     dom.get('city').addEventListener('focusout', () => {
       /*
-       * We need to first wait for
-       * 'body' to check if the click
-       * was outside the suggestion box.
+       * We need to wait until
+       * we figure out where the
+       * user has clicked.
        */
       setTimeout(() => {
         if (is_clicking_over_suggestion_box !== true) {
@@ -189,35 +171,41 @@ export function create_event_listener_controller(dom) {
   }
 
   /**
-   * It will search for the city.
-   * When multiple matches were found,
-   * we would show the suggestion box
-   * filled with the matches.
-   * If the exact match is found,
-   * we would begin calculating the
-   * sun's position.
-   *
    * @private
    * @function
    */
-  function _find_geo_from_city() {
-    _find_geo_aux();
+  function _clear() {
+    remove_city_click_handlers();
+    dom.clear_suggestion_box();
   }
 
   /**
    * @private
    * @function
-   * @param {string} [name] - Notice 'name' will not come for the first time. It will explicitly be specified when called from within.
    */
-  function _find_geo_aux(name) {
-    // Remove all the click listeners
-    // previously created.
-    remove_city_click_handlers();
+  function _show(geo) {
+    _clear();
+    dom.fill_city_input(geo.city);
+    dom.fill_geo_inputs(geo);
+    calc_sun_position();
+  }
 
-    // Remove the previous suggestions.
-    dom.clear_suggestion_box();
+  /**
+   * Search for the given city.
+   * If several maches were found,
+   * we would show all the matched
+   * cities in the suggestion box.
+   * If only 1 match was found for
+   * the city, we would begin
+   * calculating the sun's position.
+   *
+   * @private
+   * @function
+   */
+  function _find_geo_from_city() {
+    _clear();
 
-    const city_name = name || dom.get('city')?.value;
+    const city_name = dom.get('city')?.value;
     const city_list = city_name
       ? get_city_list(city_name)
       : [];
@@ -236,58 +224,39 @@ export function create_event_listener_controller(dom) {
       dom.clear_geo_inputs();
     } else if (found === 1) {
       // Found the exact match
-      console.log(`Found: ${city_name}`);
+      console.log(`Found: ${city_list[0][0]}`);
 
-      const row = city_list[0];
-      dom.fill_city_input(city_name);
-      dom.fill_geo_inputs(geo_from_row(row));
-
-      calc_sun_position();
+      _show(geo_from_row(city_list[0]));
     } else if (found > 1) {
       // Multiple matches were found
       console.log(`Found ${found} cities`);
 
       /*
-       * Create a list of DOM elements
-       * out of suggested cities.
-       * We would show them in the
-       * suggestion box.
+       * The suggestion box will be
+       * populated with all the cities
+       * found on the search. We need
+       * to create all the DOM elements
+       * for these cities, and each of
+       * them needs a click listener.
        */
-      const elements = city_list.map(city => {
-        const name = city[0];
-        const elem = dom.create_new_city_link(name);
-
-        // A click listener for each city.
+      const elems = city_list.map(city => {
+        const geo = geo_from_row(city);
+        const el = dom.create_new_city_link(geo.city);
         const onclick = () => {
-          dom.clear_suggestion_box();
-          dom.fill_city_input(name);
-
-          /**
-           * When clicking on the city,
-           * we would search for the
-           * city. Notice, for this time,
-           * we explicitly pass the name
-           * of the city.
-           */
-          _find_geo_aux(name);
+          _show(geo);
         };
-
-        elem.addEventListener('click', onclick);
+        el.addEventListener('click', onclick);
         city_click_handlers.push(onclick);
-
-        return elem;
+        return el;
       });
 
-      dom.show_suggestion_box(elements);
+      dom.show_suggestion_box(elems);
     }
   }
   // END OF: _find_geo_aux()
 
   /**
-   * This is another event listener.
-   * When any of the input value change,
-   * we want to calculate the position
-   * of the sun.
+   * Calculates the position of the sun.
    *
    * @private
    * @function
@@ -353,20 +322,20 @@ export function create_event_listener_controller(dom) {
         // --------------------------------
 
         // Right Ascension (α)
-        equatorial_asc: _equatorial.asc.print(),
+        asc: _equatorial.asc.print(),
 
         // Declination (δ)
-        equatorial_dec: _equatorial.dec.print(),
+        dec: _equatorial.dec.print(),
 
         // --------------------------------
         // Horizontal
         // --------------------------------
 
         // Azimuth (A)
-        horizontal_azimuth: horizontal.azimuth.print(),
+        azimuth: horizontal.azimuth.print(),
 
         // Altitude (α)
-        horizontal_altitude: horizontal.altitude.print(),
+        altitude: horizontal.altitude.print(),
       });
       // END OF: dom.fill_sun_inputs()
     } catch (err) {

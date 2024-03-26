@@ -4,10 +4,6 @@
 
 const ROUND_DIGITS = 100_000;
 
-// This is the initial value for
-// 'debounce'.
-let time = Date.now();
-
 /**
  * @private
  * @function
@@ -19,8 +15,48 @@ export const is_nullish = val =>
  * @private
  * @function
  */
+export const kebab_from_snake = snake =>
+  snake.replace(/_/g, '-');
+
+/**
+ * @private
+ * @function
+ */
+export const snake_from_kebab = kebab =>
+  kebab.replace(/-/g, '_');
+
+/**
+ * @private
+ * @function
+ */
 export const round = num =>
   Math.round(num * ROUND_DIGITS) / ROUND_DIGITS;
+
+/**
+ * @private
+ * @function
+ */
+export function naive_date_from_date(date) {
+  return [
+    ['year', 'getFullYear'],
+    ['month', 'getMonth'],
+    ['day', 'getDate'],
+    ['hour', 'getHours'],
+    ['min', 'getMinutes'],
+    ['sec', 'getSeconds'],
+  ].reduce((acc, [key, method]) => {
+    let value = date[method]();
+    if (key === 'month') value++;
+    acc[key] = value;
+    return acc;
+  }, {});
+}
+
+/*
+ * This is the initial value for
+ * 'debounce'.
+ */
+let time = Date.now();
 
 /**
  * @function
