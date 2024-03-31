@@ -69,8 +69,8 @@ export const Longitude = ({ degrees, bound }) => {
  * 'GeoCoord' which represents
  * the position of the observer
  * in Geo location position.
- * and it consists of Latitude
- * and Longitude.
+ * It consists of 'Latitude'
+ * and 'Longitude'.
  *
  * @typedef GeoCoordContext
  * @type {Object}

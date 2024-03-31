@@ -2,6 +2,7 @@
  * @module sowngwala/check/controllers/event_listener
  */
 
+import { INPUT_ELEM_KEYS } from './dom_element';
 import { debounce, round } from '../utils';
 import { get_city_list } from '../get_city_list';
 import { geo_from_row } from '../geo_from_row';
@@ -111,7 +112,7 @@ export function create_event_listener_controller(dom) {
      * Otherwise, we normally run
      * 'calc_sun_position'.
      */
-    dom.get_input_elem_keys().forEach(key => {
+    INPUT_ELEM_KEYS.forEach(key => {
       const handler =
         key === 'city'
           ? find_geo_from_city
@@ -301,7 +302,10 @@ export function create_event_listener_controller(dom) {
         _ecliptic,
         _mean_anom,
         _obliquity,
-      } = Sowngwala.sun.sun_pos_horizontal(utc, geo);
+      } = Sowngwala.sun.sun_horizontal_from_generic_datetime(
+        utc,
+        geo
+      );
 
       dom.fill_sun_inputs({
         // --------------------------------

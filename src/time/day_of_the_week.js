@@ -34,12 +34,14 @@ import { julian_day } from './julian_day';
  * @returns {number}
  */
 export function day_of_the_week(date) {
-  // Rust implementation would be:
-  // ----------------------------------
-  // date.weekday().num_days_from_sunday()
-  // // Sunday = 0
-  // // Monday = 1
-  // ----------------------------------
+  /*
+   * Rust implementation would be:
+   * ----------------------------------
+   * date.weekday().num_days_from_sunday()
+   * // Sunday = 0
+   * // Monday = 1
+   * ----------------------------------
+   */
 
   let jd = julian_day(
     date.year(),

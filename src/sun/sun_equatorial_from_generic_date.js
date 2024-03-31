@@ -1,9 +1,9 @@
 /**
- * @module sowngwala/sun/sun_pos_equatorial_from_generic_date
+ * @module sowngwala/sun/sun_equatorial_from_generic_date
  */
 
 import { NaiveDateTime } from '../chrono';
-import { sun_pos_equatorial } from './sun_pos_equatorial';
+import { sun_equatorial_from_generic_datetime } from './sun_equatorial_from_generic_datetime';
 
 /**
  * @typedef NaiveDateContext
@@ -11,8 +11,8 @@ import { sun_pos_equatorial } from './sun_pos_equatorial';
  */
 
 /**
- * @typedef SunPosEquatorialFromGenericDateReturned
- * @type {import('./sun_pos_equatorial.js').SunPosEquatorialReturned}
+ * @typedef SunEquatorialFromGenericDateTimeReturned
+ * @type {import('./sun_equatorial_from_generic_datetime.js').SunEquatorialFromGenericDateTimeReturned}
  */
 
 /**
@@ -24,14 +24,14 @@ import { sun_pos_equatorial } from './sun_pos_equatorial';
  * (α)" and "declination (δ)".
  * (Peter Duffett-Smith, p.91)
  *
- * See 'sun_pos_equatorial' for
+ * See 'sun_equatorial_from_generic_datetime' for
  * actual calculations.
  *
  * Just as it is discussed in
- * 'sun_pos_ecliptic', the book only
+ * 'ecliptic', the book only
  * talks about "date", but we want
  * "time" for accuracy. Hence,
- * I introduced 'sun_pos_ecliptic'.
+ * I introduced 'ecliptic'.
  *
  * Yet, if you prefer to use the bellow
  * method instead, you should always be
@@ -40,17 +40,17 @@ import { sun_pos_equatorial } from './sun_pos_equatorial';
  * whatever "date" you provide.
  *
  * Original:
- * - sonwgwalla::sun::equatorial_position_of_the_sun_from_generic_date
+ * - sonwgwalla::sun::sun_equatorial_from_generic_date
  *
  * @public
  * @function
- * @see {@link: module:sowngwala/sun.sun_pos_equatorial}
- * @see {@link: module:sowngwala/sun.sun_pos_ecliptic}
- * @see {@link: module:sowngwala/sun.sun_pos_ecliptic_from_generic_date}
+ * @see {@link: module:sowngwala/sun.sun_equatorial_from_generic_datetime}
+ * @see {@link: module:sowngwala/sun.sun_ecliptic_from_generic_datetime}
+ * @see {@link: module:sowngwala/sun.sun_ecliptic_from_generic_date}
  * @param {NaiveDateContext} date - UTC date (w/o specific time)
- * @returns {SunPosEquatorialFromGenericDateReturned}
+ * @returns {SunEquatorialFromGenericDateTimeReturned}
  */
-export function sun_pos_equatorial_from_generic_date(date) {
+export function sun_equatorial_from_generic_date(date) {
   const dt = NaiveDateTime.from_ymd_hms(
     date.year(),
     date.month(),
@@ -59,5 +59,5 @@ export function sun_pos_equatorial_from_generic_date(date) {
     0,
     0
   );
-  return sun_pos_equatorial(dt);
+  return sun_equatorial_from_generic_datetime(dt);
 }

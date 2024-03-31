@@ -23,9 +23,11 @@ export function julian_day_from_generic_datetime(dt) {
   return julian_day(
     dt.year(),
     dt.month(),
-    // NOTE: Currently, it is bit
-    // problematic in the Rust
-    // version...
+    /*
+     * NOTE: Currently, it is bit
+     * problematic in the Rust
+     * version...
+     */
     decimal_days_from_generic_datetime(dt)
   );
 }

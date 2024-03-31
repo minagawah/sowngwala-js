@@ -67,10 +67,12 @@ import { NaiveDateTime } from '../chrono';
  * @returns {NaiveDateTimeContext}
  */
 export function add_date(dt, days) {
-  // Rust implementation would be:
-  // ----------------------------------
-  // dt + Duration::days(days)
-  // ----------------------------------
+  /*
+   * Rust implementation would be:
+   * ----------------------------------
+   * dt + Duration::days(days)
+   * ----------------------------------
+   */
   const added = dt.to_moment().add(days, 'days');
   return NaiveDateTime.from_moment(added);
 }

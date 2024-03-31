@@ -1,9 +1,9 @@
 /**
- * @module sowngwala/sun/sun_pos_ecliptic_from_generic_date
+ * @module sowngwala/sun/sun_ecliptic_from_generic_date
  */
 
 import { NaiveDateTime } from '../chrono';
-import { sun_pos_ecliptic } from './sun_pos_ecliptic';
+import { sun_ecliptic_from_generic_datetime } from './sun_ecliptic_from_generic_datetime';
 
 /**
  * @typedef NaiveDateContext
@@ -11,8 +11,8 @@ import { sun_pos_ecliptic } from './sun_pos_ecliptic';
  */
 
 /**
- * @typedef SunPosEclipticFromGenericDateReturned
- * @type {import('./sun_pos_ecliptic').SunPosEclipticReturned}
+ * @typedef SunEclipticFromGenericDateTimeReturned
+ * @type {import('./sun_ecliptic_from_generic_datetime').SunEclipticFromGenericDateTimeReturned}
  */
 
 /**
@@ -25,27 +25,27 @@ import { sun_pos_ecliptic } from './sun_pos_ecliptic';
  * (Peter Duffett-Smith, p.91)
  *
  * Consider using
- * 'sun_pos_ecliptic_from_generic_date'
- * because it gives you accurate
- * a result. In Peter Duffett-Smith's
+ * 'sun_ecliptic_from_generic_datetime'
+ * for it provides you more accurate
+ * results. In Peter Duffett-Smith's
  * it takes only "date". Obviously,
  * it does not take "time" into
  * consideration. However, for
- * 'sun_pos_ecliptic_from_generic_date'
+ * 'sun_ecliptic_from_generic_date'
  * takes "datetime", it gives you
  * more accurate result when you
  * want a result for a specific time.
  *
  * Original:
- * - sowngwalla::sun::ecliptic_position_of_the_sun_from_generic_date
+ * - sowngwalla::sun::sun_ecliptic_from_generic_date
  *
  * @public
  * @function
- * @see {@link: module:sowngwala/sun/sun_pos_ecliptic}
+ * @see {@link: module:sowngwala/sun/sun_ecliptic_from_generic_datetime}
  * @param {NaiveDateContext} date - UTC date (w/o specific time)
- * @returns {SunPosEclipticFromGenericDateReturned}
+ * @returns {SunEclipticFromGenericDateTimeReturned}
  */
-export function sun_pos_ecliptic_from_generic_date(date) {
+export function sun_ecliptic_from_generic_date(date) {
   const dt = NaiveDateTime.from_ymd_hms(
     date.year(),
     date.month(),
@@ -54,5 +54,5 @@ export function sun_pos_ecliptic_from_generic_date(date) {
     0,
     0
   );
-  return sun_pos_ecliptic(dt);
+  return sun_ecliptic_from_generic_datetime(dt);
 }

@@ -58,7 +58,9 @@ export function gst_from_utc(utc) {
     24
   ));
 
-  // NOTE:
-  // This will extract 'nano' from 'sec'.
+  /*
+   * NOTE:
+   * This will extract 'nano' from 'sec'.
+   */
   return naive_time_from_decimal_hours(decimal_hours);
 }

@@ -4,29 +4,35 @@
 
 import {
   is_nullish,
-  kebab_from_snake,
+  snake_from_kebab,
   naive_date_from_date,
 } from '../utils';
 
 export const INPUT_CITY_KEY = 'city';
 
-export const INPUT_ELEM_KEYS = [
+export const INPUT_ELEM_KEYS_DATETIME = [
   'year',
   'month',
   'day',
   'hour',
   'min',
   'sec',
-  'city',
+];
+
+export const INPUT_ELEM_KEYS_GEO = [
   'lat',
   'lat-bound',
   'lng',
   'lng-bound',
 ];
 
-export const ELEM_KEYS = [
-  ...INPUT_ELEM_KEYS,
-  'suggestion',
+export const INPUT_ELEM_KEYS = [
+  ...INPUT_ELEM_KEYS_DATETIME,
+  'city',
+  ...INPUT_ELEM_KEYS_GEO,
+];
+
+export const ELEM_KEYS_SUN = [
   'ecliptic-lng',
   'mean-anom',
   'obliquity',
@@ -34,6 +40,12 @@ export const ELEM_KEYS = [
   'dec',
   'azimuth',
   'altitude',
+];
+
+export const ELEM_KEYS = [
+  ...INPUT_ELEM_KEYS,
+  'suggestion',
+  ...ELEM_KEYS_SUN,
 ];
 
 /**
@@ -50,7 +62,6 @@ export function create_dom_element_controller() {
    */
   return Object.freeze({
     get: key => el[key],
-    get_input_elem_keys: () => INPUT_ELEM_KEYS,
     register_elements,
     get_values,
     check_click_for_suggestion_box,
@@ -135,6 +146,7 @@ export function create_dom_element_controller() {
   function check_click_for_suggestion_box(pos) {
     const { x, y, width, height } =
       el.suggestion.getBoundingClientRect();
+
     return (
       pos.x > x &&
       pos.x < x + width &&
@@ -203,11 +215,10 @@ export function create_dom_element_controller() {
    * @function
    */
   function fill_geo_inputs(geo) {
-    ['lat', 'lat_bound', 'lng', 'lng_bound'].forEach(
-      key => {
-        el[kebab_from_snake(key)].value = geo[key];
-      }
-    );
+    INPUT_ELEM_KEYS_GEO.forEach(key => {
+      const key_snake = snake_from_kebab(key);
+      el[key].value = geo[key_snake];
+    });
   }
 
   /**
@@ -235,16 +246,9 @@ export function create_dom_element_controller() {
    * @function
    */
   function fill_sun_inputs(o) {
-    [
-      'ecliptic_lng',
-      'mean_anom',
-      'obliquity',
-      'asc',
-      'dec',
-      'azimuth',
-      'altitude',
-    ].forEach(key => {
-      el[kebab_from_snake(key)].innerHTML = o[key];
+    ELEM_KEYS_SUN.forEach(key => {
+      const key_snake = snake_from_kebab(key);
+      el[key].innerHTML = o[key_snake];
     });
   }
 }

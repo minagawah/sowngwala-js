@@ -1,9 +1,9 @@
 /**
- * @module sowngwala/moon/moon_pos_equatorial
+ * @module sowngwala/moon/moon_equatorial_from_generic_datetime
  */
 
 import { equatorial_from_ecliptic_with_generic_date } from '../coords';
-import { moon_pos_ecliptic } from './moon_pos_ecliptic';
+import { moon_ecliptic_from_generic_datetime } from './moon_ecliptic_from_generic_datetime';
 
 /**
  * @typedef NaiveDateTimeContext
@@ -30,12 +30,12 @@ import { moon_pos_ecliptic } from './moon_pos_ecliptic';
  * @param {NaiveDateTimeContext} dt
  * @returns {EquaCoordContext}
  */
-export function moon_pos_equatorial(dt) {
+export function moon_equatorial_from_generic_datetime(dt) {
   let date = dt.date();
 
   const { coord } =
     equatorial_from_ecliptic_with_generic_date(
-      moon_pos_ecliptic(dt),
+      moon_ecliptic_from_generic_datetime(dt),
       date
     );
   return coord;

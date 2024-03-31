@@ -8,8 +8,8 @@ import { isEmpty } from 'ramda';
  * An object returned when calling
  * 'EcliCoord' which represents
  * the position of the planetary body
- * in Ecliptic coordinate system,
- * and it consists of "latitude (β)"
+ * in Ecliptic coordinate system.
+ * It consists of "latitude (β)"
  * and "longitude (λ)".
  *
  * @typedef EcliCoordContext

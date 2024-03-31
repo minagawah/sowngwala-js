@@ -23,23 +23,30 @@ import { decimal_hours_from_angle } from '../time';
  */
 
 /**
- * EOT, or "the equation of time" is
- * the difference (in degree angle)
- * between the mean sun and the real
- * sun.
+ * "eot" in the function name stands
+ * for "THE EQUATION OF TIME".
+ * In astrological calculation,
+ * "The Equation of Time" is the
+ * difference between the "mean sun"
+ * and the real sun's position.
+ * For this function will return the
+ * value in degree angle.
  * (Peter Duffett-Smith, pp.98-99)
  *
- * This is a wrapper for 'eot_from_utc'.
- * See 'eot_from_utc' for it has the
- * actual calculations for EOT.
- * (or it further has the actual
- * calculations in 'eot_from_gst')
+ * As you can see, this is a wrapper
+ * for 'eot_from_utc' which is also
+ * a wrapper for 'eot_from_gst'.
+ * So, if you are looking for the
+ * actual calculations, they are
+ * found in 'eot_from_gst'.
  *
- * Although EOT is vital to finding
- * sun's position in precision, however,
- * EOT is currently not used from any
- * functions implemented anywhere
- * in the program...
+ * While "The Equation of Time" is
+ * vital in finding sun's accurate
+ * position in precision, it is
+ * currently not in use...
+ *
+ * Original:
+ * sowngwala::sun::eot_decimal_from_utc
  *
  * @public
  * @function

@@ -36,18 +36,18 @@ the most popular demands would probably be the following 2:
 Whichever you wish to pursue, the program offers the corresponding 2 methods:
 
 - (Equatorial or Horizontal)  
-[sun_pos_equatorial](src/sun/sun_pos_equatorial.js)
+[sun_equatorial_from_generic_datetime](src/sun/sun_equatorial_from_generic_datetime.js)
   - Usually for "Observation"
   - You want the sun's position either in [Equatorial](src/coords/equatorial.js) or [Horizontal](src/coords/horizontal.js) coordinate system, so that you will get to know for which direction you should face toward to see the sun. Use [horizontal_from_equatorial](src/coords/horizontal_from_equatorial.js) to convert Equatorial to Horizontal.
 - (Ecliptic)  
-[sun_pos_ecliptic](src/sun/sun_pos_ecliptic.js)
+[sun_ecliptic_from_generic_datetime](src/sun/sun_ecliptic_from_generic_datetime.js)
   - Usually for "Astrology"
   - You want the sun's position in [Ecliptic](src/coords/ecliptic.js) coordinate system, so that you would get "latitude (β)" and "ongitude (λ)" for the given time and space.
 
 Equatorial pretty much covers Ecliptic.
 So, as to illustrate the use of the library,
 it is sufficient if we talked about Equatorial only.  
-As a matter of fact, if you run [sun_pos_equatorial](src/sun/sun_pos_equatorial.js), it will not only return Equatorial, but also Ecliptic, too.
+As a matter of fact, if you run [sun_equatorial](src/sun/sun_equatorial_from_generic_datetime.js), it will not only return Equatorial, but also Ecliptic, too.
 
 Also, if you want to convert the Equatorial to the Horizontal, please refer to [_calculate_sun_position](src.check/controllers/event_listener.js) in `src.check` for it demonstrate the usage. It also takes observer's latitude and longitude, and his/her LST (Local Sidereal Time).  
 (you can find it runnin in [the demo page](https://tokyo800.jp/mina/sowngwala/))
@@ -65,7 +65,7 @@ and you can use any of the method provided.
 <script type="text/javascript">
 window.addEventListener('load', () => {
   const { NaiveDateTime } = Sowngwala.chrono;
-  const { sun_pos_equatorial } = Sowngwala.sun;
+  const { sun_equatorial_from_generic_datetime } = Sowngwala.sun;
 
   // Find out the sun's
   // Equatorial position
@@ -77,7 +77,7 @@ window.addEventListener('load', () => {
   );
 
   const { coord } =
-    sun_pos_equatorial(utc);
+    sun_equatorial_from_generic_datetime(utc);
 
   // right ascension (α)
   const asc = coord.asc;
@@ -114,7 +114,7 @@ Implementations are about the same as the one for the runtime.
 ```js
 import {
   NaiveDateTime,
-  sun_pos_equatorial,
+  sun_equatorial_from_generic_datetime,
 } from 'sowngwala';
 
 // Rest of the codes are
@@ -209,11 +209,11 @@ So, they have nothing to do with the implementations of the library itself.
 
 When it comes to finding the Equatorial position of the sun,
 it all begins with
-[sun_pos_equatorial](src/sun/sun_pos_equatorial.js).
+[sun_equatorial_from_generic_datetime](src/sun/sun_equatorial_from_generic_datetime.js).
 With a given a date, it returns
 [EquaCoord](src/coords/equatorial.js).
 However, majority of the calculations are done in
-[sun_pos_ecliptic](src/sun/sun_pos_ecliptic.js).
+[sun_ecliptic_from_generic_datetime](src/sun/sun_ecliptic_from_generic_datetime.js).
 
 Refer to p.91 of
 [Peter Duffett-Smith's "Practical Astronomy With Your Calculator" (1988)](https://books.google.co.jp/books?id=DwJfCtzaVvYC&hl=ja&source=gbs_book_similarbooks)
@@ -224,7 +224,7 @@ the Equatorial position of the sun.
 
 Next up, we have **Step 2** which is to find days since January 0th of 1990. This is the epoch date that his book supposes to base his calculations on, and is calculated with [days_since_1990](src/time/days_since_1990.js).
 
-From **Step 3** to **Step 10** is covered by [sun_longitude_and_mean_anomaly](src/sun/sun_longitude_and_mean_anomaly.js). As the name suggests, it takes the number of days since 1900, and will return (1) `lng` ("λ" or "Sun's longitude"), and (2) `mean_anom` ("M" or "Mean Anomaly") for the date.
+From **Step 3** to **Step 10** is covered by [longitude_and_mean_anomaly](src/sun/longitude_and_mean_anomaly.js). As the name suggests, it takes the number of days since 1900, and will return (1) `lng` ("λ" or "Sun's longitude"), and (2) `mean_anom` ("M" or "Mean Anomaly") for the date.
 
 An additional note for **Step 3** to **Step 10** where **Step 6** is covered by [find_kepler](src/sun/find_kepler.js) which itself consists of a recursive function for finding "Mean anomaly (M)" and "Eccentric anomaly (E)" using Kepler's equation.
 

@@ -26,14 +26,14 @@ const KEPLER_ACCURACY = 1e-6; // (ε)
  * In the program, it is used in
  * 'sun_longitude_and_mean_anomaly'
  * which is further used in
- * 'sun_pos_ecliptic'
+ * 'sun_pos_ecliptic_from_generic_datetime'
  * and is further used in
- * 'sun_pos_equatorial'.
+ * 'sun_pos_equatorial_from_generic_datetime'.
  *
  * @public
  * @function
  * @see {@link: sowngwala/sun.sun_longitude_and_mean_anomaly}
- * @see {@link: sowngwala/sun.sun_pos_ecliptic}
+ * @see {@link: sowngwala/sun.sun_pos_ecliptic_from_generic_datetime}
  * @param {number} mean_anom - Mean anomaly (M) (in radians)
  * @returns {number} - Eccentric anomaly (E)
  */

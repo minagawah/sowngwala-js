@@ -1,9 +1,9 @@
 /**
- * @module sowngwala/sun/sun_pos_horizontal
+ * @module sowngwala/sun/sun_horizontal_from_generic_datetime
  */
 
 import { horizontal_from_equatorial } from '../coords';
-import { sun_pos_equatorial } from './sun_pos_equatorial';
+import { sun_equatorial_from_generic_datetime } from './sun_equatorial_from_generic_datetime';
 
 /**
  * @typedef NaiveDateTimeContext
@@ -36,7 +36,7 @@ import { sun_pos_equatorial } from './sun_pos_equatorial';
  */
 
 /**
- * @typedef SunPosHorizontalReturned
+ * @typedef SunHorizontalFromGenericDateTimeReturned
  * @type {Object}
  * @property {HorizonCoordContext} coord - Horizontal position of the sun
  * @property {EquaCoordContext} _equatorial - Equatorial position of the sun
@@ -58,9 +58,12 @@ import { sun_pos_equatorial } from './sun_pos_equatorial';
  * @function
  * @param {NaiveDateTimeContext} utc - UTC datetime
  * @param {GeoCoordContext} geo - Observer's geo coordinate position (latitude and longitude)
- * @returns {SunPosHorizontalReturned}
+ * @returns {SunHorizontalFromGenericDateTimeReturned}
  */
-export function sun_pos_horizontal(utc, geo) {
+export function sun_horizontal_from_generic_datetime(
+  utc,
+  geo
+) {
   const {
     // Equatorial Coordinate
     coord: _equatorial,
@@ -70,7 +73,7 @@ export function sun_pos_horizontal(utc, geo) {
     _mean_anom,
     // Mean Obliquity (ε)
     _obliquity,
-  } = sun_pos_equatorial(utc);
+  } = sun_equatorial_from_generic_datetime(utc);
 
   const {
     // Horizontal Coordinate

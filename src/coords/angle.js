@@ -184,18 +184,22 @@ function _from_hms(h, m, s) {
    * @type {Calibrate}
    */
   function calibrate(options) {
-    // Usually, take it in time context
-    // (defaults to FALSE).
-    // Only when specified TRUE,
-    // take it as a degree context.
+    /*
+     * Usually, take it in time context
+     * (defaults to FALSE).
+     * Only when specified TRUE,
+     * take it as a degree context.
+     */
     const angle = !!options?.angle;
 
-    // Usually, let the negative hour
-    // stay negative as it is
-    // (defaults to FALSE).
-    // Only when specified TRUE,
-    // then change the negative
-    // into the positive.
+    /*
+     * Usually, let the negative hour
+     * stay negative as it is
+     * (defaults to FALSE).
+     * Only when specified TRUE,
+     * then change the negative
+     * into the positive.
+     */
     const hour_overflow = !!options?.hour_overflow;
 
     ({

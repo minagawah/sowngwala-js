@@ -8,7 +8,7 @@ import {
   decimal_hours_from_naive_time,
   angle_from_decimal_hours,
 } from '../time';
-import { sun_pos_equatorial } from './sun_pos_equatorial';
+import { sun_equatorial_from_generic_datetime } from './sun_equatorial_from_generic_datetime';
 
 /** @typedef {import('moment').Moment} Moment */
 
@@ -42,23 +42,26 @@ import { sun_pos_equatorial } from './sun_pos_equatorial';
  */
 
 /**
- * EOT, or "the equation of time" is
- * the difference (in degree angle)
- * between the mean sun and the real
- * sun.
+ * "eot" in the function name stands
+ * for "THE EQUATION OF TIME".
+ * In astrological calculation,
+ * "The Equation of Time" is the
+ * difference between the "mean sun"
+ * and the real sun's position.
+ * For this function will return the
+ * value in degree angle.
  * (Peter Duffett-Smith, pp.98-99)
  *
- * Used in 'eot_from_utc', however, is
- * further used in 'eot_decimal_from_utc'.
+ * The function is referred from
+ * 'eot_from_utc'.
  *
- * Although EOT is vital to finding
- * sun's position in precision, however,
- * EOT is currently not used from any
- * functions implemented anywhere
- * in the program...
+ * While "The Equation of Time" is
+ * vital in finding sun's accurate
+ * position in precision, it is
+ * currently not in use...
  *
  * Original:
- * - sowngwala::sun::equation_of_time_from_gst
+ * sowngwala::sun::eot_from_gst
  *
  * @public
  * @function
@@ -70,14 +73,14 @@ import { sun_pos_equatorial } from './sun_pos_equatorial';
 export function eot_from_gst(gst) {
   let date = gst.date();
 
-  // In the book, we get
-  // the Equatorial from
-  // "date". However,
-  // we want to manage
-  // "time" as well.
-  let { coord } = sun_pos_equatorial(gst);
+  /*
+   * In the book, we get the Equatorial
+   * from "date". However, we want to
+   * manage "time" as well.
+   */
+  let { coord } = sun_equatorial_from_generic_datetime(gst);
 
-  /**
+  /*
    * 'asc' in 'EquaCoord' is 'Angle'
    * which is the right ascension (α).
    * @type {AngleContext}
@@ -87,9 +90,10 @@ export function eot_from_gst(gst) {
   /** @type {NaiveTimeContext} */
   let asc_1 = asc_0.to_naive_time();
 
-  // TODO:
-  // Do we want the following
-  // in datetime?
+  /*
+   * TODO: Do we want the following in
+   * datetime?
+   */
 
   /** @type {NaiveDateTimeContext} */
   let naivedatetime = NaiveDateTime.from_ymd_hmsn(

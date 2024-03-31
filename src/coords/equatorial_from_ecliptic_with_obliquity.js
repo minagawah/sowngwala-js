@@ -75,10 +75,12 @@ export function equatorial_from_ecliptic_with_obliquity(
   let y = lng_sin * oblique_cos - lat_tan * oblique_sin;
   let x = lng_cos;
 
-  // (Rust) y.atan2(x)
-  // https://doc.rust-lang.org/std/primitive.f64.html#method.atan2
-  // (JS) atan2(y, x)
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/atan2
+  /*
+   * (Rust) y.atan2(x)
+   * https://doc.rust-lang.org/std/primitive.f64.html#method.atan2
+   * (JS) atan2(y, x)
+   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/atan2
+   */
   let asc = to_degrees(Math.atan2(y, x));
   asc -= 360.0 * Math.floor(asc / 360.0);
   asc /= 15.0;

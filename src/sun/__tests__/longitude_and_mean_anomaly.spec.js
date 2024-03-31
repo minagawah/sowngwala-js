@@ -1,12 +1,10 @@
-const {
-  sun_longitude_and_mean_anomaly,
-} = require('../index');
+const { longitude_and_mean_anomaly } = require('../index');
 
-describe('A test suite for: sun/sun_longitude_and_mean_anomaly', () => {
-  test('sun_longitude_and_mean_anomaly', () => {
+describe('A test suite for: sun/longitude_and_mean_anomaly', () => {
+  test('longitude_and_mean_anomaly', () => {
     const days = -522;
     const { lng, mean_anom } =
-      sun_longitude_and_mean_anomaly(days);
+      longitude_and_mean_anomaly(days);
 
     // Actual: 124.18773182997958
     expect(lng).toBeCloseTo(124.187_732, 6);

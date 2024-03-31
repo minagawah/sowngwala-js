@@ -29,7 +29,10 @@ import { mean_obliquity_of_the_ecliptic } from './mean_obliquity_of_the_ecliptic
 
 /**
  * It will convert the Ecliptic position
- * into that of the Equatorial.
+ * (which consists of 'latitude (β)' and
+ * 'longitude (λ)') into the Equatorial
+ * position (which consists of
+ * 'ascension (α)' and 'declination (δ)').
  * (Peter Duffett-Smith, pp.40-41)
  *
  * Notice, also, how it calculates

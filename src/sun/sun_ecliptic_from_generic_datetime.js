@@ -2,7 +2,7 @@
  * NOTE:
  * It does not exist in Rust version.
  *
- * @module sowngwala/sun/sun_pos_ecliptic
+ * @module sowngwala/sun/sun_ecliptic_from_generic_datetime
  */
 
 import {
@@ -13,7 +13,7 @@ import {
 
 import { NaiveTime } from '../chrono';
 import { EcliCoord } from '../coords';
-import { sun_longitude_and_mean_anomaly } from './sun_longitude_and_mean_anomaly';
+import { longitude_and_mean_anomaly } from './longitude_and_mean_anomaly';
 
 /** @typedef {import('../types.js').DecimalDays} DecimalDays */
 /** @typedef {import('../types.js').DecimalHours} DecimalHours */
@@ -29,7 +29,7 @@ import { sun_longitude_and_mean_anomaly } from './sun_longitude_and_mean_anomaly
  */
 
 /**
- * @typedef SunPosEclipticReturned
+ * @typedef SunEclipticFromGenericDateTimeReturned
  * @type {Object}
  * @property {EcliCoordContext} coord - Ecliptic position of the Sun
  * @property {number} _mean_anom - (optional) Mean anomaly (M) (in degrees)
@@ -54,7 +54,7 @@ import { sun_longitude_and_mean_anomaly } from './sun_longitude_and_mean_anomaly
  * so that we take "time".
  *
  * In our repo, what implemented in
- * 'sun_pos_ecliptic_from_generic_date'
+ * 'sun_ecliptic_from_generic_date'
  * strictly follows the book. In another
  * word, it only takes "date".
  *
@@ -67,39 +67,45 @@ import { sun_longitude_and_mean_anomaly } from './sun_longitude_and_mean_anomaly
  * correspondances to the book.
  *
  * Original:
- * - sowngwalla::sun::ecliptic_position_of_the_sun_from_generic_date
+ * - sowngwalla::sun::sun_ecliptic_from_generic_date
  *
  * @public
  * @function
  * @param {NaiveDateTimeContext} dt - UTC datetime
- * @returns {SunPosEclipticReturned}
+ * @returns {SunEclipticFromGenericDateTimeReturned}
  */
-export function sun_pos_ecliptic(dt) {
+export function sun_ecliptic_from_generic_datetime(dt) {
   const date = dt.date();
 
-  // [Step 1]
-  // (p.91)
-  // Find out the "day number" for
-  // the specified date.
+  /*
+   * [Step 1]
+   * (p.91)
+   * Find out the "day number" for
+   * the specified date.
+   */
 
   let day_number = day_number_from_generic_date(date);
   // console.log('day_number:', day_number);
 
-  // [Step 2]
-  // (p.91)
-  // Find out days since 1990.
+  /*
+   *  [Step 2]
+   *  (p.91)
+   *  Find out days since 1990.
+   */
 
   /** @type {DecimalHours} */
   let days = days_since_1990(dt.year()) + day_number;
   // console.log('days[0]:', days);
 
-  // You can see bellow that we prepare
-  // the decimal hours to find out
-  // "sun's longitude (λ)" and "mean
-  // anomaly (M)". While the book only
-  // takes "date", we want to specify
-  // "time" so that we would get more
-  // accurate values.
+  /*
+   * You can see bellow that we prepare
+   * the decimal hours to find out
+   * "sun's longitude (λ)" and "mean
+   * anomaly (M)". While the book only
+   * takes "date", we want to specify
+   * "time" so that we would get more
+   * accurate values.
+   */
 
   /** @type {DecimalHours} */
   let decimal_hours = decimal_hours_from_naive_time(
@@ -116,25 +122,29 @@ export function sun_pos_ecliptic(dt) {
 
   // console.log('days[1]:', days);
 
-  // [Step 3] to [Step 10]
-  // (p.91)
-  // For the given number of days
-  // since 1990, we will find out
-  // "sun's/ longitude (λ)" and
-  // "mean anomaly (M)".
+  /*
+   * [Step 3] to [Step 10]
+   * (p.91)
+   * For the given number of days
+   * since 1990, we will find out
+   * "sun's/ longitude (λ)" and
+   * "mean anomaly (M)".
+   */
 
   let { lng: _lng, mean_anom: _mean_anom } =
-    sun_longitude_and_mean_anomaly(days);
+    longitude_and_mean_anomaly(days);
 
   // console.log('lng:', _lng);
   // console.log('mean_anom:', _mean_anom);
 
-  // Note: "latitude (β)" in Ecliptic
-  // will always become "0.0" because
-  // that is the definition of what
-  // the Ecliptic coordinate system is.
-  // See:
-  // Peter Duffett-Smith, p.85.
+  /*
+   * Note: "latitude (β)" in Ecliptic
+   * will always become "0.0" because
+   * that is the definition of what
+   * the Ecliptic coordinate system is.
+   * See:
+   * Peter Duffett-Smith, p.85.
+   */
 
   const coord = EcliCoord({ lat: 0.0, lng: _lng });
 

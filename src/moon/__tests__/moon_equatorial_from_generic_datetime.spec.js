@@ -1,8 +1,10 @@
 const { NaiveDateTime } = require('../../chrono');
-const { moon_pos_equatorial } = require('../index');
+const {
+  moon_equatorial_from_generic_datetime,
+} = require('../index');
 
-describe('A test suite for: moon/moon_pos_equatorial', () => {
-  test('moon_pos_equatorial', () => {
+describe('A test suite for: moon/moon_equatorial_from_generic_datetime', () => {
+  test('moon_equatorial_from_generic_datetime', () => {
     const dt = NaiveDateTime.from_ymd_hms(
       1979,
       2,
@@ -12,7 +14,7 @@ describe('A test suite for: moon/moon_pos_equatorial', () => {
       0
     );
 
-    let coord = moon_pos_equatorial(dt);
+    let coord = moon_equatorial_from_generic_datetime(dt);
 
     let asc = coord.asc;
     let dec = coord.dec;

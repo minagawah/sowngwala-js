@@ -1,5 +1,5 @@
 /**
- * @module sowngwala/sun/sun_longitude_and_mean_anomaly
+ * @module sowngwala/sun/longitude_and_mean_anomaly
  */
 
 import {
@@ -25,12 +25,12 @@ import { find_kepler } from '../coords/find_kepler';
  * Anomaly (M)" for the date.
  *
  * Used in
- * 'sun_pos_ecliptic'
+ * 'ecliptic'
  * which is further used in
- * 'sun_pos_equatorial'.
+ * 'sun_equatorial_from_generic_datetime'.
  *
  * While
- * 'sun_pos_equatorial'
+ * 'sun_equatorial_from_generic_datetime'
  * being the starting point for
  * calculating the position of the sun,
  * it owes majority of its calculations
@@ -41,21 +41,25 @@ import { find_kepler } from '../coords/find_kepler';
  *
  * @public
  * @function
- * @see {@link: module:sowngwala/sun.sun_pos_ecliptic}
- * @see {@link: module:sowngwala/sun.sun_pos_equatorial}
+ * @see {@link: module:sowngwala/sun.ecliptic}
+ * @see {@link: module:sowngwala/sun.sun_equatorial_from_generic_datetime}
  * @param {number} days
  * @returns {SunLngMeanAnomalyReturned}
  */
-export function sun_longitude_and_mean_anomaly(days) {
-  // [Step 3] (in his book, p.91)
+export function longitude_and_mean_anomaly(days) {
+  /*
+   * [Step 3] (in his book, p.91)
+   */
   let n = (360.0 / 365.242_191) * days;
   n -= 360.0 * Math.floor(n / 360.0);
 
-  // =================================
-  // Mean Anomaly (M)
-  // =================================
-  // [Step 4] to [Step 5] (in his book, p.91)
-  // Or, it is fully explained in p.89.
+  /*
+   * ==================================
+   * Mean Anomaly (M)
+   * ==================================
+   * [Step 4] to [Step 5] (in his book, p.91)
+   * Or, it is fully explained in p.89.
+   */
   let mean_anom =
     n +
     ECLIPTIC_LONGITUDE_AT_1990 -
@@ -65,19 +69,23 @@ export function sun_longitude_and_mean_anomaly(days) {
     mean_anom += 360.0;
   }
 
-  // =================================
-  // Eccentric Anomaly (E)
-  // =================================
-  // [Step 6] (in his book, p.91)
+  /*
+   * ==================================
+   * Eccentric Anomaly (E)
+   * ==================================
+   * [Step 6] (in his book, p.91)
+   */
   let ecc = find_kepler(to_radians(mean_anom));
 
-  // =================================
-  // True Anomaly (v)
-  // =================================
-  // Find true motion of the sun in
-  // an ellipse.
-  // [Step 7] to [Step 9] (in his book, p.91)
-  // Or, it is fully explained in p.90.
+  /*
+   * ==================================
+   * True Anomaly (v)
+   * ==================================
+   * Find true motion of the sun in
+   * an ellipse.
+   * [Step 7] to [Step 9] (in his book, p.91)
+   * Or, it is fully explained in p.90.
+   */
   let v =
     Math.sqrt(
       (1.0 + ECCENTRICITY_OF_ORBIT) /
@@ -86,10 +94,12 @@ export function sun_longitude_and_mean_anomaly(days) {
 
   v = to_degrees(Math.atan(v) * 2.0);
 
-  // =================================
-  // Sun's Longitude (λ)
-  // =================================
-  // [Step 10] (in his book, p.91)
+  /*
+   * ==================================
+   * Sun's Longitude (λ)
+   * ==================================
+   * [Step 10] (in his book, p.91)
+   */
   let lng = v + ECLIPTIC_LONGITUDE_OF_PERIGEE;
 
   if (lng > 360.0) {

@@ -1,5 +1,16 @@
 # Release Change Log
 
+## 0.11.0
+
+- Renamed `sun/sun_longitude_and_mean_anomaly` to `sun/longitude_and_mean_anomaly`
+- Renamed `sun/sun_pos_ecliptic_from_generic_date` to `sun/sun_ecliptic_from_generic_date`
+- Renamed `sun/sun_pos_ecliptic` to `sun/sun_ecliptic_from_generic_datetime`
+- Renamed `sun/sun_pos_equatorial_from_generic_date` to `sun/sun_equatorial_from_generic_date`
+- Renamed `sun/sun_pos_equatorial` to `sun/sun_equatorial_from_generic_datetime`
+- Renamed `sun/sun_pos_horizontal` to `sun/sun_horizontal_from_generic_datetime`
+- Renamed `moon/moon_pos_ecliptic` to `moon/moon_ecliptic_from_generic_datetime`
+- Renamed `moon/moon_pos_equatorial` to `moon/moon_equatorial_from_generic_datetime`
+
 ## 0.10.1
 
 - Split chunks for `src.check`

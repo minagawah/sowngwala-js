@@ -66,21 +66,19 @@ export function calibrate_hmsn({
   let remainder = 0.0;
   let quotient = 0.0;
 
-  // Carry over the exceeded
-  // values to the next place.
-  // Say, we had 60 seconds.
-  // It is too much for 'sec'
-  // and we want to carry over
-  // to 'min' by increasing
-  // 'min' by 1. For 'sec'
-  // will now become 0 second.
-  //
-  // Say, we had 23°59'60"
-  // and 60 is too much for
-  // 'sec'. So, we would
-  // return 1 for 'day_excess'
-  // and will make a new
-  // angle being 0°0'0".
+  /*
+   * Carry over the exceeded values to
+   * the next place. Say, we had
+   * 60 seconds. It's too much for 'sec'
+   * and we want to carry over to 'min'
+   * by increasing 'min' by 1. For 'sec'
+   * will now become 0 second.
+   *
+   * Say, we had 23°59'60" and 60 is
+   * too much for 'sec'. So, we would
+   * return 1 for 'day_excess' and will
+   * make a new angle being 0°0'0".
+   */
 
   // Note: "1_000_000_000.0" is a 1 billion
   ({ remainder, quotient } = overflow(

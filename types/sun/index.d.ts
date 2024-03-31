@@ -1,9 +1,9 @@
 export { eot_from_gst } from "./eot_from_gst";
 export { eot_from_utc } from "./eot_from_utc";
 export { eot_decimal_from_utc } from "./eot_decimal_from_utc";
-export { sun_longitude_and_mean_anomaly } from "./sun_longitude_and_mean_anomaly";
-export { sun_pos_ecliptic } from "./sun_pos_ecliptic";
-export { sun_pos_ecliptic_from_generic_date } from "./sun_pos_ecliptic_from_generic_date";
-export { sun_pos_equatorial } from "./sun_pos_equatorial";
-export { sun_pos_equatorial_from_generic_date } from "./sun_pos_equatorial_from_generic_date";
-export { sun_pos_horizontal } from "./sun_pos_horizontal";
+export { sun_ecliptic_from_generic_date } from "./sun_ecliptic_from_generic_date";
+export { sun_ecliptic_from_generic_datetime } from "./sun_ecliptic_from_generic_datetime";
+export { sun_equatorial_from_generic_date } from "./sun_equatorial_from_generic_date";
+export { sun_equatorial_from_generic_datetime } from "./sun_equatorial_from_generic_datetime";
+export { sun_horizontal_from_generic_datetime } from "./sun_horizontal_from_generic_datetime";
+export { longitude_and_mean_anomaly } from "./longitude_and_mean_anomaly";

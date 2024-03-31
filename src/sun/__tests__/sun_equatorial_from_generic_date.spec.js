@@ -1,13 +1,13 @@
 const { NaiveDate } = require('../../chrono');
 const {
-  sun_pos_equatorial_from_generic_date,
+  sun_equatorial_from_generic_date,
 } = require('../index');
 
-describe('A test suite for: sun/sun_pos_equatorial_from_generic_date', () => {
-  test('sun_pos_equatorial_from_generic_date', () => {
+describe('A test suite for: sun/sun_equatorial_from_generic_date', () => {
+  test('sun_equatorial_from_generic_date', () => {
     const date = NaiveDate.from_ymd(1988, 7, 27);
     const { coord } =
-      sun_pos_equatorial_from_generic_date(date);
+      sun_equatorial_from_generic_date(date);
 
     const asc = coord.asc; // right ascension (α)
     const dec = coord.dec; // declination (δ)
