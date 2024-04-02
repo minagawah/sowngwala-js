@@ -1,5 +1,9 @@
 # Release Change Log
 
+## 0.11.1
+
+- Excluding `moment.locale` which reudced the bundle size from 332 KB to 95 KB.
+
 ## 0.11.0
 
 - Renamed `sun/sun_longitude_and_mean_anomaly` to `sun/longitude_and_mean_anomaly`

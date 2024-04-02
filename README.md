@@ -25,34 +25,31 @@ See [changelog](changelog.md).
 
 ### 3-1. Position of the Sun
 
-When you are finding the position of the sun,
-the most popular demands would probably be the following 2:
+When you want to find the position of the sun, it usually means 2 things:
 
 - Physical Observation
   - You want to know where the sun will physically appear at certain time and space.
+  - For this, you want the position either in "Equatorial" or "Horizontal" coordinate system.
+  - If you want "Equatorial", use [sun_equatorial_from_generic_datetime](src/sun/sun_equatorial_from_generic_datetime.js)
+  - If you want "Horizontal", use [sun_horizontal_from_generic_datetime](src/sun/sun_horizontal_from_generic_datetime.js)
 - Astrological Calculation
-  - Many Western/Eastern astrological systems ask you to know the sun's position.
+  - Your astrological system asks you to know the sun's position.
+  - Usually, you want the position in "Ecliptic" coordinate system (so that you will get *"latitude (β)"* and *"longitude (λ)"* for the given time and space)
+  - Use [sun_ecliptic_from_generic_datetime](src/sun/sun_ecliptic_from_generic_datetime.js)
 
-Whichever you wish to pursue, the program offers the corresponding 2 methods:
+Not only will [sun_horizontal_from_generic_datetime](src/sun/sun_horizontal_from_generic_datetime.js) return the sun's "Horizontal" position,
+but you will notice the result also contains that of "Ecliptic" and "Equatorial".
+This is because you first need to know "Ecliptic" in order to find the sun's position.
+Once you find "Ecliptice", then it is converted to "Equatorial", and finally to "Horizontal".
+Thus, when you get "Horizontal", the method will also return all the by-products of the calculations.
 
-- (Equatorial or Horizontal)  
-[sun_equatorial_from_generic_datetime](src/sun/sun_equatorial_from_generic_datetime.js)
-  - Usually for "Observation"
-  - You want the sun's position either in [Equatorial](src/coords/equatorial.js) or [Horizontal](src/coords/horizontal.js) coordinate system, so that you will get to know for which direction you should face toward to see the sun. Use [horizontal_from_equatorial](src/coords/horizontal_from_equatorial.js) to convert Equatorial to Horizontal.
-- (Ecliptic)  
-[sun_ecliptic_from_generic_datetime](src/sun/sun_ecliptic_from_generic_datetime.js)
-  - Usually for "Astrology"
-  - You want the sun's position in [Ecliptic](src/coords/ecliptic.js) coordinate system, so that you would get "latitude (β)" and "ongitude (λ)" for the given time and space.
+Now, I have 2 examples demonstrated bellow.
+One is for the browser runtime (loading the library in your page), and another for NPM module use (for a bundled ES6 app).
+For both, it illustrates the use of [sun_equatorial_from_generic_datetime](src/sun/sun_equatorial_from_generic_datetime.js).
 
-Equatorial pretty much covers Ecliptic.
-So, as to illustrate the use of the library,
-it is sufficient if we talked about Equatorial only.  
-As a matter of fact, if you run [sun_equatorial](src/sun/sun_equatorial_from_generic_datetime.js), it will not only return Equatorial, but also Ecliptic, too.
+If you want more examples, you can see how I implemented [sun_ecliptic_from_generic_datetime](src/sun/sun_ecliptic_from_generic_datetime.js) for [the demo page](https://tokyo800.jp/mina/sowngwala/), and the source codes are found in [src.check](src.check) (specifically, it is in `_calculate_sun_position` inside [src.check/controllers/event_listener.js](src.check/controllers/event_listener.js)).
 
-Also, if you want to convert the Equatorial to the Horizontal, please refer to [_calculate_sun_position](src.check/controllers/event_listener.js) in `src.check` for it demonstrate the usage. It also takes observer's latitude and longitude, and his/her LST (Local Sidereal Time).  
-(you can find it runnin in [the demo page](https://tokyo800.jp/mina/sowngwala/))
-
-### (a) Runtime Usage
+### (a) Usage for Browser Runtime
 
 This is how you want to directly use `sowngwala-js` in your page.
 The context is exposed globally as `Sowngwala`,
@@ -95,7 +92,7 @@ window.addEventListener('load', () => {
 
 As mentioned in the beginning, the above is for the Equatorial position, and it is advised that you check out [_calculate_sun_position](src.check/controllers/event_listener.js) in `src.check` for it contains a full example of finding the Horizontal (which also illustrate the use of local standard time and observer's latitude and longitude).
 
-### (b) For NPM Apps
+### (b) Usage for ES6 Apps
 
 If you wish to include `sowngwala-js` in your bunlde, this is how.
 Since `sowngwala-js` has not yet being published as a NPM package,
@@ -226,7 +223,7 @@ Next up, we have **Step 2** which is to find days since January 0th of 1990. Thi
 
 From **Step 3** to **Step 10** is covered by [longitude_and_mean_anomaly](src/sun/longitude_and_mean_anomaly.js). As the name suggests, it takes the number of days since 1900, and will return (1) `lng` ("λ" or "Sun's longitude"), and (2) `mean_anom` ("M" or "Mean Anomaly") for the date.
 
-An additional note for **Step 3** to **Step 10** where **Step 6** is covered by [find_kepler](src/sun/find_kepler.js) which itself consists of a recursive function for finding "Mean anomaly (M)" and "Eccentric anomaly (E)" using Kepler's equation.
+An additional note for **Step 3** to **Step 10** where **Step 6** is covered by [find_kepler](src/coords/find_kepler.js) which itself consists of a recursive function for finding "Mean anomaly (M)" and "Eccentric anomaly (E)" using Kepler's equation.
 
 ## 6. Installed NPM Packages
 

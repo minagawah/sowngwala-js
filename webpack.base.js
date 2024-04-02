@@ -37,6 +37,12 @@ const DEFAULT_CONFIG_FOR_LIB = merge(DEFAULT_CONFIG, {
     library: 'Sowngwala',
     libraryTarget: 'umd',
   },
+  plugins: [
+    new webpack.IgnorePlugin({
+      resourceRegExp: /^\.\/locale$/,
+      contextRegExp: /moment$/,
+    }),
+  ],
 });
 
 // For the checker app

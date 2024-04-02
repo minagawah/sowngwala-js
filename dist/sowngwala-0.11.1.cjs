@@ -1208,8 +1208,8 @@ var _ramda = require("ramda");
  * An object returned when calling
  * 'EcliCoord' which represents
  * the position of the planetary body
- * in Ecliptic coordinate system,
- * and it consists of "latitude (β)"
+ * in Ecliptic coordinate system.
+ * It consists of "latitude (β)"
  * and "longitude (λ)".
  *
  * @typedef EcliCoordContext
@@ -1378,7 +1378,10 @@ var _mean_obliquity_of_the_ecliptic = require("./mean_obliquity_of_the_ecliptic"
 
 /**
  * It will convert the Ecliptic position
- * into that of the Equatorial.
+ * (which consists of 'latitude (β)' and
+ * 'longitude (λ)') into the Equatorial
+ * position (which consists of
+ * 'ascension (α)' and 'declination (δ)').
  * (Peter Duffett-Smith, pp.40-41)
  *
  * Notice, also, how it calculates
@@ -1667,8 +1670,8 @@ const Longitude = ({
  * 'GeoCoord' which represents
  * the position of the observer
  * in Geo location position.
- * and it consists of Latitude
- * and Longitude.
+ * It consists of 'Latitude'
+ * and 'Longitude'.
  *
  * @typedef GeoCoordContext
  * @type {Object}
@@ -2903,23 +2906,30 @@ var _time = require("../time");
  */
 
 /**
- * EOT, or "the equation of time" is
- * the difference (in degree angle)
- * between the mean sun and the real
- * sun.
+ * "eot" in the function name stands
+ * for "THE EQUATION OF TIME".
+ * In astrological calculation,
+ * "The Equation of Time" is the
+ * difference between the "mean sun"
+ * and the real sun's position.
+ * For this function will return the
+ * value in degree angle.
  * (Peter Duffett-Smith, pp.98-99)
  *
- * This is a wrapper for 'eot_from_utc'.
- * See 'eot_from_utc' for it has the
- * actual calculations for EOT.
- * (or it further has the actual
- * calculations in 'eot_from_gst')
+ * As you can see, this is a wrapper
+ * for 'eot_from_utc' which is also
+ * a wrapper for 'eot_from_gst'.
+ * So, if you are looking for the
+ * actual calculations, they are
+ * found in 'eot_from_gst'.
  *
- * Although EOT is vital to finding
- * sun's position in precision, however,
- * EOT is currently not used from any
- * functions implemented anywhere
- * in the program...
+ * While "The Equation of Time" is
+ * vital in finding sun's accurate
+ * position in precision, it is
+ * currently not in use...
+ *
+ * Original:
+ * sowngwala::sun::eot_decimal_from_utc
  *
  * @public
  * @function
@@ -2983,23 +2993,26 @@ var _sun_equatorial_from_generic_datetime = require("./sun_equatorial_from_gener
  */
 
 /**
- * EOT, or "the equation of time" is
- * the difference (in degree angle)
- * between the mean sun and the real
- * sun.
+ * "eot" in the function name stands
+ * for "THE EQUATION OF TIME".
+ * In astrological calculation,
+ * "The Equation of Time" is the
+ * difference between the "mean sun"
+ * and the real sun's position.
+ * For this function will return the
+ * value in degree angle.
  * (Peter Duffett-Smith, pp.98-99)
  *
- * Used in 'eot_from_utc', however, is
- * further used in 'eot_decimal_from_utc'.
+ * The function is referred from
+ * 'eot_from_utc'.
  *
- * Although EOT is vital to finding
- * sun's position in precision, however,
- * EOT is currently not used from any
- * functions implemented anywhere
- * in the program...
+ * While "The Equation of Time" is
+ * vital in finding sun's accurate
+ * position in precision, it is
+ * currently not in use...
  *
  * Original:
- * - sowngwala::sun::equation_of_time_from_gst
+ * sowngwala::sun::eot_from_gst
  *
  * @public
  * @function
@@ -3088,25 +3101,31 @@ var _eot_from_gst = require("./eot_from_gst");
  */
 
 /**
- * EOT, or "the equation of time" is
- * the difference (in degree angle)
- * between the mean sun and the real
- * sun.
+ * "eot" in the function name stands
+ * for "THE EQUATION OF TIME".
+ * In astrological calculation,
+ * "The Equation of Time" is the
+ * difference between the "mean sun"
+ * and the real sun's position.
+ * For this function will return the
+ * value in degree angle.
  * (Peter Duffett-Smith, pp.98-99)
  *
- * This function is called from
+ * The function is referred from
  * 'eot_decimal_from_utc'.
- * However, as you can see, it further
- * relies on 'eot_from_gst' where
- * everything takes place for EOT.
- * See 'eot_from_gst' for it has the
- * actual calculations for EOT.
+ * Since this is only a wrapper
+ * of 'eot_from_gst', if you are
+ * looking for the actual
+ * calculations, they are found in
+ * 'eot_from_gst'.
  *
- * Although EOT is vital to finding
- * sun's position in precision, however,
- * EOT is currently not used from any
- * functions implemented anywhere
- * in the program...
+ * While "The Equation of Time" is
+ * vital in finding sun's accurate
+ * position in precision, it is
+ * currently not in use...
+ *
+ * Original:
+ * sowngwala::sun::eot_from_utc
  *
  * @public
  * @function
@@ -3330,9 +3349,9 @@ var _sun_ecliptic_from_generic_datetime = require("./sun_ecliptic_from_generic_d
  * (Peter Duffett-Smith, p.91)
  *
  * Consider using
- * 'sun_ecliptic_from_generic_date'
- * because it gives you accurate
- * a result. In Peter Duffett-Smith's
+ * 'sun_ecliptic_from_generic_datetime'
+ * for it provides you more accurate
+ * results. In Peter Duffett-Smith's
  * it takes only "date". Obviously,
  * it does not take "time" into
  * consideration. However, for
