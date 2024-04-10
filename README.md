@@ -326,7 +326,7 @@ npm install --save-dev @babel/cli @babel/core \
 
 ## 7. License
 
-### Sowngwala-JS
+### SowngwalaJS Library
 
 Dual-licensed under either of the followings.  
 Choose at your option.
@@ -334,10 +334,7 @@ Choose at your option.
 - The UNLICENSE ([LICENSE.UNLICENSE](LICENSE.UNLICENSE))
 - MIT license ([LICENSE.MIT](LICENSE.MIT))
 
-### check.js
+### Geo-location Data for Check App
 
-For the city names to lat/lng data used in [src.check/index.js](src.check/index.js) is based on 
-[simplemaps' World Cities Database](https://simplemaps.com/data/world-cities),
-and the content is protected by CC BY 4.0 Deed, and is attributed to the Pareto Software, LLC.  
-See details in [license.simplemaps-world-cities.txt](license.simplemaps-world-cities.txt).  
+City names and longitude/latitude data used in our chec app is provided by the Pareto Software, LLC. whick is protected under CC BY 4.0 Deed. [See details](license.simplemaps-world-cities.txt) about the license.  
 https://simplemaps.com/data/world-cities
