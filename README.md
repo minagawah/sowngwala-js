@@ -17,11 +17,51 @@ the constructed language from the sci-fi TV series "The Expanse (2015)".
 
 [View Demo](https://tokyo800.jp/mina/sowngwala/)
 
-### 1.1 Files & Folders
+### 1-1. Explain to me the terms used in this README.md
+
+#### 1-1-1. Ecliptic Coordinates (The Solar System Map)
+This system looks at the sky from the perspective of **Earth’s orbit around the Sun.** The "Ecliptic" is the imaginary highway in space that the Sun appears to travel along over the course of a year.
+
+- **Sun's Longitude (&lambda; = 138.65&deg;):**  
+This tells you **where the Earth is in its yearly journey** around the Sun. The highway is a 360&deg; circle. 0&deg; is the exact moment spring starts (Vernal Equinox). A reading of 138.65&deg; means the year is roughly 40% complete (which lands in early August).
+- **Mean Anomaly (M = 217.02&deg;):**  
+This measures **time elapsed since the Earth was closest to the Sun** (perihelion, which happens in January), expressed as an angle from 0&deg; to 360&deg;. Because Earth’s orbit is an oval, not a perfect circle, this number helps the calculator correct for the Earth speeding up and slowing down.
+- **Mean Obliquity (&epsilon; = 23.44&deg;):**  
+This is the **tilt of the Earth's axis**. This 23.44&deg; tilt is the entire reason we have seasons. It changes incredibly slowly over thousands of years, so it stays virtually the same for our whole lives.
+
+Why calling it the **"Solar System Map"?**  
+> A solar system map looks at the planets from "outside", tracking how they move in space around the Sun.  
+> The ecliptic plane is the flat disc of our solar system. Because this system tracks the Sun’s position based on Earth’s actual orbit in space—completely ignoring how the Earth spins or where you are standing—it acts like a bird's-eye map of the solar system.
+
+#### 1-1-2. Equatorial Coordinates (The Global Map)
+This system takes Earth's latitude and longitude lines and **projects them out into deep space**. It creates a grid that moves with the Earth's rotation. Because the grid moves with the stars, a star's Equatorial coordinates stay the same all night, though the Sun's change slightly day by day.
+
+- **Right Ascension (&alpha; = 9&deg;24'20''):**  
+This is the space equivalent of **Longitude (East/West)**. It measures how far east the Sun is from the spring equinox starting point. It is often measured in hours/minutes/seconds, but here it is shown in degrees, minutes, and seconds of arc.
+- **Declination (&delta; = 15&deg;13'57''):**  
+This is the space equivalent of **Latitude (North/South)**. It measures how far north or south the Sun is from Earth's equator. A positive number (+15&deg;) means the Sun is shining directly over the Northern Hemisphere, indicating it is summer there.
+
+Why calling it the **"Global Map"?**  
+> A global map uses a fixed grid (Latitude and Longitude) tied directly to the Earth’s shape, which stays the same no matter where you travel on the planet.  
+> Equatorial coordinates are just Earth's global map projected out into space. "Declination" matches Earth's Latitude, and "Right Ascension" matches Earth's Longitude. Because this grid is locked to the Earth's orientation, a star's coordinates do not change when you walk to a different city or look up an hour later.
+
+#### 1-1-3. Horizontal Coordinates (The Local Map)
+This is the most practical view. It tells you **where to look from your exact standing position** right now. Because the Earth spins, these numbers change completely from minute to minute.
+
+- **Azimuth (A = 281&deg;2'52''):**  
+This is the **compass direction**. North is 0&deg;, East is 90&deg;, South is 180&deg;, and West is 270&deg;. A reading of 281&deg; means the Sun is just past due West, meaning it is late afternoon or early evening and the Sun is heading toward sunset.
+- **Altitude (&alpha; = 52&deg;48'0''):**  
+This is **how high the Sun is in the sky**. 0&deg; is the flat horizon, and 90&deg; is directly above your head (the zenith). At nearly 53&deg;, the Sun is well up in the sky, about more than halfway up from the horizon.
+
+Why calling it the **"Local Map"?**  
+> A local map (like phone navigation) is completely centered on you. It changes instantly if you turn around, walk down the street, or wait a few minutes.  
+> Horizontal coordinates use your personal, local horizon as the baseline. They tell you exactly where to look from your specific backyard. Because the Earth is spinning, the Sun's "local map" position changes every single second, and someone in another country looking at the Sun at the exact same moment would see entirely different numbers.
+
+### 1-2. Files & Folders
 
 `src` is the main library code, and `types` is the generated declaration mirror. The checker app in `src.check` and the web/build config files are support-only for browser checking, not part of the core calculation library.
 
-#### 1-1-1. Relevant
+#### 1-2-1. Relevant
 
 These files make up the core library and its generated type surface.
 
@@ -78,7 +118,7 @@ types/
 └── utils.d.ts
 ```
 
-#### 1-1-2. Irrelevant
+#### 1-2-2. Irrelevant
 
 These files are not part of the library's calculation code. They exist to support the browser-based checker, the demo page, and the build tools used to run them locally.
 
