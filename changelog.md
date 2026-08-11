@@ -1,5 +1,11 @@
 # Release Change Log
 
+## 0.11.2
+
+- Fixed `sun/sun_ecliptic_from_generic_datetime` so the time of day is actually applied.
+- Preserved nanosecond precision in `time/decimal_days_from_generic_datetime`.
+- Added regression tests for the datetime sun path and the datetime Julian-day path.
+
 ## 0.11.1
 
 - Excluding `moment.locale` which reudced the bundle size from 332 KB to 95 KB.

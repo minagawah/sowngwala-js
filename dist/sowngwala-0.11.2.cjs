@@ -963,31 +963,52 @@ const round = num => Math.round(num * ROUND_DIGITS) / ROUND_DIGITS;
  * This is a context (or an instance)
  * returned from the factory.
  *
- * When you create the instance, you
- * may freely choose to manage your
- * 'hour' as in that of time, or in
- * that of the degree context
- * (e.g. '24 hours' vs '360 degrees').
- * However, when you run 'calibrate'
- * method, it defaults to oveflow
- * the 'hour' in the time context.
- * If you wish to calibrate 'hour'
- * in the dgree context, then you
- * need to explicitly specify
- * 'calibrate' to run in the degree
- * context by giving the option
- * 'options.angle' to 'calibrate'.
+ * For a newly created 'Angle' instance,
+ * it is entirely up to you to treat
+ * 'hour' in context of 'time' (Ex.
+ * '24 hours') or in context of
+ * 'degree angle' (Ex. '360 degrees').
+ * You 'Angle' instance will not have
+ * any distinctions.
  *
- * Moreover, it defaults NOT to
- * calibrate 'hour' even when a negative
- * value were specified to 'hour'.
- * For instance, say, you had '-10' for
- * your 'hour', it will stay '-10' even
- * if you run 'calibrate'. If you want
- * to change the negative into the
- * positive, you need to explicitly
- * specify 'options.hour_overflow'
- * to 'calibrate' method.
+ * However, when you run 'calibrate'
+ * method, you need to decide in which
+ * context you want to run it.
+ *
+ * When you run 'calibrate' method,
+ * it defaults to 'time' context, and
+ * will calculate 'hour' overflow
+ * accordingly. However, if you want to
+ * run it in 'degree angle' context,
+ * you need to explicitly tell the
+ * method to run it in 'degree angle'
+ * context by giving 'options.angle'
+ * option.
+ *
+ * Currently, 'options.angle' is
+ * specified to 'calibrate' method when
+ * creating 'coords.EquaCoord' or
+ * 'coords.HorizonCoord'. But, there
+ * are no other codes in this library
+ * utilizing the option for now.
+ *
+ * Moreover, negative values for 'hour'
+ * will be treated differently. While
+ * negative will become positive in
+ * 'degree angle' context, it will
+ * leave negative values as they are
+ * in 'time' context.
+ * For instance, if you had '-10' for
+ * 'hour', it will stay being '-10'.
+ * Yet, if you want to also process
+ * negative values even under 'time'
+ * context, then you must explicitly
+ * give 'options.hour_overflow' to
+ * 'calibrate' method.
+ *
+ * Currently, there are no programs
+ * utilizing 'options.hour_overflow'
+ * for now ( except for some tests).
  *
  * @typedef AngleContext
  * @type {Object}
@@ -1113,20 +1134,20 @@ function _from_hms(h, m, s) {
    */
   function calibrate(options) {
     /*
-     * Usually, take it in time context
-     * (defaults to FALSE).
-     * Only when specified TRUE,
-     * take it as a degree context.
+     * By default, it is FALSE, and it
+     * runs in the 'time' context.
+     * Only when TRUE were explicitly
+     * specified, will it run in
+     * the 'degree angle' context.
      */
     const angle = !!options?.angle;
 
     /*
-     * Usually, let the negative hour
-     * stay negative as it is
-     * (defaults to FALSE).
-     * Only when specified TRUE,
-     * then change the negative
-     * into the positive.
+     * By default, it is FALSE, and it
+     * will leave a negative value for
+     * 'hour' as it is. Only when TRUE
+     * were explicitly specified, will
+     * it change negative into positive.
      */
     const hour_overflow = !!options?.hour_overflow;
     ({
@@ -2847,6 +2868,30 @@ describe('A test suite for: sun/sun_ecliptic_from_generic_date', () => {
 "use strict";
 
 const {
+  NaiveDateTime
+} = require('../../chrono');
+const {
+  sun_ecliptic_from_generic_datetime
+} = require('../index');
+describe('A test suite for: sun/sun_ecliptic_from_generic_datetime', () => {
+  test('changes with time of day', () => {
+    const midnight = NaiveDateTime.from_ymd_hms(1988, 7, 27, 0, 0, 0);
+    const noon = NaiveDateTime.from_ymd_hms(1988, 7, 27, 12, 0, 0);
+    const midnight_lng = sun_ecliptic_from_generic_datetime(midnight).coord.lng;
+    const noon_lng = sun_ecliptic_from_generic_datetime(noon).coord.lng;
+    expect(noon_lng).not.toBeCloseTo(midnight_lng, 6);
+  });
+  test('keeps subsecond precision', () => {
+    const base = NaiveDateTime.from_ymd_hmsn(1988, 7, 27, 0, 0, 0, 0);
+    const shifted = NaiveDateTime.from_ymd_hmsn(1988, 7, 27, 0, 0, 0, 500_000_000);
+    const base_lng = sun_ecliptic_from_generic_datetime(base).coord.lng;
+    const shifted_lng = sun_ecliptic_from_generic_datetime(shifted).coord.lng;
+    expect(shifted_lng).not.toBeCloseTo(base_lng, 9);
+  });
+});
+"use strict";
+
+const {
   NaiveDate
 } = require('../../chrono');
 const {
@@ -3380,7 +3425,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.sun_ecliptic_from_generic_datetime = sun_ecliptic_from_generic_datetime;
 var _time = require("../time");
-var _chrono = require("../chrono");
 var _coords = require("../coords");
 var _longitude_and_mean_anomaly = require("./longitude_and_mean_anomaly");
 /**
@@ -3483,10 +3527,10 @@ function sun_ecliptic_from_generic_datetime(dt) {
    */
 
   /** @type {DecimalHours} */
-  let decimal_hours = (0, _time.decimal_hours_from_naive_time)(_chrono.NaiveTime.from_hmsn(dt.hour(), dt.minute(), dt.second(), 0.0));
+  let decimal_hours = (0, _time.decimal_hours_from_naive_time)(dt.time());
 
   // So, we are adding "time" as well.
-  days + decimal_hours / 24.0;
+  days += decimal_hours / 24.0;
 
   // console.log('days[1]:', days);
 
@@ -4067,6 +4111,23 @@ const {
 describe('A test suite for: time/', () => {
   test('days_since_1990', () => {
     expect(days_since_1990(1988)).toBe(-731);
+  });
+});
+"use strict";
+
+const {
+  NaiveDateTime
+} = require('../../chrono');
+const {
+  decimal_days_from_generic_datetime
+} = require('../index');
+describe('A test suite for: time/decimal_days_from_generic_datetime', () => {
+  test('changes with subsecond precision', () => {
+    const base = NaiveDateTime.from_ymd_hmsn(1985, 2, 17, 6, 0, 0, 0);
+    const shifted = NaiveDateTime.from_ymd_hmsn(1985, 2, 17, 6, 0, 0, 500_000_000);
+    const base_days = decimal_days_from_generic_datetime(base);
+    const shifted_days = decimal_days_from_generic_datetime(shifted);
+    expect(shifted_days).not.toBeCloseTo(base_days, 12);
   });
 });
 "use strict";
@@ -5059,7 +5120,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.decimal_days_from_generic_datetime = decimal_days_from_generic_datetime;
-var _chrono = require("../chrono");
 var _decimal_hours_from_naive_time = require("./decimal_hours_from_naive_time");
 /**
  * @module sowngwala/time/decimal_days_from_generic_datetime
@@ -5080,8 +5140,7 @@ var _decimal_hours_from_naive_time = require("./decimal_hours_from_naive_time");
  * @returns {DecimalDays}
  */
 function decimal_days_from_generic_datetime(dt) {
-  let naive = _chrono.NaiveTime.from_hmsn(dt.hour(), dt.minute(), dt.second(), 0.0);
-  let decimal_hours = (0, _decimal_hours_from_naive_time.decimal_hours_from_naive_time)(naive);
+  let decimal_hours = (0, _decimal_hours_from_naive_time.decimal_hours_from_naive_time)(dt.time());
   return dt.day() + decimal_hours / 24.0;
 }
 "use strict";

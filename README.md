@@ -149,7 +149,7 @@ The library is exposed globally as `Sowngwala`, and you can use any of the provi
 ```html
 <html>
 <body>
-<script src="https://{YOUR_SERVER_PATH}/sowngwala-0.3.0.js"></script>
+<script src="https://{YOUR_SERVER_PATH}/sowngwala-0.11.2.js"></script>
 <script type="text/javascript">
 window.addEventListener('load', () => {
   const { NaiveDateTime } = Sowngwala.chrono;
@@ -269,15 +269,17 @@ To build the bundles in `dist`:
 ```
 npm run build
 ```
+This creates the versioned library bundles in `dist/` and the checker assets in `dist/check/`.
 
 To launch the Webpack dev server and serve the checker page in `src.check/check.html`:
 ```
 npm run dev
 ```
+This is the local browser demo path used by `src.check`.
 
 ## 5. Notes
 
-### 5-2. How the Program Finds the Sun's Position
+### 5-1. How the Program Finds the Sun's Position
 
 To find the sun's Equatorial position, the process starts with [sun_equatorial_from_generic_datetime](src/sun/sun_equatorial_from_generic_datetime.js). Given a date, it returns [EquaCoord](src/coords/equatorial.js). Most of the calculation happens in [sun_ecliptic_from_generic_datetime](src/sun/sun_ecliptic_from_generic_datetime.js).
 

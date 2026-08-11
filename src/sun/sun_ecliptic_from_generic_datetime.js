@@ -11,7 +11,6 @@ import {
   decimal_hours_from_naive_time,
 } from '../time';
 
-import { NaiveTime } from '../chrono';
 import { EcliCoord } from '../coords';
 import { longitude_and_mean_anomaly } from './longitude_and_mean_anomaly';
 
@@ -108,17 +107,10 @@ export function sun_ecliptic_from_generic_datetime(dt) {
    */
 
   /** @type {DecimalHours} */
-  let decimal_hours = decimal_hours_from_naive_time(
-    NaiveTime.from_hmsn(
-      dt.hour(),
-      dt.minute(),
-      dt.second(),
-      0.0
-    )
-  );
+  let decimal_hours = decimal_hours_from_naive_time(dt.time());
 
   // So, we are adding "time" as well.
-  days + decimal_hours / 24.0;
+  days += decimal_hours / 24.0;
 
   // console.log('days[1]:', days);
 

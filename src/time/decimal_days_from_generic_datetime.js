@@ -2,7 +2,6 @@
  * @module sowngwala/time/decimal_days_from_generic_datetime
  */
 
-import { NaiveTime } from '../chrono';
 import { decimal_hours_from_naive_time } from './decimal_hours_from_naive_time';
 
 /** @typedef {import('../types.js').DecimalDays} DecimalDays */
@@ -20,14 +19,7 @@ import { decimal_hours_from_naive_time } from './decimal_hours_from_naive_time';
  * @returns {DecimalDays}
  */
 export function decimal_days_from_generic_datetime(dt) {
-  let naive = NaiveTime.from_hmsn(
-    dt.hour(),
-    dt.minute(),
-    dt.second(),
-    0.0
-  );
-
-  let decimal_hours = decimal_hours_from_naive_time(naive);
+  let decimal_hours = decimal_hours_from_naive_time(dt.time());
 
   return dt.day() + decimal_hours / 24.0;
 }
