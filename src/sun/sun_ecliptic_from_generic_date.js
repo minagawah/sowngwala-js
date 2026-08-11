@@ -16,28 +16,19 @@ import { sun_ecliptic_from_generic_datetime } from './sun_ecliptic_from_generic_
  */
 
 /**
- * Given a 'date' in UTC (for which
- * '00:00:00' will automatically be set
- * for time), and will return
- * Ecliptic the position of the sun
- * which consists of "latitude (β)"
+ * Given a UTC date, return the
+ * sun's ecliptic position.
+ * The time is set to 00:00:00.
+ *
+ * The result has "latitude (β)"
  * and "longitude (λ)".
  * (Peter Duffett-Smith, p.91)
  *
- * Consider using
- * 'sun_ecliptic_from_generic_datetime'
- * for it provides you more accurate
- * results. In Peter Duffett-Smith's
- * it takes only "date". Obviously,
- * it does not take "time" into
- * consideration. However, for
- * 'sun_ecliptic_from_generic_date'
- * takes "datetime", it gives you
- * more accurate result when you
- * want a result for a specific time.
+ * Use 'sun_ecliptic_from_generic_datetime'
+ * when you need a specific time.
  *
  * Original:
- * - sowngwalla::sun::sun_ecliptic_from_generic_date
+ * - sowngwala::sun::sun_ecliptic_from_generic_date
  *
  * @public
  * @function

@@ -13,7 +13,7 @@ import { is_julian_date } from './is_julian_date';
 /**
  * Converts a generic datetime into
  * julian date. There are slight
- * differences for the codes bellow
+ * differences in the code below
  * from that of Duffett-Smith.
  * For one of the function arguments
  * `day`, Duffett-Smith suggests

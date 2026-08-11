@@ -41,7 +41,7 @@ import { overflow } from '../utils';
  * an overflow, or when it was
  * 24 hours or more. In a similar
  * manner, if 'hour', 'min', 'sec',
- * or 'nano' were bellow zero,
+ * or 'nano' drops below zero,
  * borrow from the next in place
  * to always keep them above zero.
  *

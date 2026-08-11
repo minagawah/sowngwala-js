@@ -41,32 +41,26 @@ import { longitude_and_mean_anomaly } from './longitude_and_mean_anomaly';
  * (β)" and "longitude (λ)".
  * (Peter Duffett-Smith, p.91)
  *
- * To calculate the Ecliptic position,
- * Peter Duffett-Smith's book only
- * takes "date", but does not take
- * "time" into consideration. The book
- * calculates "sun's longitude (λ)" and
- * "mean anomaly (M)" for when "time"
- * is "00:00:00". Since we want to
- * specify "time" as well, so did I
- * slightly change the implementation
- * so that we take "time".
+ * The book uses only "date".
+ * It does not use "time".
  *
- * In our repo, what implemented in
+ * This JS version also uses "time".
+ * That gives a more exact result.
+ *
+ * In this repo,
  * 'sun_ecliptic_from_generic_date'
- * strictly follows the book. In another
- * word, it only takes "date".
+ * follows the book.
+ * It uses 00:00:00.
  *
- * Whether we want "time" or not,
- * calculations are mostly the same,
- * and Peter Duffett-Smith explains the
- * calculation logic in 10 easy steps.
- * As you can see, bellow codes are
- * commented so that to show the
- * correspondances to the book.
+ * The math is mostly the same.
+ * Peter Duffett-Smith explains it in
+ * 10 easy steps.
+ *
+ * The comments below map the code to
+ * the book's steps.
  *
  * Original:
- * - sowngwalla::sun::sun_ecliptic_from_generic_date
+ * - sowngwala::sun::sun_ecliptic_from_generic_date
  *
  * @public
  * @function
@@ -97,19 +91,17 @@ export function sun_ecliptic_from_generic_datetime(dt) {
   // console.log('days[0]:', days);
 
   /*
-   * You can see bellow that we prepare
-   * the decimal hours to find out
-   * "sun's longitude (λ)" and "mean
-   * anomaly (M)". While the book only
-   * takes "date", we want to specify
-   * "time" so that we would get more
-   * accurate values.
+   * Prepare decimal hours here.
+   * The book only uses "date".
+   * This version also uses "time".
    */
 
   /** @type {DecimalHours} */
-  let decimal_hours = decimal_hours_from_naive_time(dt.time());
+  let decimal_hours = decimal_hours_from_naive_time(
+    dt.time()
+  );
 
-  // So, we are adding "time" as well.
+  // Add the time offset here.
   days += decimal_hours / 24.0;
 
   // console.log('days[1]:', days);

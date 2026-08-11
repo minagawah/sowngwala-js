@@ -20,6 +20,7 @@ import { pad, to_radians } from '../utils';
  * @returns {number}
  */
 export function approx_zone_from_geo(local, geo) {
+  // `local` is kept for utc_from_local_geo().
   const lat = geo.lat.degrees;
   const lng = geo.lng.degrees;
   const decimal_hours = Math.floor(lng / 15.0);

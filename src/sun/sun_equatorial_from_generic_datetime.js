@@ -36,24 +36,20 @@ import { sun_ecliptic_from_generic_datetime } from './sun_ecliptic_from_generic_
  * ascension (α)" and "declination (δ)".
  * (Peter Duffett-Smith, p.91)
  *
- * See 'sun_ecliptic_from_generic_datetime' for most of
- * the calculations are done there.
+ * See 'sun_ecliptic_from_generic_datetime'
+ * for most calculations.
  *
- * Just as explained fully in
- * 'sun_ecliptic_from_generic_datetime', the book does
- * not take "time" into consideration
- * but only "date". So,
- * 'sun_equatorial_from_generic_date'
- * is the method which strictly follows
- * the book, but the method provided
- * here takes "time".
+ * The book uses only "date".
+ * This JS version also uses "time".
+ * That makes the result
+ * a bit more exact.
  *
- * Also, notice how
- * 'equatorial_from_ecliptic_with_generic_date'
- * converts the Ecliptic into Equatorial.
+ * Also note how
+ * 'equatorial_from_ecliptic_with_generic_datetime'
+ * converts ecliptic to equatorial.
  *
  * Original:
- * - sonwgwalla::sun::sun_equatorial_from_generic_date
+ * - sowngwala::sun::sun_equatorial_from_generic_date
  *
  * @public
  * @function

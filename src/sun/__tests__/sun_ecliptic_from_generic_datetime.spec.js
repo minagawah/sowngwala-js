@@ -23,7 +23,8 @@ describe('A test suite for: sun/sun_ecliptic_from_generic_datetime', () => {
     );
 
     const midnight_lng =
-      sun_ecliptic_from_generic_datetime(midnight).coord.lng;
+      sun_ecliptic_from_generic_datetime(midnight).coord
+        .lng;
     const noon_lng =
       sun_ecliptic_from_generic_datetime(noon).coord.lng;
 

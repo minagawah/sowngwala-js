@@ -15,7 +15,10 @@ import { naive_time_from_decimal_hours } from './naive_time_from_decimal_hours';
 
 /**
  * Given LST (Local Sidereal Time) and
- * the time zone offset, returns UTC.
+ * a time zone offset, returns UTC.
+ *
+ * `local` is the local clock time.
+ * `zone` is the UTC offset.
  *
  * References:
  * - Peter Duffett-Smith, p.13

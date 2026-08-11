@@ -19,7 +19,9 @@ import { decimal_hours_from_naive_time } from './decimal_hours_from_naive_time';
  * @returns {DecimalDays}
  */
 export function decimal_days_from_generic_datetime(dt) {
-  let decimal_hours = decimal_hours_from_naive_time(dt.time());
+  let decimal_hours = decimal_hours_from_naive_time(
+    dt.time()
+  );
 
   return dt.day() + decimal_hours / 24.0;
 }

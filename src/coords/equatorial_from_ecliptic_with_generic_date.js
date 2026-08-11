@@ -22,9 +22,9 @@ import { equatorial_from_ecliptic_with_generic_datetime } from './equatorial_fro
 
 /**
  * See
- * 'equatorial_from_ecliptic_with_generic_datetime'
+ * 'equatorial_from_ecliptic_with_generic_datetime'.
  *
- * In Rust version, it only takes "date".
+ * The Rust version only takes "date".
  *
  * Original:
  * - sowngwala::coords::equatorial_from_ecliptic_with_generic_date

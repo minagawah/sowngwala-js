@@ -36,6 +36,11 @@ export function days_since_1990(year) {
   let year_0 = year;
   let days = 0;
 
+  /*
+   * This loop is deliberate.
+   * It mirrors the book.
+   */
+
   /**
    * @private
    * @type {function(boolean): number}

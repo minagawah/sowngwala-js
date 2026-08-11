@@ -28,37 +28,34 @@ import { mean_obliquity_of_the_ecliptic } from './mean_obliquity_of_the_ecliptic
  */
 
 /**
- * It will convert the Ecliptic position
- * (which consists of 'latitude (β)' and
- * 'longitude (λ)') into the Equatorial
- * position (which consists of
- * 'ascension (α)' and 'declination (δ)').
+ * Convert the ecliptic position
+ * to the equatorial position.
+ *
+ * It takes 'latitude (β)' and
+ * 'longitude (λ)'.
+ * It returns 'right ascension (α)'
+ * and 'declination (δ)'.
  * (Peter Duffett-Smith, pp.40-41)
  *
- * Notice, also, how it calculates
- * "obliquity of the ecliptic (ε)"
- * automatically from the given date.
+ * It also calculates the
+ * obliquity of the ecliptic (ε)
+ * from the given datetime.
  *
  * See
- * 'equatorial_from_ecliptic'
- * for it has the actual calculations.
+ * 'equatorial_from_ecliptic_with_obliquity'
+ * for the actual calculations.
  *
- * In Rust version, it only takes
- * "date". However, we want to also
- * take "time" into consideration.
- * Hence, introducing this method
- * in JS version. It will become
- * a matter when we attempt to calculate
- * the mean obliquity. For this,
- * instead of passing only "date",
- * we are passing "datetime".
+ * The Rust version only takes
+ * "date". This JS version also
+ * takes "time" so the obliquity
+ * can use the datetime value.
  *
  * Original:
  * - sowngwala::coords::equatorial_from_ecliptic_with_generic_date
  *
  * @public
  * @function
- * @see {@link: module:sowngwala/coords/equatorial_from_ecliptic}
+ * @see {@link: module:sowngwala/coords/equatorial_from_ecliptic_with_obliquity}
  * @param {EcliCoordContext} coord
  * @param {NaiveDateTimeContext} dt
  * @returns {EquatorialFromEclipticWithGenericDateTimeReturned}

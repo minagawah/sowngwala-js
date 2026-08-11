@@ -17,30 +17,22 @@ import { EquaCoord } from '../coords';
  */
 
 /**
- * It will onvert Ecliptic coordinate
- * position into the Equatorial.
- * For the first argument, it takes
- * the Ecliptic coordinate position
- * which consists of "latitude (β)"
- * and "longitude (λ)".
- * For the second argument, it takes
- * "the obliquity of the ecliptic (ε)".
- * As a result, it will return the
- * Equatorial position which consists
- * of "right ascension (α)" and
- * "declination (δ)".
+ * Convert ecliptic coordinates
+ * to equatorial coordinates.
+ *
+ * The first argument takes
+ * 'latitude (β)' and
+ * 'longitude (λ)'.
+ * The second takes
+ * 'obliquity of the ecliptic (ε)'.
+ * The result has
+ * 'right ascension (α)' and
+ * 'declination (δ)'.
  * (Peter Duffett-Smith, pp.40-41)
  *
- * In general, you may want to
- * consider rather using:
- * 'equatorial_from_ecliptic_with_generic_date'
- * because it is likely that you are
- * not aware of "obliquity (ε)".
- * You want programs to calculate
- * "obliquity (ε)" for you, and that
- * is what
- * 'equatorial_from_ecliptic_with_generic_date'
- * does for you.
+ * If you do not know ε,
+ * use
+ * 'equatorial_from_ecliptic_with_generic_date'.
  *
  * @public
  * @function

@@ -16,31 +16,22 @@ import { sun_equatorial_from_generic_datetime } from './sun_equatorial_from_gene
  */
 
 /**
- * Given a specific 'date' (for which
- * '00:00:00' will automatically be set
- * for time) in UTC, it will return
- * the Equatorial position of the sun
- * which consists of "right ascension
+ * Given a UTC date, return the
+ * sun's equatorial position.
+ * The time is set to 00:00:00.
+ *
+ * The result has "right ascension
  * (α)" and "declination (δ)".
  * (Peter Duffett-Smith, p.91)
  *
- * See 'sun_equatorial_from_generic_datetime' for
- * actual calculations.
+ * See 'sun_equatorial_from_generic_datetime'
+ * for the actual calculation.
  *
- * Just as it is discussed in
- * 'ecliptic', the book only
- * talks about "date", but we want
- * "time" for accuracy. Hence,
- * I introduced 'ecliptic'.
- *
- * Yet, if you prefer to use the bellow
- * method instead, you should always be
- * aware that you will get the result
- * for that of "00:00:00" no matter
- * whatever "date" you provide.
+ * This wrapper always returns the
+ * midnight result for the given date.
  *
  * Original:
- * - sonwgwalla::sun::sun_equatorial_from_generic_date
+ * - sowngwala::sun::sun_equatorial_from_generic_date
  *
  * @public
  * @function
