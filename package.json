@@ -1,13 +1,16 @@
 {
   "name": "sowngwala-js",
-  "version": "0.11.2",
+  "version": "0.11.3",
   "private": false,
   "description": "JS library for calculating the sun & moon's position.",
   "main": "dist/sowngwala-$npm_package_version.js",
   "types": "types/index.d.ts",
+  "main": "./dist/sowngwala-0.11.3.cjs",
   "exports": {
-    "import": "dist/sowngwala-$npm_package_version.js",
-    "require": "dist/sowngwala-$npm_package_version.cjs"
+    ".": {
+      "require": "./dist/sowngwala-0.11.3.cjs",
+      "default": "./dist/sowngwala-0.11.3.js"
+    }
   },
   "scripts": {
     "eslint": "eslint --ext js \"{src,src.check}/**/*.js\"",
@@ -22,7 +25,7 @@
     "watch:css": "nodemon -x $npm_execpath run build:css -e css -w src.check/styles",
     "watch:js": "webpack serve --config webpack.dev.js",
     "build:js": "webpack --config webpack.prod.js",
-    "build:commonjs": "NODE_ENV=commonjs babel src --out-file dist/sowngwala-$npm_package_version.cjs",
+    "build:commonjs": "NODE_ENV=commonjs webpack --config webpack.commonjs.js",
     "clean": "rimraf dist",
     "build": "$npm_execpath run clean && $npm_execpath run build:css && $npm_execpath run build:commonjs && $npm_execpath run build:js",
     "stats": "$npm_execpath run clean && webpack --config webpack.prod.js --json > stats.json",
